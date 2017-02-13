@@ -1,4 +1,4 @@
-#include "SceneTexture.h"
+#include "StudioProject.h"
 #include "GL\glew.h"
 
 #include "shader.hpp"
@@ -7,23 +7,25 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 
-SceneTexture::SceneTexture()
+StudioProject::StudioProject()
 {
 }
 
-SceneTexture::~SceneTexture()
+StudioProject::~StudioProject()
 {
 }
 
-void SceneTexture::Init()
+void StudioProject::Init()
 {
 	// Init VBO here
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f); // Set background color to dark blue
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
+	//glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	// Blend
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Generate a default VAO for now
 	glGenVertexArrays(1, &m_vertexArrayID);
@@ -34,8 +36,7 @@ void SceneTexture::Init()
 	glGenBuffers(NUM_GEOMETRY, &m_indexBuffer[0]);
 
 	// Load vertex and fragment shaders
-	m_programID = LoadShaders("Shader//Texture.vertexshader",
-		"Shader//Texture.fragmentshader");
+	m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Text.fragmentshader");
 
 	// Get a handle for out "MVP" uniform
 	m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
@@ -63,6 +64,11 @@ void SceneTexture::Init()
 
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
+
+	// Get a handle for our "textColor" uniform
+	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
+	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
+
 
 	// Use our shader
 	glUseProgram(m_programID);
@@ -98,90 +104,58 @@ void SceneTexture::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	// Initialise Camera
-	camera2.Init(Vector3(0, 0, 60), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera3.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+
+	for (int i = 0; i < NUM_GEOMETRY; i++)
+	{
+		meshList[i] = NULL;
+	}
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
 	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
+	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+
+	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
+
+	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1, 1);
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
+
+	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1, 1);
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+
+	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1, 1);
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
+
+	meshList[GEO_BB8] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
+	meshList[GEO_BB8]->textureID = LoadTGA("Image//BB8.tga");
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 0), 1, 1, 1);
-	meshList[GEO_CIRCLE] = MeshBuilder::GenerateCircle("circle", Color(0, 1, 0), 36, 1);
-	meshList[GEO_RING] = MeshBuilder::GenerateRing("ring", Color(1, 0, 0), 20, 1, 0.7, 2);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightSphere", Color(1, 1, 1), 18, 36, 1);
-	meshList[GEO_HEMISPHERE] = MeshBuilder::GenerateHemisphere("hemisphere", Color(1, 0, 1), 18, 36, 1);
-	meshList[GEO_CYLINDER] = MeshBuilder::GenerateCylinder("cylinder", Color(0, 1, 1), 6, 5, 36, 1.0);
-	/*meshList[GEO_CONE] = MeshBuilder::GenerateCone("cone", Color(0, 1, 1), 3.0, 18, 180, 1.0);*/
 
-	// Sphere 1
-	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(1, 0, 0), 18, 36, 1);
-	meshList[GEO_SPHERE]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE]->material.kShininess = 1.f;
+	meshList[GEO_MODEL1] = MeshBuilder::GenerateOBJ("model1", "OBJ//chair.obj");
+	meshList[GEO_MODEL1]->textureID = LoadTGA("Image//chair.tga");
 
-	// Sphere 2
-	meshList[GEO_SPHERE1] = MeshBuilder::GenerateSphere("sphere1", Color(0, 1, 0), 18, 36, 1);
-	meshList[GEO_SPHERE1]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE1]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE1]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE1]->material.kShininess = 1.f;
+	meshList[GEO_MODEL2] = MeshBuilder::GenerateOBJ("model2", "OBJ//dart.obj");
+	meshList[GEO_MODEL2]->textureID = LoadTGA("Image//dart.tga");
 
-	// Sphere 3
-	meshList[GEO_SPHERE2] = MeshBuilder::GenerateSphere("sphere2", Color(0, 0, 1), 18, 36, 1);
-	meshList[GEO_SPHERE2]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE2]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE2]->material.kShininess = 1.f;
+	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
+	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
-	// Sphere 4
-	meshList[GEO_SPHERE3] = MeshBuilder::GenerateSphere("sphere3", Color(1, 1, 0), 18, 36, 1);
-	meshList[GEO_SPHERE3]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE3]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE3]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE3]->material.kShininess = 1.f;
-
-	// Sphere 5
-	meshList[GEO_SPHERE4] = MeshBuilder::GenerateSphere("sphere4", Color(1, 0, 1), 18, 36, 1);
-	meshList[GEO_SPHERE4]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE4]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE4]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE4]->material.kShininess = 1.f;
-
-	// Sphere 6
-	meshList[GEO_SPHERE5] = MeshBuilder::GenerateSphere("sphere5", Color(0, 1, 1), 18, 36, 1);
-	meshList[GEO_SPHERE5]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE5]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE5]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE5]->material.kShininess = 1.f;
-
-	// Sphere 7
-	meshList[GEO_SPHERE6] = MeshBuilder::GenerateSphere("sphere6", Color(1, 0.5, 0.5), 18, 36, 1);
-	meshList[GEO_SPHERE6]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE6]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE6]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE6]->material.kShininess = 1.f;
-
-	// Sphere 8
-	meshList[GEO_SPHERE7] = MeshBuilder::GenerateSphere("sphere7", Color(0.5, 1, 0.5), 18, 36, 1);
-	meshList[GEO_SPHERE7]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE7]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE7]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE7]->material.kShininess = 1.f;
-
-	// Sphere 9
-	meshList[GEO_SPHERE8] = MeshBuilder::GenerateSphere("sphere8", Color(0.5, 0.5, 1), 18, 36, 1);
-	meshList[GEO_SPHERE8]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_SPHERE8]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE8]->material.kSpecular.Set(0.5f, 0.5f, 0.5f);
-	meshList[GEO_SPHERE8]->material.kShininess = 1.f;
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
 }
 
-void SceneTexture::Update(double dt)
+void StudioProject::Update(double dt)
 {
+	fps = 1.0f / dt;
+	framesPerSec = "FPS: " + std::to_string(fps);
 	float LSPEED = 10.f;
 	if (Application::IsKeyPressed('I'))
 		light[0].position.z -= (float)(LSPEED * dt);
@@ -220,10 +194,11 @@ void SceneTexture::Update(double dt)
 		light[0].type = Light::LIGHT_SPOT;
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
-	camera2.Update(dt);
+
+	camera3.Update(dt);
 }
 
-void SceneTexture::Render()
+void StudioProject::Render()
 {
 	// Render VBO here
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear color & depth buffer every frame
@@ -251,9 +226,9 @@ void SceneTexture::Render()
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
-		camera2.position.x, camera2.position.y, camera2.position.z,
-		camera2.target.x, camera2.target.y, camera2.target.z,
-		camera2.up.x, camera2.up.y, camera2.up.z);
+		camera3.position.x, camera3.position.y, camera3.position.z,
+		camera3.target.x, camera3.target.y, camera3.target.z,
+		camera3.up.x, camera3.up.y, camera3.up.z);
 	modelStack.LoadIdentity();
 
 	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
@@ -267,23 +242,79 @@ void SceneTexture::Render()
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
 
+	RenderSkybox();
+
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -10, 0);
+	modelStack.Translate(0, 0, 0);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_MODEL1], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(20, 0, 0);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_MODEL2], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Scale(20, 20, 20);
+	RenderText(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0));
+	modelStack.PopMatrix();
+
+	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
+	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
+}
+
+void StudioProject::RenderSkybox()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(-24.95 * 20, 0, 0);
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Scale(1000, 1000, 1000);
+	RenderMesh(meshList[GEO_FRONT], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(1000, 1000, 1000);
+	RenderMesh(meshList[GEO_BACK], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, -24.95 * 20);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(1000, 1000, 1000);
+	RenderMesh(meshList[GEO_LEFT], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 24.95 * 20);
+	modelStack.Scale(1000, 1000, 1000);
+	RenderMesh(meshList[GEO_RIGHT], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, -24.945 * 20, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(50, 50, 50);
-	RenderMesh(meshList[GEO_QUAD], true);
+	modelStack.Scale(1000, 1000, 1000);
+	RenderMesh(meshList[GEO_BOTTOM], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 24.945 * 20, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Scale(1000, 1000, 1000);
+	RenderMesh(meshList[GEO_TOP], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_BB8], true);
 	modelStack.PopMatrix();
 }
 
-void SceneTexture::Exit()
-{
-	// Cleanup VBO here
-	glDeleteBuffers(NUM_GEOMETRY, &m_vertexBuffer[0]);
-	glDeleteVertexArrays(1, &m_vertexArrayID);
-	glDeleteProgram(m_programID);
-}
-
-void SceneTexture::RenderMesh(Mesh *mesh, bool enableLight)
+void StudioProject::RenderMesh(Mesh *mesh, bool enableLight)
 {
 	Mtx44 MVP, modelView, modelView_inverse_transpose;
 
@@ -292,7 +323,7 @@ void SceneTexture::RenderMesh(Mesh *mesh, bool enableLight)
 	modelView = viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MODELVIEW], 1, GL_FALSE, &modelView.a[0]);
 
-	if ((enableLight == false))
+	if ((enableLight))
 	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
 		modelView_inverse_transpose = modelView.GetInverse().GetTranspose();
@@ -326,6 +357,110 @@ void SceneTexture::RenderMesh(Mesh *mesh, bool enableLight)
 	if (mesh->textureID > 0)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
-	}
+	}
 }
 
+void StudioProject::RenderText(Mesh* mesh, std::string text, Color color)
+{
+	if (!mesh || mesh->textureID <= 0) //Proper error check
+		return;
+
+	glDisable(GL_DEPTH_TEST);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+	for (unsigned i = 0; i < text.length(); ++i)
+	{
+		Mtx44 characterSpacing;
+		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
+		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+
+		mesh->Render((unsigned)text[i] * 6, 6);
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+	glEnable(GL_DEPTH_TEST);
+}
+
+void StudioProject::RenderMeshOnScreen(Mesh* mesh, int x, int y, int
+	sizex, int sizey)
+{
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity();
+	modelStack.Translate(x, y, 0);
+	modelStack.Scale(sizex, sizey, 1);
+	RenderMesh(mesh, false); //UI should not have light
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+	modelStack.PopMatrix();
+	glEnable(GL_DEPTH_TEST);
+}
+
+void StudioProject::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+{
+	if (!mesh || mesh->textureID <= 0) //Proper error check
+		return;
+
+	glDisable(GL_DEPTH_TEST);
+
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+	modelStack.PushMatrix();
+	modelStack.LoadIdentity(); //Reset modelStack
+	modelStack.Scale(size, size, size);
+	modelStack.Translate(x, y, 0);
+
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
+	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+	for (unsigned i = 0; i < text.length(); ++i)
+	{
+		Mtx44 characterSpacing;
+		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
+		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
+
+		mesh->Render((unsigned)text[i] * 6, 6);
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+	modelStack.PopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+}
+
+void StudioProject::Exit()
+{
+	// Cleanup VBO here
+	for (int i = 0; i < NUM_GEOMETRY; i++)
+	{
+		if (meshList != NULL)
+			delete meshList[i];
+	}
+	glDeleteBuffers(NUM_GEOMETRY, &m_vertexBuffer[0]);
+	glDeleteVertexArrays(1, &m_vertexArrayID);
+	glDeleteProgram(m_programID);
+}

@@ -1,19 +1,15 @@
-﻿Build started 2/10/2017 11:23:02 AM.
-     1>Project "F:\School (Poly)\Computer Graphics\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+﻿Build started 13/2/2017 11:18:41 AM.
+     1>Project "C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"F:\School (Poly)\Computer Graphics\DM2122_Framework\\glew\include" /I"F:\School (Poly)\Computer Graphics\DM2122_Framework\\glfw\include" /I"F:\School (Poly)\Computer Graphics\DM2122_Framework\\Common\Source" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Camera3.cpp Source\SceneUI.cpp
-         SceneUI.cpp
-     1>f:\school (poly)\computer graphics\dm2122_framework\application\source\sceneui.cpp(172): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>f:\school (poly)\computer graphics\dm2122_framework\application\source\sceneui.cpp(343): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>f:\school (poly)\computer graphics\dm2122_framework\application\source\sceneui.cpp(350): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>f:\school (poly)\computer graphics\dm2122_framework\application\source\sceneui.cpp(447): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>f:\school (poly)\computer graphics\dm2122_framework\application\source\sceneui.cpp(448): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Application.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         Camera3.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\\glew\include" /I"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\\glfw\include" /I"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\\Common\Source" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\StudioProject.cpp
+         StudioProject.cpp
+     1>c:\users\jolyn zl\documents\sp2\dm2122_framework\application\source\studioproject.cpp(157): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jolyn zl\documents\sp2\dm2122_framework\application\source\studioproject.cpp(298): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jolyn zl\documents\sp2\dm2122_framework\application\source\studioproject.cpp(305): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jolyn zl\documents\sp2\dm2122_framework\application\source\studioproject.cpp(402): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\jolyn zl\documents\sp2\dm2122_framework\application\source\studioproject.cpp(403): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\School (Poly)\Computer Graphics\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:"F:\School (Poly)\Computer Graphics\DM2122_Framework\\glew\lib" /LIBPATH:"F:\School (Poly)\Computer Graphics\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:"F:\School (Poly)\Computer Graphics\DM2122_Framework\Debug" glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\School (Poly)\Computer Graphics\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\School (Poly)\Computer Graphics\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\\glew\lib" /LIBPATH:"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Debug" glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
          Debug\Camera.obj
          Debug\Camera2.obj
@@ -23,22 +19,12 @@
          Debug\main.obj
          Debug\Mesh.obj
          Debug\MeshBuilder.obj
-         Debug\Scene1.obj
-         Debug\Scene2.obj
-         Debug\Scene3.obj
-         Debug\Scene4.obj
-         Debug\SceneLight.obj
-         Debug\SceneLight2.obj
-         Debug\SceneModel.obj
-         Debug\SceneSkybox.obj
-         Debug\SceneText.obj
-         Debug\SceneTexture.obj
-         Debug\SceneUI.obj
          Debug\shader.obj
+         Debug\StudioProject.obj
          Debug\Utiity.obj
-         Application.vcxproj -> F:\School (Poly)\Computer Graphics\DM2122_Framework\Debug\Application.exe
-     1>Done Building Project "F:\School (Poly)\Computer Graphics\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
+         Application.vcxproj -> C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Debug\Application.exe
+     1>Done Building Project "C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.39
+Time Elapsed 00:00:04.41

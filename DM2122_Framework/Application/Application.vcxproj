@@ -91,18 +91,8 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
-    <ClCompile Include="Source\Scene1.cpp" />
-    <ClCompile Include="Source\Scene2.cpp" />
-    <ClCompile Include="Source\Scene3.cpp" />
-    <ClCompile Include="Source\Scene4.cpp" />
-    <ClCompile Include="Source\SceneLight.cpp" />
-    <ClCompile Include="Source\SceneLight2.cpp" />
-    <ClCompile Include="Source\SceneModel.cpp" />
-    <ClCompile Include="Source\SceneSkybox.cpp" />
-    <ClCompile Include="Source\SceneText.cpp" />
-    <ClCompile Include="Source\SceneTexture.cpp" />
-    <ClCompile Include="Source\SceneUI.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\StudioProject.cpp" />
     <ClCompile Include="Source\Utiity.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -118,18 +108,8 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\Scene1.h" />
-    <ClInclude Include="Source\Scene2.h" />
-    <ClInclude Include="Source\Scene3.h" />
-    <ClInclude Include="Source\Scene4.h" />
-    <ClInclude Include="Source\SceneLight.h" />
-    <ClInclude Include="Source\SceneLight2.h" />
-    <ClInclude Include="Source\SceneModel.h" />
-    <ClInclude Include="Source\SceneSkybox.h" />
-    <ClInclude Include="Source\SceneText.h" />
-    <ClInclude Include="Source\SceneTexture.h" />
-    <ClInclude Include="Source\SceneUI.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\StudioProject.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>

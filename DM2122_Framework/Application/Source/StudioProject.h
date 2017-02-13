@@ -1,49 +1,45 @@
-#ifndef SCENE_LIGHT_H
-#define SCENE_LIGHT_H
+#ifndef STUDIOPROEJCT_H
+#define STUDIOPROJECT_H
 
 #include "Scene.h"
 #include "Mtx44.h"
-#include "Camera2.h"
+#include "Camera3.h"
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
 
-class SceneLight : public Scene
+class StudioProject : public Scene
 {
 public:
-	SceneLight();
-	~SceneLight();
+	StudioProject();
+	~StudioProject();
 
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 
-	Camera2 camera2;
+	Camera3 camera3;
 
 	enum GEOMETRY_TYPE
 	{
 		GEO_TRIANGLE_1 = 0,
-		GEO_TRIANGLE_2,
-		GEO_TRIANGLE_3,
 		GEO_AXES,
 		GEO_QUAD,
+
+		GEO_BB8,
+		GEO_MODEL1,
+		GEO_MODEL2,
+
+		GEO_TEXT,
 		GEO_CUBE,
-		GEO_RING,
-		GEO_CIRCLE,
-		GEO_SPHERE,
-		GEO_SPHERE1,
-		GEO_SPHERE2,
-		GEO_SPHERE3,
-		GEO_SPHERE4,
-		GEO_SPHERE5,
-		GEO_SPHERE6,
-		GEO_SPHERE7,
-		GEO_SPHERE8,
 		GEO_LIGHTBALL,
-		GEO_HEMISPHERE,
-		GEO_CYLINDER,
-		GEO_CONE,
+		GEO_LEFT,
+		GEO_RIGHT,
+		GEO_TOP,
+		GEO_BOTTOM,
+		GEO_FRONT,
+		GEO_BACK,
 		NUM_GEOMETRY,
 	};
 
@@ -63,9 +59,21 @@ public:
 		U_LIGHT0_KL,
 		U_LIGHT0_KQ,
 		U_LIGHTENABLED,
+		U_LIGHT0_TYPE,
+		U_LIGHT0_SPOTDIRECTION,
+		U_LIGHT0_COSCUTOFF,
+		U_LIGHT0_COSINNER,
+		U_LIGHT0_EXPONENT,
+		U_NUMLIGHTS,
+		U_COLOR_TEXTURE_ENABLED,
+		U_COLOR_TEXTURE,
+		U_TEXT_ENABLED,
+		U_TEXT_COLOR,
 		U_TOTAL,
 
 	};
+
+
 
 	unsigned m_parameters[U_TOTAL];
 
@@ -88,7 +96,16 @@ private:
 
 	void RenderMesh(Mesh *mesh, bool enableLight);
 
+	void RenderText(Mesh* mesh, std::string text, Color color);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
+
 	bool lightSwitch = false;
+
+	void RenderSkybox();
+
+	float fps = 0.0;
+	std::string framesPerSec = "";
 };
 
 #endif
