@@ -1,4 +1,4 @@
-#ifndef STUDIOPROEJCT_H
+#ifndef STUDIOPROJECT_H
 #define STUDIOPROJECT_H
 
 #include "Scene.h"

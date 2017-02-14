@@ -1,19 +1,9 @@
-﻿Build started 13/2/2017 11:30:07 AM.
-     1>Project "C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\MatrixStack.cpp Source\Mtx44.cpp Source\timer.cpp Source\Vector3.cpp
-         MatrixStack.cpp
-         Mtx44.cpp
-         timer.cpp
-         Vector3.cpp
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Release\Common.lib" /NOLOGO /LTCG Release\MatrixStack.obj
-         Release\Mtx44.obj
-         Release\timer.obj
-         Release\Vector3.obj
-         Common.vcxproj -> C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Release\Common.lib
-     1>Done Building Project "C:\Users\jolyn zl\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
+﻿Build started 2/14/2017 9:29:19 AM.
+     1>Project "E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
+     1>Lib:
+         Common.vcxproj -> E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Release\Common.lib
+     1>Done Building Project "E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.33
+Time Elapsed 00:00:00.20

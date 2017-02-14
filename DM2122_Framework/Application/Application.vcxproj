@@ -86,21 +86,25 @@
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\Camera3.cpp" />
+    <ClCompile Include="Source\Camera4.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\SPTest.cpp" />
     <ClCompile Include="Source\StudioProject.cpp" />
     <ClCompile Include="Source\Utiity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Source\AABB.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
+    <ClInclude Include="Source\Camera4.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
@@ -109,6 +113,7 @@
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\SPTest.h" />
     <ClInclude Include="Source\StudioProject.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
