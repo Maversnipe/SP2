@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 14/2/2017 9:51:14 AM.
      1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
      1>Lib:
@@ -7,3 +8,14 @@
 Build succeeded.
 
 Time Elapsed 00:00:00.03
+=======
+﻿Build started 2/14/2017 9:29:19 AM.
+     1>Project "E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
+     1>Lib:
+         Common.vcxproj -> E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Release\Common.lib
+     1>Done Building Project "E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.20
+>>>>>>> 5d03231840ae899006dff216f3c7192300bbf604

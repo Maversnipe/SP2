@@ -12,6 +12,7 @@
 #include <stdlib.h>
 
 #include "StudioProject.h"
+#include "SPTest.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -105,7 +106,7 @@ void Application::Run()
 //	Scene *scene1 = new SceneText();
 //	Scene *scene2 = new SceneUI();
 //	Scene *scene = scene1;
-	Scene *scene = new StudioProject();
+	Scene *scene = new SPTest();
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

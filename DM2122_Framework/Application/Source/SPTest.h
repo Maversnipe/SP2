@@ -1,25 +1,29 @@
-#ifndef STUDIOPROJECT_H
-#define STUDIOPROJECT_H
+#ifndef SPTest_H
+#define SPTest_H
 
 #include "Scene.h"
 #include "Mtx44.h"
-#include "Camera3.h"
+#include "Camera4.h"
 #include "Mesh.h"
+#include <vector>
+#include "AABB.h"
 #include "MatrixStack.h"
 #include "Light.h"
 
-class StudioProject : public Scene
+using std::vector;
+
+class SPTest : public Scene
 {
 public:
-	StudioProject();
-	~StudioProject();
+	SPTest();
+	~SPTest();
 
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
 
-	Camera3 camera3;
+	Camera4 Camera4;
 
 	enum GEOMETRY_TYPE
 	{
@@ -30,12 +34,6 @@ public:
 		GEO_BB8,
 		GEO_MODEL1,
 		GEO_MODEL2,
-		GEO_BUILDING,
-		GEO_BUILDING2,
-		GEO_BUILDING3,
-		GEO_BUILDING4,
-		GEO_CAROTOP,
-		GEO_CAROBOTTOM,
 
 		GEO_TEXT,
 		GEO_CUBE,
@@ -46,6 +44,7 @@ public:
 		GEO_BOTTOM,
 		GEO_FRONT,
 		GEO_BACK,
+		GEO_ENEMY,
 		NUM_GEOMETRY,
 	};
 
@@ -83,9 +82,11 @@ public:
 
 	unsigned m_parameters[U_TOTAL];
 
-	float rotateCaro;
+	float rotateAngle;
 	float translateX;
 	float scaleAll;
+	bool dead = false;
+	int HP = 100;
 
 private:
 	unsigned m_vertexArrayID;
@@ -110,14 +111,13 @@ private:
 
 	void RenderSkybox();
 
-	Vector3 building[4] = {};
+	float fps = 0.0;
+	std::string framesPerSec = "";
 
-	float x = 0.0;
-	float y = 0.0;
-	float z = 0.0;
-	std::string X = "";
-	std::string Y = "";
-	std::string Z = "";
+	vector<Vec2D> EnemyPosition;
+	AABB PlayerAABB, EnemyAABB;
+	bool AABBcollision(AABB object1, AABB object2);
 };
+
 
 #endif

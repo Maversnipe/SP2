@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 14/2/2017 12:03:06 PM.
      1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
@@ -5,23 +6,51 @@
          Camera3.cpp
        Link:
          D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Release\Application.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\Release glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Release\Application.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Release\Application.lib" /MACHINE:X86 /SAFESEH Release\Application.res
+=======
+﻿Build started 2/14/2017 9:29:55 AM.
+     1>Project "E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\\glew\include" /I"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\\glfw\include" /I"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\\Common\Source" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\SPTest.cpp
+         SPTest.cpp
+     1>Source\SPTest.cpp(185): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\SPTest.cpp(226): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SPTest.cpp(245): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SPTest.cpp(393): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SPTest.cpp(404): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\SPTest.cpp(407): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SPTest.cpp(498): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\SPTest.cpp(499): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Release\Application.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\\glew\lib" /LIBPATH:"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Release" glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Release\Application.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Release\Application.lib" /MACHINE:X86 /SAFESEH Release\Application.res
+>>>>>>> 5d03231840ae899006dff216f3c7192300bbf604
          Release\Application.obj
          Release\Camera.obj
          Release\Camera2.obj
          Release\Camera3.obj
+         Release\Camera4.obj
          Release\LoadOBJ.obj
          Release\LoadTGA.obj
          Release\main.obj
          Release\Mesh.obj
          Release\MeshBuilder.obj
          Release\shader.obj
+         Release\SPTest.obj
          Release\StudioProject.obj
          Release\Utiity.obj
          Generating code
          Finished generating code
+<<<<<<< HEAD
          Application.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Release\Application.exe
      1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
 Build succeeded.
 
 Time Elapsed 00:00:01.84
+=======
+         Application.vcxproj -> E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Release\Application.exe
+     1>Done Building Project "E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.62
+>>>>>>> 5d03231840ae899006dff216f3c7192300bbf604
