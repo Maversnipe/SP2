@@ -74,7 +74,7 @@ void StudioProject::Init()
 	glUseProgram(m_programID);
 
 	// Set default values
-	rotateAngle = 0;
+	rotateCaro = 0;
 	translateX = 0;
 	scaleAll = 1;
 
@@ -130,22 +130,51 @@ void StudioProject::Init()
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1, 1);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
 
-	meshList[GEO_BB8] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	meshList[GEO_BB8]->textureID = LoadTGA("Image//BB8.tga");
+	//meshList[GEO_BB8] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
+	//meshList[GEO_BB8]->textureID = LoadTGA("Image//BB8.tga");
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 0), 1, 1, 1);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightSphere", Color(1, 1, 1), 18, 36, 1);
 
-	meshList[GEO_MODEL1] = MeshBuilder::GenerateOBJ("model1", "OBJ//chair.obj");
-	meshList[GEO_MODEL1]->textureID = LoadTGA("Image//chair.tga");
+	//meshList[GEO_MODEL1] = MeshBuilder::GenerateOBJ("model1", "OBJ//chair.obj");
+	//meshList[GEO_MODEL1]->textureID = LoadTGA("Image//chair.tga");
 
-	meshList[GEO_MODEL2] = MeshBuilder::GenerateOBJ("model2", "OBJ//dart.obj");
-	meshList[GEO_MODEL2]->textureID = LoadTGA("Image//dart.tga");
+	//meshList[GEO_MODEL2] = MeshBuilder::GenerateOBJ("model2", "OBJ//dart.obj");
+	//meshList[GEO_MODEL2]->textureID = LoadTGA("Image//dart.tga");
+
+	meshList[GEO_BUILDING] = MeshBuilder::GenerateOBJ("building1", "OBJ//MainScene//building.obj");
+	meshList[GEO_BUILDING]->textureID = LoadTGA("Image//MainScene//building.tga");
+
+	meshList[GEO_BUILDING2] = MeshBuilder::GenerateOBJ("building2", "OBJ//MainScene//building.obj");
+	meshList[GEO_BUILDING2]->textureID = LoadTGA("Image//MainScene//building2.tga");
+
+	meshList[GEO_BUILDING3] = MeshBuilder::GenerateOBJ("building3", "OBJ//MainScene//building.obj");
+	meshList[GEO_BUILDING3]->textureID = LoadTGA("Image//MainScene//building3.tga");
+
+	meshList[GEO_BUILDING4] = MeshBuilder::GenerateOBJ("building4", "OBJ//MainScene//building.obj");
+	meshList[GEO_BUILDING4]->textureID = LoadTGA("Image//MainScene//building4.tga");
+
+	meshList[GEO_CAROTOP] = MeshBuilder::GenerateOBJ("carotop", "OBJ//MainScene//CaroTop.obj");
+	meshList[GEO_CAROTOP]->textureID = LoadTGA("Image//MainScene//Caro.tga");
+
+	meshList[GEO_CAROBOTTOM] = MeshBuilder::GenerateOBJ("carobottom", "OBJ//MainScene//CaroBase.obj");
+	meshList[GEO_CAROBOTTOM]->textureID = LoadTGA("Image//MainScene//Caro.tga");
+
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
+	
+	// Building Coords
+	building[0].Set(-45, 0, -23);
+	building[1].Set(35, 0, -23);
+	building[2].Set(115, 0, -23);
+	building[3].Set(-125, 0, -23);
 
+	camera3.buildings[0] = building[0];
+	camera3.buildings[1] = building[1];
+	camera3.buildings[2] = building[2];
+	camera3.buildings[3] = building[3];
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -154,8 +183,13 @@ void StudioProject::Init()
 
 void StudioProject::Update(double dt)
 {
-	fps = 1.0f / dt;
-	framesPerSec = "FPS: " + std::to_string(fps);
+	x = camera3.position.x;
+	y = camera3.position.y;
+	z = camera3.position.z;
+	X = "X: " + std::to_string(x);
+	Y = "Y: " + std::to_string(y);
+	Z = "Z: " + std::to_string(z);
+
 	float LSPEED = 10.f;
 	if (Application::IsKeyPressed('I'))
 		light[0].position.z -= (float)(LSPEED * dt);
@@ -194,7 +228,7 @@ void StudioProject::Update(double dt)
 		light[0].type = Light::LIGHT_SPOT;
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
-
+	rotateCaro += 40 * dt;
 	camera3.Update(dt);
 }
 
@@ -244,7 +278,7 @@ void StudioProject::Render()
 
 	RenderSkybox();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 0);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_MODEL1], true);
@@ -254,14 +288,55 @@ void StudioProject::Render()
 	modelStack.Translate(20, 0, 0);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_MODEL2], true);
+	modelStack.PopMatrix();*/
+
+	modelStack.PushMatrix();
+	modelStack.Translate(building[0].x, building[0].y, building[0].z);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_BUILDING], true);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(building[1].x, building[1].y, building[1].z);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_BUILDING2], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(building[2].x, building[2].y, building[2].z);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(building[3].x, building[3].y, building[3].z);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_BUILDING4], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 30);
+
+	modelStack.PushMatrix();
+	modelStack.Rotate(rotateCaro, 0, 1, 0);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_CAROBOTTOM], true);
+	modelStack.PopMatrix();
+
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_CAROTOP], true);
+	modelStack.PopMatrix();
+
+
 
 	modelStack.PushMatrix();
 	modelStack.Scale(20, 20, 20);
 	RenderText(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0));
 	modelStack.PopMatrix();
 
-	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
 	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
 }
 
@@ -308,10 +383,10 @@ void StudioProject::RenderSkybox()
 	RenderMesh(meshList[GEO_TOP], true);
 	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
+	/*modelStack.PushMatrix();
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_BB8], true);
-	modelStack.PopMatrix();
+	modelStack.PopMatrix();*/
 }
 
 void StudioProject::RenderMesh(Mesh *mesh, bool enableLight)

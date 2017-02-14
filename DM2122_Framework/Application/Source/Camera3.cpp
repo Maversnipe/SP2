@@ -27,6 +27,7 @@ void Camera3::Update(double dt)
 	view = (target - position).Normalized();
 	right = view.Cross(up);
 	static const float CAMERA_SPEED = 50.f;
+	Vector3 newPos;
 
 	if (Application::IsKeyPressed(37)) // Left
 	{
@@ -81,23 +82,208 @@ void Camera3::Update(double dt)
 
 	if(Application::IsKeyPressed('A'))
 	{
-		position = position - right;
-		target = position + view;
+		newPos = position - right;
+		for (int i = 0; i < 4; i++)
+		{
+			if (buildingCollide(newPos, buildings[i]))
+			{
+				collideBuilding = true;
+				buildingSlide = buildings[i];
+				break;
+			}
+			else
+				collideBuilding = false;
+		}
+
+		if (collideBuilding)
+		{
+			float distX = 0.0f;
+			float distZ = 0.0f;
+
+			if (buildingSlide.x >= newPos.x)
+				distX = buildingSlide.x - newPos.x;
+
+			else
+				distX = newPos.x - buildingSlide.x;
+
+			if (buildingSlide.z >= newPos.z)
+				distZ = buildingSlide.z - newPos.z;
+			else
+				distZ = newPos.z - buildingSlide.z;
+
+			//Finding distance 
+
+			if ((distX <= 40.f) && (distZ >= 20.f))
+			{
+				position.x = position.x - right.x;
+				target.x = position.x + view.x;
+			}
+			else if ((distX >= 20.f) && (distZ <= 40.f))
+			{
+				position.z = position.z - right.z;
+				target.z = position.z + view.z;
+			}
+		}
+
+		else
+		{
+			position = position - right;
+			target = position + view;
+		}
+
 	}
 	if (Application::IsKeyPressed('D'))
 	{
-		position = position + right;
-		target = position + view;
+	    newPos = position + right;
+		for (int i = 0; i < 4; i++)
+		{
+			if (buildingCollide(newPos, buildings[i]))
+			{
+				collideBuilding = true;
+				buildingSlide = buildings[i];
+				break;
+			}
+			else
+				collideBuilding = false;
+		}
+
+		if (collideBuilding)
+		{
+			float distX = 0.0f;
+			float distZ = 0.0f;
+
+			if (buildingSlide.x >= newPos.x)
+				distX = buildingSlide.x - newPos.x;
+
+			else
+				distX = newPos.x - buildingSlide.x;
+
+			if (buildingSlide.z >= newPos.z)
+				distZ = buildingSlide.z - newPos.z;
+			else
+				distZ = newPos.z - buildingSlide.z;
+
+			//Finding distance 
+
+			if ((distX <= 40.f) && (distZ >= 20.f))
+			{
+				position.x = position.x + right.x;
+				target.x = position.x + view.x;
+			}
+			else if ((distX >= 20.f) && (distZ <= 40.f))
+			{
+				position.z = position.z + right.z;
+				target.z = position.z + view.z;
+			}
+		}
+		else
+		{
+			position = position + right;
+			target = position + view;
+		}
+	
 	}
 	if (Application::IsKeyPressed('W'))
 	{
-		position = position + view;
-		target = position + view;
+		newPos = position + view;
+		for (int i = 0; i < 4; i++)
+		{
+			if (buildingCollide(newPos, buildings[i]))
+			{
+				collideBuilding = true;
+				buildingSlide = buildings[i];
+				break;
+			}
+			else
+				collideBuilding = false;
+		}
+
+		if (collideBuilding)
+		{
+			float distX = 0.0f;
+			float distZ = 0.0f;
+
+			if (buildingSlide.x >= newPos.x)
+				distX = buildingSlide.x - newPos.x;
+
+			else
+				distX = newPos.x - buildingSlide.x;
+
+			if (buildingSlide.z >= newPos.z)
+				distZ = buildingSlide.z - newPos.z;
+			else
+				distZ = newPos.z - buildingSlide.z;
+
+			//Finding distance 
+
+			if ((distX <= 40.f) && (distZ >= 20.f))
+			{
+				position.x = position.x + view.x;
+				target.x = position.x + view.x;
+			}
+			else if ((distX >= 20.f) && (distZ <= 40.f))
+			{
+				position.z = position.z + view.z;
+				target.z = position.z + view.z;
+			}
+		}
+		else
+		{
+			position = position + view;
+			target = position + view;
+		}
+	
 	}
 	if (Application::IsKeyPressed('S'))
 	{
-		position = position - view;
-		target = position + view;
+		newPos = position - view;
+		for (int i = 0; i < 4; i++)
+		{
+			if (buildingCollide(newPos, buildings[i]))
+			{
+				collideBuilding = true;
+				buildingSlide = buildings[i];
+				break;
+			}
+			else
+				collideBuilding = false;
+		}
+
+		if (collideBuilding)
+		{
+			float distX = 0.0f;
+			float distZ = 0.0f;
+
+			if (buildingSlide.x >= newPos.x)
+				distX = buildingSlide.x - newPos.x;
+
+			else
+				distX = newPos.x - buildingSlide.x;
+
+			if (buildingSlide.z >= newPos.z)
+				distZ = buildingSlide.z - newPos.z;
+			else
+				distZ = newPos.z - buildingSlide.z;
+
+			//Finding distance 
+
+			if ((distX <= 40.f) && (distZ >= 20.f))
+			{
+				position.x = position.x - view.x;
+				target.x = position.x + view.x;
+			}
+			else if ((distX >= 20.f) && (distZ <= 40.f))
+			{
+				position.z = position.z - view.z;
+				target.z = position.z + view.z;
+			}
+		}
+		else
+		{
+			position = position - view;
+			target = position + view;
+		}
+		
 	}
 
 	if (Application::IsKeyPressed('M'))
@@ -111,9 +297,10 @@ void Camera3::Update(double dt)
 	}
 }
 
-void Camera3::Reset()
+bool Camera3::buildingCollide(Vector3 newPos, Vector3 buildingPos)
 {
-	position = defaultPosition;
-	target = defaultTarget;
-	up = defaultUp;
+	if (((newPos - buildingPos)).Length() < 35)
+		return true;
+	else
+		return false;
 }

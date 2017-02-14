@@ -30,6 +30,12 @@ public:
 		GEO_BB8,
 		GEO_MODEL1,
 		GEO_MODEL2,
+		GEO_BUILDING,
+		GEO_BUILDING2,
+		GEO_BUILDING3,
+		GEO_BUILDING4,
+		GEO_CAROTOP,
+		GEO_CAROBOTTOM,
 
 		GEO_TEXT,
 		GEO_CUBE,
@@ -77,7 +83,7 @@ public:
 
 	unsigned m_parameters[U_TOTAL];
 
-	float rotateAngle;
+	float rotateCaro;
 	float translateX;
 	float scaleAll;
 
@@ -104,8 +110,14 @@ private:
 
 	void RenderSkybox();
 
-	float fps = 0.0;
-	std::string framesPerSec = "";
+	Vector3 building[4] = {};
+
+	float x = 0.0;
+	float y = 0.0;
+	float z = 0.0;
+	std::string X = "";
+	std::string Y = "";
+	std::string Z = "";
 };
 
 #endif
