@@ -1,6 +1,8 @@
 #include "Camera3.h"
 #include "Application.h"
+#include <GLFW/glfw3.h>
 #include "Mtx44.h"
+extern GLFWwindow* m_window;
 
 Camera3::Camera3()
 {
@@ -20,14 +22,63 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	right.Normalize();
 	this->up = right.Cross(view).Normalized();
 	defaultUp.Set(0, 1, 0);
+	ShowCursor(false);
 }
 
 void Camera3::Update(double dt)
 {
 	view = (target - position).Normalized();
 	right = view.Cross(up);
+
+
+	up = right.Cross(view).Normalized();
+
+	Mtx44 rotation, yaw, pitch;
+	yaw = mouseY;
+	pitch = mouseX;
+	Mtx44 camPitch, camYaw;
+
+	double CamSpeed = 5.f;
+	int width, height;
+	glfwGetWindowSize(m_window, &width, &height);
+	glfwGetCursorPos(m_window, &xpos, &ypos);
+
+	int mid_x = width / 2;	//issue 1
+	int mid_y = height / 2;
+
+	glfwSetCursorPos(m_window, mid_x, mid_y);
+
+	/*rotateHori = Math::DegreeToRadian((mid_x - xpos) * 10);
+	rotateVert = Math::DegreeToRadian((mid_y - ypos) * 10);*/
+	rotateHori = (mid_x - xpos) * dt * CamSpeed;
+	rotateVert = (mid_y - ypos) * dt * CamSpeed;
+
+	// control vertical limit
+	verticalAngle += dt *rotateVert;
+	if (verticalAngle > 90)
+	{
+		verticalAngle = 90;
+		rotateVert = 0;
+	}
+	else if (verticalAngle < -90)
+	{
+		verticalAngle = -90;
+		rotateVert = 0;
+
+	}
+	right.y = 0;
+	right.Normalize();
+	up = right.Cross(view).Normalized();
+
+	view = target - position;
+	right = view.Cross(up).Normalized();
+
+
+
 	static const float CAMERA_SPEED = 50.f;
 	Vector3 newPos;
+
+
 
 	if (Application::IsKeyPressed(37)) // Left
 	{
@@ -285,6 +336,15 @@ void Camera3::Update(double dt)
 		}
 		
 	}
+
+
+	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
+	camYaw.SetToRotation(rotateHori, 0, 1, 0);
+	rotation = camPitch * camYaw;
+	view = (rotation * view).Normalized();
+	target = (position + view);
+	up = camYaw * up;
+	right = camPitch * right;
 
 	if (Application::IsKeyPressed('M'))
 	{

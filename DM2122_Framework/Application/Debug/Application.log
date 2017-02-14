@@ -1,64 +1,30 @@
-﻿Build started 14/2/2017 12:07:49 PM.
-     1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2/14/2017 5:11:09 PM.
+     1>Project "C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Camera.cpp Source\Camera2.cpp Source\Camera3.cpp Source\LoadOBJ.cpp Source\LoadTGA.cpp Source\main.cpp Source\Mesh.cpp Source\MeshBuilder.cpp Source\shader.cpp Source\StudioProject.cpp Source\Utiity.cpp
-         Utiity.cpp
-         StudioProject.cpp
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(231): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(373): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(380): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(477): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(478): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         shader.cpp
-         MeshBuilder.cpp
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(210): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(258): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(263): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(311): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(316): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(353): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(408): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(423): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\meshbuilder.cpp(437): warning C4018: '<' : signed/unsigned mismatch
-         Mesh.cpp
-         main.cpp
-         LoadTGA.cpp
-         LoadOBJ.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\\glew\include /IC:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\\glfw\include /IC:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Camera3.cpp
          Camera3.cpp
-         Camera2.cpp
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera2.cpp(71): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera2.cpp(75): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera2.cpp(79): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera2.cpp(83): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera2.cpp(89): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera2.cpp(93): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         Camera.cpp
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera.cpp(62): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera.cpp(64): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera.cpp(66): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\camera.cpp(68): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-         Application.cpp
-         Generating Code...
-       ResourceCompile:
-         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\Application.res" Application.rc 
+     1>c:\users\161953p\desktop\sssssssppppppp\dm2122_framework\application\source\camera3.cpp(53): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\161953p\desktop\sssssssppppppp\dm2122_framework\application\source\camera3.cpp(54): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\161953p\desktop\sssssssppppppp\dm2122_framework\application\source\camera3.cpp(57): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
        Link:
-         D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
          Debug\Camera.obj
          Debug\Camera2.obj
          Debug\Camera3.obj
+         Debug\Camera4.obj
          Debug\LoadOBJ.obj
          Debug\LoadTGA.obj
          Debug\main.obj
          Debug\Mesh.obj
          Debug\MeshBuilder.obj
          Debug\shader.obj
+         Debug\SPTest.obj
          Debug\StudioProject.obj
          Debug\Utiity.obj
-     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-         Application.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe
-     1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
+         Application.vcxproj -> C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\Debug\Application.exe
+     1>Done Building Project "C:\Users\161953p\Desktop\SSSSSSSPPPPPPP\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:06.43
+Time Elapsed 00:00:01.07

@@ -24,6 +24,13 @@ public:
 	Vector3 buildings[4] = {};
 	bool collideBuilding = false;
 	Vector3 buildingSlide;
+	
+	float mouseY = 0;
+	float mouseX = 0;
+	double xpos, ypos;
+	float verticalAngle = 0.0f;
+	float rotateVert = 0;
+	float rotateHori = 0;
 
 private:
 	Vector3 view;

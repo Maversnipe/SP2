@@ -106,7 +106,7 @@ void Application::Run()
 //	Scene *scene1 = new SceneText();
 //	Scene *scene2 = new SceneUI();
 //	Scene *scene = scene1;
-	Scene *scene = new SPTest();
+	Scene *scene = new StudioProject();
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
@@ -135,7 +135,8 @@ void Application::Run()
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene->Exit();
 //	delete scene1;
-//	delete scene2;
+//	delete scene2;
+
 }
 
 void Application::Exit()
