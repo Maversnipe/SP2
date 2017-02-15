@@ -1,9 +1,20 @@
-﻿Build started 15/2/2017 10:17:01 AM.
+﻿Build started 15/2/2017 4:45:40 PM.
      1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
-     1>Lib:
+     1>ClCompile:
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\MatrixStack.cpp Source\Mtx44.cpp Source\Vector3.cpp Source\timer.cpp
+         timer.cpp
+         Vector3.cpp
+         Mtx44.cpp
+         MatrixStack.cpp
+         Generating Code...
+       Lib:
+         D:\Visual Studio 2013\VC\bin\Lib.exe /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Common.lib" /NOLOGO Debug\MatrixStack.obj
+         Debug\Mtx44.obj
+         Debug\timer.obj
+         Debug\Vector3.obj
          Common.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Common.lib
      1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.15
+Time Elapsed 00:00:02.22
