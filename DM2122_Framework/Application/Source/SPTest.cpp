@@ -8,7 +8,7 @@
 #include "LoadTGA.h"
 #include <iostream>
 using namespace std;
-char mapArray[500][500] = {""};
+//char mapArray[500][500] = {""};
 SPTest::SPTest()
 {
 }
@@ -155,93 +155,33 @@ void SPTest::Init()
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
 
-
-
-	for (int i = 0; i < 500; i++)
+	for (int counter = 0; counter < 10; counter++)
 	{
-		for (int j = 0; j < 500; j++)
-		{
-			if (rand() % 1000 < 1 && EnemyPosition.size() < 10)
-			{
-				Vec2D EnemyCoord;
-				EnemyCoord.X = i;
-				EnemyCoord.Z = j;
-				EnemyPosition.push_back(EnemyCoord);
-				mapArray[i][j] = '#';
-			}
-		}
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		enemyPos[counter].Set(i, 0, j);
+		enemyDisappear[counter] = false;
 	}
 }
 
 void SPTest::Update(double dt)
 {
-
-	PlayerAABB.SaveCoord(Vector3(Camera4.position.x - 2, Camera4.position.y - 2, Camera4.position.z - 2), Vector3(Camera4.position.x + 2, Camera4.position.y + 2, Camera4.position.z + 2));
-
-
-	if (EnemyPosition.size() > 1)
+	//==========Enemy movements==========
+	for (int counter = 0; counter < 10; counter++)
 	{
-		Vec2D EnemyDistance, prevEnemyPosition;
-		for (int i = 1; i < EnemyPosition.size(); i++)
+		if (enemyDisappear[counter] == false)
 		{
-			prevEnemyPosition.X = EnemyPosition[i].X;
-			prevEnemyPosition.Z = EnemyPosition[i].Z;
-
-			if (EnemyPosition[i].X - Camera4.position.x < 0)
+			if ((Camera4.position - enemyPos[counter]).Length() > 10)
 			{
-				EnemyDistance.X = -1;
-			}
-			else
-			{
-				EnemyDistance.X = 1;
-			}
-			if (EnemyPosition[i].Z - Camera4.position.z < 0)
-			{
-				EnemyDistance.Z = -1;
-			}
-			else
-			{
-				EnemyDistance.Z = 1;
-			}
+				Vector3 dirVec = Camera4.position - enemyPos[counter];
+				enemyPos[counter] += dirVec * dt;
 
-			if (((EnemyPosition[i].X - EnemyDistance.X) > 1) && ((EnemyPosition[i].X - EnemyDistance.X) < 498))
-			{
-				if (mapArray[(int)(EnemyPosition[i].X - EnemyDistance.X)][(int)EnemyPosition[i].Z] != '#')
-				{
-					EnemyPosition[i].X -= EnemyDistance.X * 30*dt;
-				}
 			}
-
-			if (((EnemyPosition[i].Z - EnemyDistance.Z) > 1) && ((EnemyPosition[i].Z - EnemyDistance.Z) < 498))
-			{
-				if (mapArray[(int)EnemyPosition[i].X][(int)(EnemyPosition[i].Z - EnemyDistance.Z)] != '#')
-				{
-					EnemyPosition[i].Z -= EnemyDistance.Z * 30*dt;
-				}
-			}
-
-			mapArray[(int)prevEnemyPosition.X][(int)prevEnemyPosition.Z] = ' ';
-			mapArray[(int)EnemyPosition[i].X][(int)EnemyPosition[i].Z] = '#';
-
-			EnemyAABB.SaveCoord(Vector3(EnemyPosition[i].X - 2, -2, EnemyPosition[i].Z - 2), Vector3(EnemyPosition[i].X + 2, 2, EnemyPosition[i].Z + 2));
-
-			if (AABBcollision(EnemyAABB, PlayerAABB))
-			{
-					if (HP > 0)
-					{
-						HP--;
-
-						if (HP < 0)
-						{
-							HP = 0;
-						}
-					}
-			}
-
+			else 
+				enemyPos[counter] = enemyPos[counter];
 		}
 	}
-
-	cout << Camera4.position.x << "     " << Camera4.position.x << "     " << HP << endl;
+	//====================================
 	fps = 1.0f / dt;
 	framesPerSec = "FPS: " + std::to_string(fps);
 	float LSPEED = 10.f;
@@ -332,22 +272,16 @@ void SPTest::Render()
 
 	RenderSkybox();
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_MODEL1], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(20, 0, 0);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_MODEL2], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Scale(20, 20, 20);
-	RenderText(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0));
-	modelStack.PopMatrix();*/
+	for (int i = 0; i < 10; i++)
+	{
+		if (enemyDisappear[i] == false)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
+			RenderMesh(meshList[GEO_ENEMY], true);
+			modelStack.PopMatrix();
+		}
+	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
 	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
@@ -396,18 +330,7 @@ void SPTest::RenderSkybox()
 	RenderMesh(meshList[GEO_TOP], true);
 	modelStack.PopMatrix();
 
-	//modelStack.PushMatrix();
-	//modelStack.Scale(5, 5, 5);
-	//RenderMesh(meshList[GEO_BB8], true);
-	//modelStack.PopMatrix();
-
-	for (int i = 1; i < EnemyPosition.size(); i++)
-	{
-			modelStack.PushMatrix();
-			modelStack.Translate(EnemyPosition[i].X, 0, EnemyPosition[i].Z);
-			RenderMesh(meshList[GEO_ENEMY], true);
-			modelStack.PopMatrix();
-	}
+	
 }
 
 void SPTest::RenderMesh(Mesh *mesh, bool enableLight)
@@ -548,11 +471,9 @@ void SPTest::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float
 	glEnable(GL_DEPTH_TEST);
 }
 
-bool SPTest::AABBcollision(AABB object1, AABB object2)
+float SPTest::RandomNumber(float Min, float Max)
 {
-	return (object1.min.x <= object2.max.x && object1.max.x >= object2.min.x) &&
-		(object1.min.y <= object2.max.y && object1.max.y >= object2.min.y) &&
-		(object1.min.z <= object2.max.z && object1.max.z >= object2.min.z);
+	return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
 }
 
 void SPTest::Exit()
