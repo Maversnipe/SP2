@@ -48,21 +48,19 @@ void Camera3::Update(double dt)
 
 	glfwSetCursorPos(m_window, mid_x, mid_y);
 
-	/*rotateHori = Math::DegreeToRadian((mid_x - xpos) * 10);
-	rotateVert = Math::DegreeToRadian((mid_y - ypos) * 10);*/
 	rotateHori = (mid_x - xpos) * dt * CamSpeed;
 	rotateVert = (mid_y - ypos) * dt * CamSpeed;
 
 	// control vertical limit
 	verticalAngle += dt *rotateVert;
-	if (verticalAngle > 90)
+	if (verticalAngle > 1)
 	{
-		verticalAngle = 90;
+		verticalAngle = 1;
 		rotateVert = 0;
 	}
-	else if (verticalAngle < -90)
+	else if (verticalAngle < -1)
 	{
-		verticalAngle = -90;
+		verticalAngle = -1;
 		rotateVert = 0;
 
 	}
@@ -179,6 +177,7 @@ void Camera3::Update(double dt)
 		else
 		{
 			position = position - right;
+			position.y = 0;
 			target = position + view;
 		}
 
@@ -230,6 +229,7 @@ void Camera3::Update(double dt)
 		else
 		{
 			position = position + right;
+			position.y = 0;
 			target = position + view;
 		}
 	
@@ -281,6 +281,7 @@ void Camera3::Update(double dt)
 		else
 		{
 			position = position + view;
+			position.y = 0;
 			target = position + view;
 		}
 	
@@ -332,11 +333,11 @@ void Camera3::Update(double dt)
 		else
 		{
 			position = position - view;
+			position.y = 0;
 			target = position + view;
 		}
 		
 	}
-
 
 	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
 	camYaw.SetToRotation(rotateHori, 0, 1, 0);

@@ -114,35 +114,31 @@ void StudioProject::Init()
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
 	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//MainScene//front.tga");
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//MainScene//back.tga");
 
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//MainScene//left.tga");
 
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1, 1);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//MainScene//right.tga");
 
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1, 1);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//MainScene//bottom.tga");
 
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1, 1);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//MainScene//top.tga");
 
-	//meshList[GEO_BB8] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	//meshList[GEO_BB8]->textureID = LoadTGA("Image//BB8.tga");
+	meshList[GEO_GROUND] = MeshBuilder::GenerateQuad("ground", Color(1, 1, 1), 1, 1);
+	meshList[GEO_GROUND]->textureID = LoadTGA("Image//MainScene//ground.tga");
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 0), 1, 1, 1);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightSphere", Color(1, 1, 1), 18, 36, 1);
 
-	//meshList[GEO_MODEL1] = MeshBuilder::GenerateOBJ("model1", "OBJ//chair.obj");
-	//meshList[GEO_MODEL1]->textureID = LoadTGA("Image//chair.tga");
 
-	//meshList[GEO_MODEL2] = MeshBuilder::GenerateOBJ("model2", "OBJ//dart.obj");
-	//meshList[GEO_MODEL2]->textureID = LoadTGA("Image//dart.tga");
-
+//=======================OBJECTS================================================================
 	meshList[GEO_BUILDING] = MeshBuilder::GenerateOBJ("building1", "OBJ//MainScene//building.obj");
 	meshList[GEO_BUILDING]->textureID = LoadTGA("Image//MainScene//building.tga");
 
@@ -278,17 +274,12 @@ void StudioProject::Render()
 
 	RenderSkybox();
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_MODEL1], true);
-	modelStack.PopMatrix();
-
 	modelStack.PushMatrix();
-	modelStack.Translate(20, 0, 0);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_MODEL2], true);
-	modelStack.PopMatrix();*/
+	modelStack.Translate(0, -5, 0);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Scale(1000, 1000, 1000);
+	RenderMesh(meshList[GEO_GROUND], true);
+	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(building[0].x, building[0].y, building[0].z);
@@ -315,7 +306,7 @@ void StudioProject::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 30);
+	modelStack.Translate(0, -2, 200);
 
 	modelStack.PushMatrix();
 	modelStack.Rotate(rotateCaro, 0, 1, 0);
@@ -325,13 +316,6 @@ void StudioProject::Render()
 
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_CAROTOP], true);
-	modelStack.PopMatrix();
-
-
-
-	modelStack.PushMatrix();
-	modelStack.Scale(20, 20, 20);
-	RenderText(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0));
 	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
@@ -346,41 +330,43 @@ void StudioProject::RenderSkybox()
 	modelStack.Translate(-24.95 * 20, 0, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_FRONT], true);
+	RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(24.95 * 20, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_BACK], true);
+	RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -24.95 * 20);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_LEFT], true);
+	RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 24.95 * 20);
 	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_RIGHT], true);
+	RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -24.945 * 20, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_BOTTOM], true);
+	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 24.945 * 20, 0);
+	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_TOP], true);
+	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
 
 	/*modelStack.PushMatrix();
