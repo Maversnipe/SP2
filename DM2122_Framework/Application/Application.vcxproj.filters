@@ -144,6 +144,7 @@
     <None Include="Shader\TransformVertexShader.vertexshader">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Application.rc" />

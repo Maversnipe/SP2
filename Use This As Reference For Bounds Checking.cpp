@@ -340,6 +340,7 @@ void Camera3::Update(double dt)
 					objectDetected = false;
 				else
 					objectDetected = true;
+
 				crateNumber = i;
 				break;
 			}

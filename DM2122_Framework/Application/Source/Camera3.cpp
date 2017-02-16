@@ -23,15 +23,24 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	this->up = right.Cross(view).Normalized();
 	defaultUp.Set(0, 1, 0);
 	ShowCursor(false);
+
+	buildings[0].Set(-125, 0, -23);
+	buildings[1].Set(-45, 0, -23);
+	buildings[2].Set(35, 0, -23);
+	buildings[3].Set(115, 0, -23);
+
+	buildingAABB[0].SaveCoord(Vector3(buildings[0].x - 20, buildings[0].y - 20, buildings[0].z - 20), Vector3(buildings[0].x + 25, buildings[0].y + 25, buildings[0].z + 25));
+	buildingAABB[1].SaveCoord(Vector3(buildings[1].x - 20, buildings[1].y - 20, buildings[1].z - 20), Vector3(buildings[1].x + 25, buildings[1].y + 25, buildings[1].z + 25));
+	buildingAABB[2].SaveCoord(Vector3(buildings[2].x - 20, buildings[2].y - 20, buildings[2].z - 20), Vector3(buildings[2].x + 25, buildings[2].y + 25, buildings[2].z + 25));
+	buildingAABB[3].SaveCoord(Vector3(buildings[3].x - 20, buildings[3].y - 20, buildings[3].z - 20), Vector3(buildings[3].x + 25, buildings[3].y + 25, buildings[3].z + 25));
 }
 
 void Camera3::Update(double dt)
 {
 	view = (target - position).Normalized();
 	right = view.Cross(up);
-
-
 	up = right.Cross(view).Normalized();
+	
 
 	Mtx44 rotation, yaw, pitch;
 	yaw = mouseY;
@@ -43,7 +52,7 @@ void Camera3::Update(double dt)
 	glfwGetWindowSize(m_window, &width, &height);
 	glfwGetCursorPos(m_window, &xpos, &ypos);
 
-	int mid_x = width / 2;	//issue 1
+	int mid_x = width / 2;
 	int mid_y = height / 2;
 
 	glfwSetCursorPos(m_window, mid_x, mid_y);
@@ -131,212 +140,166 @@ void Camera3::Update(double dt)
 
 	if(Application::IsKeyPressed('A'))
 	{
-		newPos = position - right;
+		newPos = position - (right * velocity);
+		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
+		buildingNum = 4;
 		for (int i = 0; i < 4; i++)
 		{
-			if (buildingCollide(newPos, buildings[i]))
+			if (collideAABBbuilding(charAABB, buildingAABB[i]))
 			{
-				collideBuilding = true;
-				buildingSlide = buildings[i];
+				if (((charAABB.min.x < buildingAABB[i].min.x) || (charAABB.max.x > buildingAABB[i].max.x))
+					&& (charAABB.min.z > buildingAABB[i].min.z) && (charAABB.max.z < buildingAABB[i].max.z))
+					X_Or_Z = 1;
+				else if (((charAABB.min.z < buildingAABB[i].min.z) || (charAABB.max.z > buildingAABB[i].max.z))
+					&& (charAABB.min.x > buildingAABB[i].min.x) && (charAABB.max.x < buildingAABB[i].max.x))
+					X_Or_Z = 2;
+				buildingNum = i;
 				break;
 			}
-			else
-				collideBuilding = false;
 		}
-
-		if (collideBuilding)
+		if (buildingNum < 4)
 		{
-			float distX = 0.0f;
-			float distZ = 0.0f;
-
-			if (buildingSlide.x >= newPos.x)
-				distX = buildingSlide.x - newPos.x;
-
-			else
-				distX = newPos.x - buildingSlide.x;
-
-			if (buildingSlide.z >= newPos.z)
-				distZ = buildingSlide.z - newPos.z;
-			else
-				distZ = newPos.z - buildingSlide.z;
-
-			//Finding distance 
-
-			if ((distX <= 40.f) && (distZ >= 20.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 			{
-				position.x = position.x - right.x;
-				target.x = position.x + view.x;
+				position.x = position.x - (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
 			}
-			else if ((distX >= 20.f) && (distZ <= 40.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 			{
-				position.z = position.z - right.z;
-				target.z = position.z + view.z;
+				position.z = position.z - (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
 			}
 		}
-
 		else
 		{
-			position = position - right;
-			position.y = 0;
-			target = position + view;
+			position.x = position.x - (right.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z - (right.z * velocity);
+			target.z = position.z + (view.z * velocity);
 		}
-
 	}
+
 	if (Application::IsKeyPressed('D'))
 	{
-	    newPos = position + right;
+		newPos = position + (right * velocity);
+		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
+		buildingNum = 4;
 		for (int i = 0; i < 4; i++)
 		{
-			if (buildingCollide(newPos, buildings[i]))
+			if (collideAABBbuilding(charAABB, buildingAABB[i]))
 			{
-				collideBuilding = true;
-				buildingSlide = buildings[i];
+				if (((charAABB.min.x < buildingAABB[i].min.x) || (charAABB.max.x > buildingAABB[i].max.x))
+					&& (charAABB.min.z > buildingAABB[i].min.z) && (charAABB.max.z < buildingAABB[i].max.z))
+					X_Or_Z = 1;
+				else if (((charAABB.min.z < buildingAABB[i].min.z) || (charAABB.max.z > buildingAABB[i].max.z))
+					&& (charAABB.min.x > buildingAABB[i].min.x) && (charAABB.max.x < buildingAABB[i].max.x))
+					X_Or_Z = 2;
+				buildingNum = i;
 				break;
 			}
-			else
-				collideBuilding = false;
 		}
-
-		if (collideBuilding)
+		if (buildingNum < 4)
 		{
-			float distX = 0.0f;
-			float distZ = 0.0f;
-
-			if (buildingSlide.x >= newPos.x)
-				distX = buildingSlide.x - newPos.x;
-
-			else
-				distX = newPos.x - buildingSlide.x;
-
-			if (buildingSlide.z >= newPos.z)
-				distZ = buildingSlide.z - newPos.z;
-			else
-				distZ = newPos.z - buildingSlide.z;
-
-			//Finding distance 
-
-			if ((distX <= 40.f) && (distZ >= 20.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 			{
-				position.x = position.x + right.x;
-				target.x = position.x + view.x;
+				position.x = position.x + (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
 			}
-			else if ((distX >= 20.f) && (distZ <= 40.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 			{
-				position.z = position.z + right.z;
-				target.z = position.z + view.z;
+				position.z = position.z + (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
 			}
 		}
 		else
 		{
-			position = position + right;
-			position.y = 0;
-			target = position + view;
-		}
-	
+			position.x = position.x + (right.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z + (right.z * velocity);
+			target.z = position.z + (view.z * velocity);
+		}    
 	}
+
 	if (Application::IsKeyPressed('W'))
 	{
-		newPos = position + view;
+		newPos = position + (view * velocity);
+		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
+		buildingNum = 4;
 		for (int i = 0; i < 4; i++)
 		{
-			if (buildingCollide(newPos, buildings[i]))
+			if (collideAABBbuilding(charAABB, buildingAABB[i]))
 			{
-				collideBuilding = true;
-				buildingSlide = buildings[i];
+				if (((charAABB.min.x < buildingAABB[i].min.x) || (charAABB.max.x > buildingAABB[i].max.x))
+					&& (charAABB.min.z > buildingAABB[i].min.z) && (charAABB.max.z < buildingAABB[i].max.z))
+					X_Or_Z = 1;
+				else if (((charAABB.min.z < buildingAABB[i].min.z) || (charAABB.max.z > buildingAABB[i].max.z))
+					&& (charAABB.min.x > buildingAABB[i].min.x) && (charAABB.max.x < buildingAABB[i].max.x))
+					X_Or_Z = 2;
+				buildingNum = i;
 				break;
 			}
-			else
-				collideBuilding = false;
 		}
-
-		if (collideBuilding)
+		if (buildingNum < 4)
 		{
-			float distX = 0.0f;
-			float distZ = 0.0f;
-
-			if (buildingSlide.x >= newPos.x)
-				distX = buildingSlide.x - newPos.x;
-
-			else
-				distX = newPos.x - buildingSlide.x;
-
-			if (buildingSlide.z >= newPos.z)
-				distZ = buildingSlide.z - newPos.z;
-			else
-				distZ = newPos.z - buildingSlide.z;
-
-			//Finding distance 
-
-			if ((distX <= 40.f) && (distZ >= 20.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 			{
-				position.x = position.x + view.x;
-				target.x = position.x + view.x;
+				position.x = position.x + (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
 			}
-			else if ((distX >= 20.f) && (distZ <= 40.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 			{
-				position.z = position.z + view.z;
-				target.z = position.z + view.z;
+				position.z = position.z + (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
 			}
 		}
 		else
 		{
-			position = position + view;
-			position.y = 0;
-			target = position + view;
+			position.x = position.x + (view.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z + (view.z * velocity);
+			target.z = position.z + (view.z * velocity);
 		}
-	
 	}
+
 	if (Application::IsKeyPressed('S'))
 	{
-		newPos = position - view;
+		newPos = position - (view * velocity);
+		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
+		buildingNum = 4;
 		for (int i = 0; i < 4; i++)
 		{
-			if (buildingCollide(newPos, buildings[i]))
+			if (collideAABBbuilding(charAABB, buildingAABB[i]))
 			{
-				collideBuilding = true;
-				buildingSlide = buildings[i];
+				if (((charAABB.min.x < buildingAABB[i].min.x) || (charAABB.max.x > buildingAABB[i].max.x))
+					&& (charAABB.min.z > buildingAABB[i].min.z) && (charAABB.max.z < buildingAABB[i].max.z))
+					X_Or_Z = 1;
+				else if (((charAABB.min.z < buildingAABB[i].min.z) || (charAABB.max.z > buildingAABB[i].max.z))
+					&& (charAABB.min.x > buildingAABB[i].min.x) && (charAABB.max.x < buildingAABB[i].max.x))
+					X_Or_Z = 2;
+				buildingNum = i;
 				break;
 			}
-			else
-				collideBuilding = false;
 		}
-
-		if (collideBuilding)
+		if (buildingNum < 4)
 		{
-			float distX = 0.0f;
-			float distZ = 0.0f;
-
-			if (buildingSlide.x >= newPos.x)
-				distX = buildingSlide.x - newPos.x;
-
-			else
-				distX = newPos.x - buildingSlide.x;
-
-			if (buildingSlide.z >= newPos.z)
-				distZ = buildingSlide.z - newPos.z;
-			else
-				distZ = newPos.z - buildingSlide.z;
-
-			//Finding distance 
-
-			if ((distX <= 40.f) && (distZ >= 20.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 			{
-				position.x = position.x - view.x;
-				target.x = position.x + view.x;
+				position.x = position.x - (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
 			}
-			else if ((distX >= 20.f) && (distZ <= 40.f))
+			if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 			{
-				position.z = position.z - view.z;
-				target.z = position.z + view.z;
+				position.z = position.z - (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
 			}
 		}
 		else
 		{
-			position = position - view;
-			position.y = 0;
-			target = position + view;
+			position.x = position.x - (view.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z - (view.z * velocity);
+			target.z = position.z + (view.z * velocity);
 		}
-		
 	}
 
 	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
@@ -364,4 +327,21 @@ bool Camera3::buildingCollide(Vector3 newPos, Vector3 buildingPos)
 		return true;
 	else
 		return false;
+}
+
+int Camera3::slideAABBbuilding(AABB charAABB, AABB buildingAABB)
+{
+	if ((charAABB.max.x < buildingAABB.max.x || charAABB.min.x < buildingAABB.max.x) && (X_Or_Z == 1))
+		return 2;
+	else if ((charAABB.max.z < buildingAABB.max.z || charAABB.min.z < buildingAABB.max.z) && (X_Or_Z == 2))
+		return 1;
+	else 
+		return 0;
+
+}
+
+bool Camera3::collideAABBbuilding(AABB charAABB, AABB buildingAABB)
+{
+	return((charAABB.max.x > buildingAABB.min.x) && (charAABB.max.z > buildingAABB.min.z)
+		&& (charAABB.min.x < buildingAABB.max.x) && (charAABB.min.z < buildingAABB.max.z));
 }

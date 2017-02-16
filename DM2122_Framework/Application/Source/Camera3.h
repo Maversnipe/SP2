@@ -2,6 +2,7 @@
 #define CAMERA_3_H
 
 #include "Camera.h"
+#include "AABB.h"
 
 class Camera3 : public Camera
 {
@@ -24,6 +25,9 @@ public:
 	Vector3 buildings[4] = {};
 	bool collideBuilding = false;
 	Vector3 buildingSlide;
+	int slideAABBbuilding(AABB, AABB);
+	bool collideAABBbuilding(AABB, AABB);
+	int buildingNum = 0;
 	
 	float mouseY = 0;
 	float mouseX = 0;
@@ -31,6 +35,12 @@ public:
 	float verticalAngle = 0.0f;
 	float rotateVert = 0;
 	float rotateHori = 0;
+	double velocity = 1;
+	int X_Or_Z = 0;
+
+	AABB charAABB;
+	AABB buildingAABB[4];
+
 
 private:
 	Vector3 view;
