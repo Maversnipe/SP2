@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 2/16/2017 3:10:02 PM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
@@ -42,6 +43,21 @@
      1>d:\git_root\sp2\dm2122_framework\application\source\camera3.cpp(299): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>d:\git_root\sp2\dm2122_framework\application\source\camera3.cpp(300): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>d:\git_root\sp2\dm2122_framework\application\source\camera3.cpp(301): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+=======
+﻿Build started 16/2/2017 2:17:36 PM.
+     1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\MainMenu.cpp
+         MainMenu.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(178): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(179): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(184): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(191): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(346): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(354): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(452): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(453): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+>>>>>>> b72564e1ebfe0ad6fbdb90f8c93164e6156f7e8a
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\glew\lib /LIBPATH:"D:\GIT_ROOT\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
@@ -52,6 +68,7 @@
          Debug\LoadOBJ.obj
          Debug\LoadTGA.obj
          Debug\main.obj
+         Debug\MainMenu.obj
          Debug\Mesh.obj
          Debug\MeshBuilder.obj
          Debug\shader.obj
@@ -63,4 +80,8 @@
 
 Build succeeded.
 
+<<<<<<< HEAD
 Time Elapsed 00:00:00.98
+=======
+Time Elapsed 00:00:01.14
+>>>>>>> b72564e1ebfe0ad6fbdb90f8c93164e6156f7e8a
