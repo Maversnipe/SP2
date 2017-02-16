@@ -114,11 +114,11 @@ private:
 	float fps = 0.0;
 	std::string framesPerSec = "";
 
-//	vector<Vec2D> EnemyPosition;
-//	AABB PlayerAABB, EnemyAABB;
-//	bool AABBcollision(AABB object1, AABB object2);
-	Vector3 enemyPos[10] = {};
-	bool enemyDisappear[10];
+	int enemySize;
+	float enemyRotation[100] = {};
+
+	Vector3 enemyPos[100] = {};
+	bool enemyDead[50];
 	float RandomNumber(float Min, float Max);
 };
 
