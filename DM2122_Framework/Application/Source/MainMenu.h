@@ -3,7 +3,7 @@
 
 #include "Scene.h"
 #include "Mtx44.h"
-#include "CameraMainMenu.h"
+#include "Camera.h"
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
@@ -19,17 +19,23 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	CameraMainMenu camera;
+	Camera camera;
 
 	enum GEOMETRY_TYPE
 	{
 		GEO_TRIANGLE_1 = 0,
 		GEO_AXES,
-		GEO_QUAD,
+		GEO_START,
+		GEO_GUIDE,
+		GEO_ARROWGUIDE,
+		GEO_ARROWSTART,
+		GEO_BOARD,
+		GEO_ARROWBOARD,
+		GEO_EXIT,
+		GEO_ARROWEXIT,
+		GEO_TITLE,
 
-		GEO_BB8,
-		GEO_MODEL1,
-		GEO_MODEL2,
+
 		GEO_BUILDING,
 		GEO_BUILDING2,
 		GEO_BUILDING3,
@@ -80,13 +86,14 @@ public:
 
 	};
 
-
-
 	unsigned m_parameters[U_TOTAL];
 
 	float rotateCaro;
-	//float translateX;
-	//float scaleAll;
+	float scaleText;
+
+	int select = 0;
+	float bounce_time = 0.0;
+	float elapsed_time = 0.0;
 
 private:
 	unsigned m_vertexArrayID;
@@ -110,15 +117,6 @@ private:
 	bool lightSwitch = false;
 
 	void RenderSkybox();
-
-	//Vector3 building[4] = {};
-
-	//float x = 0.0;
-	//float y = 0.0;
-	//float z = 0.0;
-	//std::string X = "";
-	//std::string Y = "";
-	//std::string Z = "";
 };
 
 #endif

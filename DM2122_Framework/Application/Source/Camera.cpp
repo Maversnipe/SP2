@@ -58,12 +58,49 @@ To be called every frame. Camera will get user inputs and update its position an
 /******************************************************************************/
 void Camera::Update(double dt)
 {
-	if (Application::IsKeyPressed('W'))
-		position.y += 50.f * dt;
-	if (Application::IsKeyPressed('S'))
-		position.y -= 50.f * dt;
+	//if (Application::IsKeyPressed(37)) // Left
+	//{
+	//}
+	//if (Application::IsKeyPressed(39)) // Right
+	//{
+
+	//}
+	//if (Application::IsKeyPressed(38)) // Up
+	//{
+	//	/*switch (select)
+	//	{
+	//	case 1:
+	//		select = 0;
+	//	}*/
+	//	if (select > 0 && select < 2)
+	//		select--;
+	//}
+
+	//if (Application::IsKeyPressed(40)) // Down
+	//{
+	//	/*switch (select)
+	//	{
+	//	case 0: 
+	//		select = 1;
+	//	}*/
+	//	if (select > 0 && select < 2)
+	//		select++;
+	//}
+	if (Application::IsKeyPressed('N'))
+	{
+	}
+
 	if (Application::IsKeyPressed('A'))
-		position.x -= 50.f * dt;
+	{
+	}
 	if (Application::IsKeyPressed('D'))
-		position.x += 50.f * dt;
+	{
+	}
+	if (Application::IsKeyPressed('W'))
+	{
+	}
+	if (Application::IsKeyPressed('S'))
+	{
+
+	}
 }

@@ -74,14 +74,13 @@ void MainMenu::Init()
 	glUseProgram(m_programID);
 
 	// Set default values
-	rotateCaro = 0;/*
-	translateX = 0;
-	scaleAll = 1;*/
+	rotateCaro = 0;
+	scaleText = 0;
 
-	light[0].type = Light::LIGHT_SPOT;
-	light[0].position.Set(0, 20, 0);
+	light[0].type = Light::LIGHT_DIRECTIONAL;
+	light[0].position.Set(0, 70, 50);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 1;
+	light[0].power = 0.5;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -104,15 +103,23 @@ void MainMenu::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	// Initialise Camera
-	camera.Init(Vector3(-89, 0, 390), Vector3(-50, 0, -300), Vector3(0, 1, 0));
+	camera.Init(Vector3(-89, 50, 390), Vector3(-50, 0, -300), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
 		meshList[i] = NULL;
 	}
-
-	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
+	//===================ARROWS==================================
+	meshList[GEO_ARROWSTART] = MeshBuilder::GenerateQuad("start Selected", Color(1, 1, 1), 1, 1);
+	meshList[GEO_ARROWSTART]->textureID = LoadTGA("Image//MainMenu//startSelected.tga");	meshList[GEO_START] = MeshBuilder::GenerateQuad("start", Color(1, 1, 1), 1, 1);
+	meshList[GEO_START]->textureID = LoadTGA("Image//MainMenu//start.tga");	meshList[GEO_ARROWBOARD] = MeshBuilder::GenerateQuad("leaderboard Selected", Color(1, 1, 1), 1, 1);
+	meshList[GEO_ARROWBOARD]->textureID = LoadTGA("Image//MainMenu//leaderboardSelected.tga");	meshList[GEO_BOARD] = MeshBuilder::GenerateQuad("leaderboard", Color(1, 1, 1), 1, 1);
+	meshList[GEO_BOARD]->textureID = LoadTGA("Image//MainMenu//leaderboard.tga");	meshList[GEO_GUIDE] = MeshBuilder::GenerateQuad("guide", Color(1, 1, 1), 1, 1);
+	meshList[GEO_GUIDE]->textureID = LoadTGA("Image//MainMenu//guide.tga");	meshList[GEO_ARROWGUIDE] = MeshBuilder::GenerateQuad("guideSelected", Color(1, 1, 1), 1, 1);
+	meshList[GEO_ARROWGUIDE]->textureID = LoadTGA("Image//MainMenu//guideSelected.tga");	meshList[GEO_EXIT] = MeshBuilder::GenerateQuad("exit", Color(1, 1, 1), 1, 1);
+	meshList[GEO_EXIT]->textureID = LoadTGA("Image//MainMenu//exit.tga");	meshList[GEO_ARROWEXIT] = MeshBuilder::GenerateQuad("exitSelected", Color(1, 1, 1), 1, 1);
+	meshList[GEO_ARROWEXIT]->textureID = LoadTGA("Image//MainMenu//exitSelected.tga");	meshList[GEO_TITLE] = MeshBuilder::GenerateQuad("title", Color(1, 1, 1), 1, 1);
+	meshList[GEO_TITLE]->textureID = LoadTGA("Image//MainMenu//carnival.tga");	//===========================================================
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//MainScene//front.tga");
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
@@ -168,54 +175,21 @@ void MainMenu::Init()
 
 void MainMenu::Update(double dt)
 {
-	/*x = camera.position.x;
-	y = camera.position.y;
-	z = camera.position.z;
-	X = "X: " + std::to_string(x);
-	Y = "Y: " + std::to_string(y);
-	Z = "Z: " + std::to_string(z);
-
-	float LSPEED = 10.f;
-	if (Application::IsKeyPressed('I'))
-		light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))
-		light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))
-		light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))
-		light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))
-		light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))
-		light[0].position.y += (float)(LSPEED * dt);
-
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	else if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	if (Application::IsKeyPressed('5'))
-	{
-		light[0].type = Light::LIGHT_POINT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('6'))
-	{
-		light[0].type = Light::LIGHT_DIRECTIONAL;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('7'))
-	{
-		light[0].type = Light::LIGHT_SPOT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
+	elapsed_time += dt;
 	rotateCaro += 40 * dt;
-	camera.Update(dt);*/
-	rotateCaro += 40 * dt;
+	if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > bounce_time)) // Down
+	{
+		if (select >= 0 && select < 3)
+			select++;
+		bounce_time = elapsed_time + 0.3;
+	}
+
+	if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > bounce_time))// Up
+	{
+		if (select > 0 && select < 4)
+			select--;
+		bounce_time = elapsed_time + 0.3;
+	}
 }
 
 void MainMenu::Render()
@@ -255,11 +229,8 @@ void MainMenu::Render()
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	//---------------------------------------------------------------
-	RenderMesh(meshList[GEO_AXES], false);
-
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
 
 	RenderSkybox();
@@ -308,10 +279,38 @@ void MainMenu::Render()
 	RenderMesh(meshList[GEO_CAROTOP], true);
 	modelStack.PopMatrix();
 
-	//RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
-	//RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
-	//RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
-	//RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
+	RenderMeshOnScreen(meshList[GEO_TITLE], 40, 50, 75, 75);//No transform needed
+
+	if (select == 0)
+	{
+		RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 40, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_BOARD], 20, 20, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
+	}
+
+	if (select == 1)
+	{
+		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 30, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_BOARD], 20, 20, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
+	}
+
+	if (select == 2)
+	{
+		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_ARROWBOARD], 20, 20, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
+	}
+			if (select == 3)
+	{
+		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_BOARD], 20, 20, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 10, 30, 30);//No transform needed
+	}
 }
 
 void MainMenu::RenderSkybox()
