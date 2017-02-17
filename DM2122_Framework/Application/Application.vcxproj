@@ -125,6 +125,7 @@
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Shader\Blending.fragmentshader" />
     <None Include="Shader\LightSource.fragmentshader" />
     <None Include="Shader\Shading.fragmentshader" />

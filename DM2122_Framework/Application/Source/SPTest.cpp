@@ -11,6 +11,7 @@ using namespace std;
 //char mapArray[500][500] = {""};
 SPTest::SPTest()
 {
+	enemySize = 30;
 }
 
 SPTest::~SPTest()
@@ -25,7 +26,8 @@ void SPTest::Init()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
+	glEnable(GL_BLEND);
+
 	// Blend
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -114,9 +116,11 @@ void SPTest::Init()
 	}
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
+	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
+
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
 
@@ -148,37 +152,70 @@ void SPTest::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
-	meshList[GEO_ENEMY] = MeshBuilder::GenerateCube("enemy", Color(1, 0, 0), 1, 1, 1);
+	meshList[GEO_ENEMY] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
+	meshList[GEO_ENEMY]->textureID = LoadTGA("OBJ//enemy.tga");
 
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
 
-	for (int counter = 0; counter < 10; counter++)
+	for (int counter = 0; counter < enemySize; counter++)
 	{
 		float i = RandomNumber(-250, 250);
 		float j = RandomNumber(-250, 250);
 		enemyPos[counter].Set(i, 0, j);
-		enemyDisappear[counter] = false;
+		enemyDead[counter] = false;
 	}
 }
 
 void SPTest::Update(double dt)
 {
+	cout << Camera4.position.x << "            " << Camera4.position.z << endl;
 	//==========Enemy movements==========
-	for (int counter = 0; counter < 10; counter++)
+	for (int counter = 0; counter < enemySize; counter++)
 	{
-		if (enemyDisappear[counter] == false)
+		if (enemyDead[counter] == false)
 		{
-			if ((Camera4.position - enemyPos[counter]).Length() > 10)
+			if ((Camera4.position - enemyPos[counter]).Length() > 1)
 			{
+				int test = 0;
 				Vector3 dirVec = Camera4.position - enemyPos[counter];
-				enemyPos[counter] += dirVec * dt;
-
+				enemyRotation[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
+				for (int counter2 = 0; counter2 < enemySize; counter2++)
+				{
+					if (counter != counter2)
+					{
+						if (((enemyPos[counter] + (dirVec*dt)) - enemyPos[counter2]).Length()>1)
+						{
+							test = 1;
+						}
+						else
+						{
+							test = 2;
+							break;
+						}
+					}
+				}
+				if (test == 1)
+				{
+					enemyPos[counter] += dirVec * dt;
+				}
+				else
+				{
+					enemyPos[counter] = enemyPos[counter];
+				}
 			}
-			else 
+			else
 				enemyPos[counter] = enemyPos[counter];
+		}
+		if (enemyDead[counter] == true)
+		{
+			enemyPos[counter] = {};
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			enemyPos[counter].Set(i, 0, j);
+			enemyDead[counter] = false;
 		}
 	}
 	//====================================
@@ -272,19 +309,22 @@ void SPTest::Render()
 
 	RenderSkybox();
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < enemySize; i++)
 	{
-		if (enemyDisappear[i] == false)
+		if (enemyDead[i] == false)
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
+			modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+			modelStack.Scale(0.25, 0.25, 0.25);
 			RenderMesh(meshList[GEO_ENEMY], true);
 			modelStack.PopMatrix();
 		}
 	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
-	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
+	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
+
 }
 
 void SPTest::RenderSkybox()

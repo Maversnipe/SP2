@@ -108,7 +108,11 @@ void Application::Run()
 //	Scene *scene1 = new SceneText();
 //	Scene *scene2 = new SceneUI();
 //	Scene *scene = scene1;
+<<<<<<< HEAD
 	Scene *scene = new Shooting();
+=======
+	Scene *scene = new SPTest();
+>>>>>>> 39af11f9afd0f523e2caef54738e4028d7621bcb
 	scene->Init();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

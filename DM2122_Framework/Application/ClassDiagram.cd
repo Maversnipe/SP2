@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Application" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAACAAAAICACAAAAAAY=</HashCode>
+      <FileName>Source\Application.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAABAAAYAAAIAAAAAAAAAAAAAACAgAAAAA=</HashCode>
+      <FileName>Source\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera2" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQAAACBAKAAAAAAAAAAAQAAEAAAQACAAAAgAA=</HashCode>
+      <FileName>Source\Camera2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera3" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAyQAEAAAAMAAAFAAAAAAEACAEgIAAACAUQCCBAAkAA=</HashCode>
+      <FileName>Source\Camera3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera4" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAABAEAIAAAAAAEAAAIAAAAAQACAAAAkAA=</HashCode>
+      <FileName>Source\Camera4.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mesh" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAEAAACAAAAAAAAACBAEABAAARAAAABAAAA=</HashCode>
+      <FileName>Source\Mesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MeshBuilder" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAIAAAAQACAAgABAAAAAAAQAAAAAAAAAgACACAAAEA=</HashCode>
+      <FileName>Source\MeshBuilder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAgAAAAAAAQAAAAAAAIBACAAAAAAA=</HashCode>
+      <FileName>Source\Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SPTest" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oCQAggBYIhAAAAoAIABAAEAAQhIAAAAIIBACAAAEEAQ=</HashCode>
+      <FileName>Source\SPTest.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StudioProject" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sCQAgABYIgIAAAoCAAhAAAAAABIAAABAIBBiAQAEcAU=</HashCode>
+      <FileName>Source\StudioProject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="PackedVertex" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAgAAAAAAAAAAAAgAAAAAgA=</HashCode>
+      <FileName>Source\LoadOBJ.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Vec2D" Collapsed="true">
+    <Position X="7.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAE=</HashCode>
+      <FileName>Source\AABB.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AABB" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAECQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\AABB.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Light" Collapsed="true">
+    <Position X="13" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAgAAAAAAAQIgAAAAERAACAAAAAAABAAAE=</HashCode>
+      <FileName>Source\Light.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Component" Collapsed="true">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAIAQBBAAAAAAA=</HashCode>
+      <FileName>Source\Material.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Material" Collapsed="true">
+    <Position X="7.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IEAAAAAAAAAAAAAAAgAAAAAAAAAAACAAAAAAAAAAIAA=</HashCode>
+      <FileName>Source\Material.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Position" Collapsed="true">
+    <Position X="11.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAgAAAAAAAAAAAAAAAAAABgAQAAAAA=</HashCode>
+      <FileName>Source\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Color" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAIAQABgAAAAAA=</HashCode>
+      <FileName>Source\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TexCoord" Collapsed="true">
+    <Position X="13" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAIAAAAAAAAAAAAAABIAAAAAAAA=</HashCode>
+      <FileName>Source\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Vertex" Collapsed="true">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIgAAAAAAACAAAIAAAAAAAA=</HashCode>
+      <FileName>Source\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

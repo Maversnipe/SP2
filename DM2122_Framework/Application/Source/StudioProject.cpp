@@ -162,15 +162,10 @@ void StudioProject::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 	
 	// Building Coords
-	building[0].Set(-45, 0, -23);
-	building[1].Set(35, 0, -23);
-	building[2].Set(115, 0, -23);
-	building[3].Set(-125, 0, -23);
-
-	camera3.buildings[0] = building[0];
-	camera3.buildings[1] = building[1];
-	camera3.buildings[2] = building[2];
-	camera3.buildings[3] = building[3];
+	building[0].Set(-125, 0, -23);
+	building[1].Set(-45, 0, -23);
+	building[2].Set(35, 0, -23);
+	building[3].Set(115, 0, -23);
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -368,11 +363,6 @@ void StudioProject::RenderSkybox()
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
-
-	/*modelStack.PushMatrix();
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BB8], true);
-	modelStack.PopMatrix();*/
 }
 
 void StudioProject::RenderMesh(Mesh *mesh, bool enableLight)
