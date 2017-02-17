@@ -1,16 +1,16 @@
-﻿Build started 16/2/2017 2:17:36 PM.
+﻿Build started 17/2/2017 5:20:06 PM.
      1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\MainMenu.cpp
-         MainMenu.cpp
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(178): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(179): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(184): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(191): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(346): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(354): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(452): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(453): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Shooting.cpp
+         Shooting.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(180): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(188): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(321): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(322): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(385): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(393): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(488): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(489): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
          D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
@@ -25,6 +25,8 @@
          Debug\Mesh.obj
          Debug\MeshBuilder.obj
          Debug\shader.obj
+         Debug\Shooting.obj
+         Debug\ShootingCamera.obj
          Debug\SPTest.obj
          Debug\StudioProject.obj
          Debug\Utiity.obj
@@ -33,4 +35,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.14
+Time Elapsed 00:00:01.04

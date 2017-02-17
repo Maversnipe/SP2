@@ -94,6 +94,8 @@
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\Shooting.cpp" />
+    <ClCompile Include="Source\ShootingCamera.cpp" />
     <ClCompile Include="Source\SPTest.cpp" />
     <ClCompile Include="Source\StudioProject.cpp" />
     <ClCompile Include="Source\Utiity.cpp" />
@@ -115,6 +117,8 @@
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\Shooting.h" />
+    <ClInclude Include="Source\ShootingCamera.h" />
     <ClInclude Include="Source\SPTest.h" />
     <ClInclude Include="Source\StudioProject.h" />
     <ClInclude Include="Source\Utility.h" />
