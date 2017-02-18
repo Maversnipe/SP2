@@ -368,11 +368,6 @@ void MainMenu::RenderSkybox()
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
-
-	/*modelStack.PushMatrix();
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BB8], true);
-	modelStack.PopMatrix();*/
 }
 
 void MainMenu::RenderMesh(Mesh *mesh, bool enableLight)

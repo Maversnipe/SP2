@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 2/18/2017 7:05:21 PM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
@@ -10,6 +11,41 @@
      1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(376): warning C4305: 'argument' : truncation from 'double' to 'float'
      1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(469): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(470): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+=======
+<<<<<<< HEAD
+﻿Build started 17/2/2017 5:20:06 PM.
+     1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Shooting.cpp
+         Shooting.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(180): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(188): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(321): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(322): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(385): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(393): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(488): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(489): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+=======
+﻿Build started 2/16/2017 5:40:41 PM.
+     1>Project "C:\Users\161953p\Desktop\EmpressDowager\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\161953p\Desktop\EmpressDowager\DM2122_Framework\\glew\include /IC:\Users\161953p\Desktop\EmpressDowager\DM2122_Framework\\glfw\include /IC:\Users\161953p\Desktop\EmpressDowager\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\SPTest.cpp
+         SPTest.cpp
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.h(118): warning C4351: new behavior: elements of array 'SPTest::enemyRotation' will be default initialized
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.cpp(186): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.cpp(199): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.cpp(219): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.cpp(363): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.cpp(457): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.cpp(458): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Generating Code...
+         Compiling...
+         Application.cpp
+     1>c:\users\161953p\desktop\empressdowager\dm2122_framework\application\source\sptest.h(118): warning C4351: new behavior: elements of array 'SPTest::enemyRotation' will be default initialized
+         Generating Code...
+>>>>>>> 39af11f9afd0f523e2caef54738e4028d7621bcb
+>>>>>>> 064bf5a78e965fc79fce392ce339d904d71f932c
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\glew\lib /LIBPATH:"D:\GIT_ROOT\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
@@ -25,6 +61,8 @@
          Debug\MeshBuilder.obj
          Debug\SceneManager.obj
          Debug\shader.obj
+         Debug\Shooting.obj
+         Debug\ShootingCamera.obj
          Debug\SPTest.obj
          Debug\StudioProject.obj
          Debug\Utiity.obj
@@ -33,4 +71,12 @@
 
 Build succeeded.
 
+<<<<<<< HEAD
 Time Elapsed 00:00:01.34
+=======
+<<<<<<< HEAD
+Time Elapsed 00:00:01.04
+=======
+Time Elapsed 00:00:02.68
+>>>>>>> 39af11f9afd0f523e2caef54738e4028d7621bcb
+>>>>>>> 064bf5a78e965fc79fce392ce339d904d71f932c
