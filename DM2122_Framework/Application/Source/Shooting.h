@@ -9,6 +9,7 @@
 #include "AABB.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Bullet.h"
 
 class Shooting : public Scene
 {
@@ -42,6 +43,7 @@ public:
 		GEO_ENEMY,
 		GEO_TABLE,
 		GEO_GUN,
+		GEO_BULLET,
 		NUM_GEOMETRY,
 	};
 
@@ -85,6 +87,8 @@ public:
 	bool dead = false;
 	int HP = 100;
 
+	float horizontalRotation;
+	float verticalRotation;
 private:
 	unsigned m_vertexArrayID;
 	unsigned m_vertexBuffer[NUM_GEOMETRY];
@@ -112,6 +116,17 @@ private:
 	std::string framesPerSec = "";
 	Vector3 enemyPos[10] = {};
 	bool enemyDisappear[10];
+	//Bullet
+	Bullet bullet[5];
+	Bullet original[5];
+	int bulletCount = 0;
+	bool moveLaser[5] = {};
+	bool reload = false;
+	float elapsed_time = 0.f;
+	float bounce_time = 0.f;
+
+	float rotateLasHori = 0.f;
+	float rotateLasVert = 0.f;
 	float RandomNumber(float Min, float Max);
 	bool pickUpGun = false;
 

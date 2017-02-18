@@ -152,6 +152,8 @@ void Shooting::Init()
 
 	meshList[GEO_GUN] = MeshBuilder::GenerateOBJ("gun", "OBJ//gun.obj");
 	meshList[GEO_GUN]->textureID = LoadTGA("Image//Shooting//gun.tga");
+
+	meshList[GEO_BULLET] = MeshBuilder::GenerateSphere("bullet", Color(1, 0, 0), 18, 36, 1);
 	//=====================================================================================
 
 	Mtx44 projection;
@@ -169,6 +171,7 @@ void Shooting::Init()
 
 void Shooting::Update(double dt)
 {
+	elapsed_time += dt;
 	//==========Enemy movements==========
 	for (int counter = 0; counter < 10; counter++)
 	{
@@ -234,8 +237,6 @@ void Shooting::Update(double dt)
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
 
-	Camera3.Update(dt);
-
 	if ((Camera3.position.z < 6) && (Application::IsKeyPressed('E')))
 		pickUpGun = true;
 
@@ -246,6 +247,40 @@ void Shooting::Update(double dt)
 		light[0].power = 5;
 		light[0].type = Light::LIGHT_POINT;
 	}
+//=======================BULLET MOVEMENTS===================
+	if (Application::IsKeyPressed(VK_LBUTTON) && pickUpGun && (!reload) && elapsed_time > bounce_time)
+	{
+		bullet[bulletCount].pos = Camera3.position;
+		original[bulletCount].pos = bullet[bulletCount].pos;
+
+		bullet[bulletCount].vel = (Camera3.target - Camera3.position).Normalized() * 3;
+		rotateLasHori = horizontalRotation;
+		rotateLasVert = verticalRotation;
+
+		moveLaser[bulletCount] = true;
+		bulletCount++;
+		bounce_time = elapsed_time + 0.2;
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		if ((original[i].pos - bullet[i].pos).Length() > 50)
+			moveLaser[i] = false;
+		else if (moveLaser[i])
+			bullet[i].pos += bullet[i].vel;
+	}
+	if (bulletCount >= 5)
+	{
+		bulletCount = 0;
+		reload = true;
+		bounce_time = elapsed_time + 3;
+	}
+	if (elapsed_time > bounce_time && reload)
+	{
+		reload = false;
+	}
+//===========================================================
+	Camera3.Update(dt, &horizontalRotation, &verticalRotation);
 }
 
 void Shooting::Render()
@@ -334,22 +369,118 @@ void Shooting::Render()
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(Camera3.target.x, Camera3.target.y, Camera3.target.z);
+		modelStack.Rotate(horizontalRotation, 0, 1, 0);
+		modelStack.Rotate(verticalRotation, 1, 0, 0);
 
 		modelStack.PushMatrix();
-	//	modelStack.Translate(0, 0, -5);
-		modelStack.Scale(0.25, 0.25, 0.25);
+		modelStack.Translate(0.3, -0.2, -0.2);
+		modelStack.Rotate(10, 0, 1, 0);
+		modelStack.Scale(0.15, 0.15, 0.15);
 		RenderMesh(meshList[GEO_GUN], true);
 		modelStack.PopMatrix();
 
 		modelStack.PopMatrix();
 	}
+//==============================BULLETS===================================
+	if (moveLaser[0])
+	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(bullet[0].pos.x, bullet[0].pos.y, bullet[0].pos.z);
+		modelStack.Rotate(rotateLasHori, 0, 1, 0);
+		modelStack.Rotate(rotateLasVert, 1, 0, 0);
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0.6, -0.4, 0);
+		modelStack.Rotate(5, 0, 1, 0);
+		modelStack.Scale(0.1, 0.1, 0.8);
+		RenderMesh(meshList[GEO_BULLET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PopMatrix();
+	}
+
+	if (moveLaser[1])
+	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(bullet[1].pos.x, bullet[1].pos.y, bullet[1].pos.z);
+		modelStack.Rotate(rotateLasHori, 0, 1, 0);
+		modelStack.Rotate(rotateLasVert, 1, 0, 0);
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0.6, -0.4, 0);
+		modelStack.Rotate(5, 0, 1, 0);
+		modelStack.Scale(0.1, 0.1, 0.8);
+		RenderMesh(meshList[GEO_BULLET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PopMatrix();
+	}
+
+	if (moveLaser[2])
+	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(bullet[2].pos.x, bullet[2].pos.y, bullet[2].pos.z);
+		modelStack.Rotate(rotateLasHori, 0, 1, 0);
+		modelStack.Rotate(rotateLasVert, 1, 0, 0);
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0.6, -0.4, 0);
+		modelStack.Rotate(5, 0, 1, 0);
+		modelStack.Scale(0.1, 0.1, 0.8);
+		RenderMesh(meshList[GEO_BULLET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PopMatrix();
+	}
+
+	if (moveLaser[3])
+	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(bullet[3].pos.x, bullet[3].pos.y, bullet[3].pos.z);
+		modelStack.Rotate(rotateLasHori, 0, 1, 0);
+		modelStack.Rotate(rotateLasVert, 1, 0, 0);
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0.6, -0.4, 0);
+		modelStack.Rotate(5, 0, 1, 0);
+		modelStack.Scale(0.1, 0.1, 0.8);
+		RenderMesh(meshList[GEO_BULLET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PopMatrix();
+	}
+
+	if (moveLaser[4])
+	{
+
+		modelStack.PushMatrix();
+		modelStack.Translate(bullet[4].pos.x, bullet[4].pos.y, bullet[4].pos.z);
+		modelStack.Rotate(rotateLasHori, 0, 1, 0);
+		modelStack.Rotate(rotateLasVert, 1, 0, 0);
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0.6, -0.4, 0);
+		modelStack.Rotate(5, 0, 1, 0);
+		modelStack.Scale(0.1, 0.1, 0.8);
+		RenderMesh(meshList[GEO_BULLET], true);
+		modelStack.PopMatrix();
+
+		modelStack.PopMatrix();
+	}
+//============================================================================
 
 
 	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
 //	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
-	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
+	if (reload)
+		RenderTextOnScreen(meshList[GEO_TEXT], "RELOADING...", Color(1, 0, 0), 5, 3, 6.5);
+//	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
 }
 
 void Shooting::RenderSkybox()
