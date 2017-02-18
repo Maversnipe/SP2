@@ -227,8 +227,7 @@ void StudioProject::Update(double dt)
 		&& (camera3.position.z - 2 > building[0].z + 25) && (camera3.position.z + 2 < building[0].z + 35)
 		&& (Application::IsKeyPressed('E')) && (elapsed_time > bounce_time))
 	{
-		std::cout << "WTF" << std::endl;
-		/*changeScene = 2;*/
+		changeScene = 2;
 		bounce_time = elapsed_time + 0.2;
 	}
 
