@@ -113,6 +113,9 @@ private:
 
 	Vector3 building[4] = {};
 
+	float elapsed_time = 0.0;
+	float bounce_time = 0.0;
+
 	float x = 0.0;
 	float y = 0.0;
 	float z = 0.0;

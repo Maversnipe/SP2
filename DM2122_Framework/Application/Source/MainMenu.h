@@ -18,7 +18,6 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
-
 	Camera camera;
 
 	enum GEOMETRY_TYPE
@@ -90,8 +89,7 @@ public:
 
 	float rotateCaro;
 	float scaleText;
-
-	int select = 0;
+	int selectScene = 0;
 	float bounce_time = 0.0;
 	float elapsed_time = 0.0;
 

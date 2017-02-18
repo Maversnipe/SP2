@@ -7,6 +7,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 
+
 MainMenu::MainMenu()
 {
 }
@@ -179,16 +180,26 @@ void MainMenu::Update(double dt)
 	rotateCaro += 40 * dt;
 	if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > bounce_time)) // Down
 	{
-		if (select >= 0 && select < 3)
-			select++;
-		bounce_time = elapsed_time + 0.3;
+		if (selectScene >= 0 && selectScene < 3)
+		{
+			selectScene++;
+		}
+		bounce_time = elapsed_time + 0.2;
 	}
 
 	if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > bounce_time))// Up
 	{
-		if (select > 0 && select < 4)
-			select--;
-		bounce_time = elapsed_time + 0.3;
+		if (selectScene > 0 && selectScene < 4)
+		{
+			selectScene--;
+		}
+		bounce_time = elapsed_time + 0.2;
+	}
+
+	if ((Application::IsKeyPressed(VK_RETURN)) && (selectScene == 0) && (elapsed_time > bounce_time))
+	{
+		changeScene = 1;
+		bounce_time = elapsed_time + 0.2;
 	}
 }
 
@@ -281,7 +292,7 @@ void MainMenu::Render()
 
 	RenderMeshOnScreen(meshList[GEO_TITLE], 40, 50, 75, 75);//No transform needed
 
-	if (select == 0)
+	if (selectScene == 0)
 	{
 		RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 40, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
@@ -289,7 +300,7 @@ void MainMenu::Render()
 		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
 	}
 
-	if (select == 1)
+	if (selectScene == 1)
 	{
 		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 30, 30, 30);//No transform needed
@@ -297,20 +308,20 @@ void MainMenu::Render()
 		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
 	}
 
-	if (select == 2)
+	if (selectScene == 2)
 	{
 		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_ARROWBOARD], 20, 20, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
 	}
-			if (select == 3)
+			if (selectScene == 3)
 	{
 		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_BOARD], 20, 20, 30, 30);//No transform needed
 		RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 10, 30, 30);//No transform needed
-	}
+	}
 }
 
 void MainMenu::RenderSkybox()

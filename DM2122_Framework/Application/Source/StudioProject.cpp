@@ -174,6 +174,8 @@ void StudioProject::Init()
 
 void StudioProject::Update(double dt)
 {
+	elapsed_time += dt;
+
 	x = camera3.position.x;
 	y = camera3.position.y;
 	z = camera3.position.z;
@@ -220,6 +222,19 @@ void StudioProject::Update(double dt)
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
 	rotateCaro += 40 * dt;
+
+	if ((camera3.position.x - 2 > building[0].x - 10) && (camera3.position.x + 2 < building[0].x + 15)
+		&& (camera3.position.z - 2 > building[0].z + 25) && (camera3.position.z + 2 < building[0].z + 35)
+		&& (Application::IsKeyPressed('E')) && (elapsed_time > bounce_time))
+	{
+		changeScene = 2;
+		bounce_time = elapsed_time + 0.2;
+	}
+
+	if (Application::IsKeyPressed('E'))
+	{ // So that it does not sense that user pressed E when entering mini-games
+	}
+	
 	camera3.Update(dt);
 }
 
