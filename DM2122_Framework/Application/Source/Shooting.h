@@ -31,6 +31,14 @@ public:
 		GEO_QUAD,
 
 		GEO_TEXT,
+		GEO_LASER0,
+		GEO_LASER1,
+		GEO_LASER2,
+		GEO_LASER3,
+		GEO_LASER4,
+		GEO_LASER5,
+		GEO_HEALTH,
+		GEO_ROCKS,
 		GEO_CUBE,
 		GEO_LIGHTBALL,
 		GEO_LEFT,
@@ -86,6 +94,8 @@ public:
 	float scaleAll;
 	bool dead = false;
 	int HP = 100;
+	int health = 3;
+	int money = 0;
 
 	float horizontalRotation;
 	float verticalRotation;

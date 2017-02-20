@@ -154,8 +154,35 @@ void Shooting::Init()
 	meshList[GEO_GUN]->textureID = LoadTGA("Image//Shooting//gun.tga");
 
 	meshList[GEO_BULLET] = MeshBuilder::GenerateSphere("bullet", Color(1, 0, 0), 18, 36, 1);
-	//=====================================================================================
+	//===================================LASERS DISPLAY=====================================
 
+
+	meshList[GEO_LASER0] = MeshBuilder::GenerateQuad("laser0", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LASER0]->textureID = LoadTGA("Image//Shooting//laser0.tga");
+
+	meshList[GEO_LASER1] = MeshBuilder::GenerateQuad("laser1", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LASER1]->textureID = LoadTGA("Image//Shooting//laser1.tga");
+
+	meshList[GEO_LASER2] = MeshBuilder::GenerateQuad("laser2", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LASER2]->textureID = LoadTGA("Image//Shooting//laser2.tga");
+
+	meshList[GEO_LASER3] = MeshBuilder::GenerateQuad("laser3", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LASER3]->textureID = LoadTGA("Image//Shooting//laser3.tga");
+
+	meshList[GEO_LASER4] = MeshBuilder::GenerateQuad("laser4", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LASER4]->textureID = LoadTGA("Image//Shooting//laser4.tga");
+
+	meshList[GEO_LASER5] = MeshBuilder::GenerateQuad("laser5", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LASER5]->textureID = LoadTGA("Image//Shooting//laser5.tga");
+
+	//=======================================HEALTH=========================================
+	meshList[GEO_HEALTH] = MeshBuilder::GenerateQuad("health", Color(1, 1, 1), 1, 1);
+	meshList[GEO_HEALTH]->textureID = LoadTGA("Image//health.tga");
+
+	//=======================================ROCK===========================================
+	meshList[GEO_ROCKS] = MeshBuilder::GenerateQuad("rock", Color(1, 1, 1), 1, 1);
+	meshList[GEO_ROCKS]->textureID = LoadTGA("Image//starRocks.tga");
+	//======================================================================================
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
@@ -273,7 +300,7 @@ void Shooting::Update(double dt)
 	{
 		bulletCount = 0;
 		reload = true;
-		bounce_time = elapsed_time + 3;
+		bounce_time = elapsed_time + 2.5;
 	}
 	if (elapsed_time > bounce_time && reload)
 	{
@@ -394,7 +421,7 @@ void Shooting::Render()
 		modelStack.Translate(0.6, -0.4, 0);
 		modelStack.Rotate(5, 0, 1, 0);
 		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], true);
+		RenderMesh(meshList[GEO_BULLET], false);
 		modelStack.PopMatrix();
 
 		modelStack.PopMatrix();
@@ -412,7 +439,7 @@ void Shooting::Render()
 		modelStack.Translate(0.6, -0.4, 0);
 		modelStack.Rotate(5, 0, 1, 0);
 		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], true);
+		RenderMesh(meshList[GEO_BULLET], false);
 		modelStack.PopMatrix();
 
 		modelStack.PopMatrix();
@@ -430,7 +457,7 @@ void Shooting::Render()
 		modelStack.Translate(0.6, -0.4, 0);
 		modelStack.Rotate(5, 0, 1, 0);
 		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], true);
+		RenderMesh(meshList[GEO_BULLET], false);
 		modelStack.PopMatrix();
 
 		modelStack.PopMatrix();
@@ -448,7 +475,7 @@ void Shooting::Render()
 		modelStack.Translate(0.6, -0.4, 0);
 		modelStack.Rotate(5, 0, 1, 0);
 		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], true);
+		RenderMesh(meshList[GEO_BULLET], false);
 		modelStack.PopMatrix();
 
 		modelStack.PopMatrix();
@@ -466,7 +493,7 @@ void Shooting::Render()
 		modelStack.Translate(0.6, -0.4, 0);
 		modelStack.Rotate(5, 0, 1, 0);
 		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], true);
+		RenderMesh(meshList[GEO_BULLET], false);
 		modelStack.PopMatrix();
 
 		modelStack.PopMatrix();
@@ -480,6 +507,32 @@ void Shooting::Render()
 //	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
 	if (reload)
 		RenderTextOnScreen(meshList[GEO_TEXT], "RELOADING...", Color(1, 0, 0), 5, 3, 6.5);
+
+	if (!reload && pickUpGun)
+	switch (bulletCount)
+	{
+	case 0:
+		RenderMeshOnScreen(meshList[GEO_LASER5], 65, 5, 20, 20);
+		break;
+	case 1:
+		RenderMeshOnScreen(meshList[GEO_LASER4], 65, 5, 20, 20);
+		break;
+	case 2:
+		RenderMeshOnScreen(meshList[GEO_LASER3], 65, 5, 20, 20);
+		break;
+	case 3:
+		RenderMeshOnScreen(meshList[GEO_LASER2], 65, 5, 20, 20);
+		break;
+	case 4:
+		RenderMeshOnScreen(meshList[GEO_LASER1], 65, 5, 20, 20);
+		break;
+	}
+
+	else if (reload)
+		RenderMeshOnScreen(meshList[GEO_LASER0], 65, 5, 20, 20);
+
+	RenderMeshOnScreen(meshList[GEO_HEALTH], 6, 57, 4, 4);
+	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
 //	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
 }
 
