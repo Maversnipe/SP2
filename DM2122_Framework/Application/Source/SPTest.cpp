@@ -11,7 +11,10 @@ using namespace std;
 //char mapArray[500][500] = {""};
 SPTest::SPTest()
 {
-	enemySize = 30;
+	enemySize = 10;
+	enemyRadius = 0.5;
+	ObjectRadius = 1.0;
+	enemySpeed = 20;
 }
 
 SPTest::~SPTest()
@@ -167,6 +170,12 @@ void SPTest::Init()
 		enemyPos[counter].Set(i, 0, j);
 		enemyDead[counter] = false;
 	}
+	for (int counter = 0; counter < enemySize; counter++)
+	{
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		ObjectPos[counter].Set(i, 0, j);
+	}
 }
 
 void SPTest::Update(double dt)
@@ -177,33 +186,95 @@ void SPTest::Update(double dt)
 	{
 		if (enemyDead[counter] == false)
 		{
-			if ((Camera4.position - enemyPos[counter]).Length() > 1)
+			if ((Camera4.position - enemyPos[counter]).Length() > 3 /*&& (Camera4.position - enemyPos[counter]).Length() < 30*/)
 			{
 				int test = 0;
-				Vector3 dirVec = Camera4.position - enemyPos[counter];
-				enemyRotation[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
+				int test2 = 0;
+				int counter3 = 0;
+
 				for (int counter2 = 0; counter2 < enemySize; counter2++)
 				{
-					if (counter != counter2)
+					for (int counter3 = 0; counter3 < enemySize; counter3++)
 					{
-						if (((enemyPos[counter] + (dirVec*dt)) - enemyPos[counter2]).Length()>1)
+						dirVec = (Camera4.position - enemyPos[counter]).Normalize();
+						enemyRotation1[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
+						if (counter != counter2)
 						{
-							test = 1;
+							if (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - enemyPos[counter2]).Length()>enemyRadius
+								&& ((enemyPos[counter]) - enemyPos[counter2]).Length()>enemyRadius
+								&& (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius)
+								&& (((enemyPos[counter]) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius))
+							{
+								test = 1;
+							}
+							else
+							{
+								for (int counter4 = 0; counter4 < enemySize; counter4++)
+								{
+									if (counter4 != counter)
+									{
+										if ((enemyPos[counter] - enemyPos[counter4]).Length() < enemyRadius)
+										{
+											if (rand() % 2< 1)
+											{
+												enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+											}
+											else
+											{
+												enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
+											}
+										}
+									}
+								}
+								if ((((enemyPos[counter]) + (dirVec*dt * enemySpeed) - ObjectPos[counter3]).Length() <= ObjectRadius + enemyRadius))
+								{
+									float z = dirVec.z;
+									float x = dirVec.x;
+									if (z < 0)
+									{
+										z = z*-1;
+									}
+									if (x < 0)
+									{
+										x = x*-1;
+									}
+									if (z <= x)
+									{
+										test2 = 1;
+									}
+									if (z > x)
+									{
+										test2 = 2;
+									}
+								}
+								test = 2;
+								break;
+							}
 						}
-						else
-						{
-							test = 2;
-							break;
-						}
+					}
+					if (test == 2)
+					{
+						break;
 					}
 				}
 				if (test == 1)
 				{
-					enemyPos[counter] += dirVec * dt;
+					enemyPos[counter] += dirVec * dt*enemySpeed;
 				}
 				else
 				{
-					enemyPos[counter] = enemyPos[counter];
+					if (test2 == 1)
+					{
+						enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
+					}
+					else if (test2 == 2)
+					{
+						enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+					}
+					else
+					{
+						enemyPos[counter] = enemyPos[counter];
+					}
 				}
 			}
 			else
@@ -315,11 +386,21 @@ void SPTest::Render()
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
-			modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+			modelStack.Rotate(enemyRotation1[i], 0, 1, 0);
+			modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
 			modelStack.Scale(0.25, 0.25, 0.25);
 			RenderMesh(meshList[GEO_ENEMY], true);
 			modelStack.PopMatrix();
 		}
+	}
+	for (int i = 0; i < enemySize; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
+		//modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CUBE], true);
+		modelStack.PopMatrix();
 	}
 
 	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);

@@ -115,9 +115,15 @@ private:
 	std::string framesPerSec = "";
 
 	int enemySize;
-	float enemyRotation[100] = {};
+	float enemySpeed;
+	float enemyRadius;
+	float ObjectRadius;
+	float enemyRotation1[100] = {};
+	float enemyRotation2[100] = {};
 
+	Vector3 dirVec;
 	Vector3 enemyPos[100] = {};
+	Vector3 ObjectPos[100] = {};
 	bool enemyDead[50];
 	float RandomNumber(float Min, float Max);
 };

@@ -106,20 +106,8 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-<<<<<<< HEAD
 	SceneManager::getInstance()->AddScene(new StudioProject()); // Main Carnival Scene is scene 1
 	SceneManager::getInstance()->AddScene(new SPTest()); // SPTest Scene is scene 2
-=======
-//	Scene *scene1 = new SceneText();
-//	Scene *scene2 = new SceneUI();
-//	Scene *scene = scene1;
-<<<<<<< HEAD
-	Scene *scene = new Shooting();
-=======
-	Scene *scene = new SPTest();
->>>>>>> 39af11f9afd0f523e2caef54738e4028d7621bcb
-	scene->Init();
->>>>>>> 064bf5a78e965fc79fce392ce339d904d71f932c
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
