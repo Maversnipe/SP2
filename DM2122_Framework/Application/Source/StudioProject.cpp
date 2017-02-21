@@ -1,4 +1,5 @@
 #include "StudioProject.h"
+#include "Money.h"
 #include "GL\glew.h"
 
 #include "shader.hpp"
@@ -156,7 +157,10 @@ void StudioProject::Init()
 
 	meshList[GEO_CAROBOTTOM] = MeshBuilder::GenerateOBJ("carobottom", "OBJ//MainScene//CaroBase.obj");
 	meshList[GEO_CAROBOTTOM]->textureID = LoadTGA("Image//MainScene//Caro.tga");
-
+	//=======================================ROCK===========================================
+	meshList[GEO_ROCKS] = MeshBuilder::GenerateQuad("rock", Color(1, 1, 1), 1, 1);
+	meshList[GEO_ROCKS]->textureID = LoadTGA("Image//starRocks.tga");
+	//======================================================================================
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
@@ -170,6 +174,8 @@ void StudioProject::Init()
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
+
+
 }
 
 void StudioProject::Update(double dt)
@@ -234,7 +240,44 @@ void StudioProject::Update(double dt)
 	if (Application::IsKeyPressed('E'))
 	{ // So that it does not sense that user pressed E when entering mini-games
 	}
-	
+//=========================================MONEY============================================	
+	if (Application::IsKeyPressed('V'))
+		Money::getInstance()->deductMoney(3);
+
+	if (Money::getInstance()->notEnoughMoney)
+	{
+		noMoney = true;
+		displayMoney = true;
+		Money::getInstance()->notEnoughMoney = false;
+	}
+	if (flash_money_time < 3 && displayMoney)
+	{
+		if (bounce_time_money > 0 && !noMoney)
+		{
+			bounce_time_money -= 1.5 * dt;
+			if (bounce_time_money - 1.5 * dt <= 0)
+				noMoney = true;
+		}
+
+		else if (bounce_time_money < 1 && noMoney)
+		{
+			bounce_time_money += 1.5 * dt;
+			if (bounce_time_money + 1.5 * dt >= 1)
+				noMoney = false;
+		}
+		flash_money_time += 1 * dt;
+	}
+
+	else
+	{
+		flash_money_time = 0.0;
+		bounce_time_money = 0.0;
+		displayMoney = false;
+		noMoney = false;
+	}
+//===========================================================================================		
+
+
 	camera3.Update(dt);
 }
 
@@ -328,10 +371,13 @@ void StudioProject::Render()
 	RenderMesh(meshList[GEO_CAROTOP], true);
 	modelStack.PopMatrix();
 
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
+	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+	if (noMoney)
+		RenderTextOnScreen(meshList[GEO_TEXT], "Not enough money!" , Color(1, 0, 0), 2, 23, 26);
 	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
-	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
 }
 
 void StudioProject::RenderSkybox()

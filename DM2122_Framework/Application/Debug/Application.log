@@ -1,41 +1,18 @@
-﻿Build started 20/2/2017 6:24:07 PM.
+﻿Build started 21/2/2017 6:33:23 PM.
      1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Shooting.cpp
-         Shooting.cpp
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(135): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(136): warning C4351: new behavior: elements of array 'Shooting::enemyRotation2' will be default initialized
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(149): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(206): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(226): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(228): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(244): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(248): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(253): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(286): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(292): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(296): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(317): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(388): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(402): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(471): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(472): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(491): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(493): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(509): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(511): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(527): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(529): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(545): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(547): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(563): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(565): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(581): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(583): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(678): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(686): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(781): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(782): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\StudioProject.cpp
+         StudioProject.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(183): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(230): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(237): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(257): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(264): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(268): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(413): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(421): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(514): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(515): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
          D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
@@ -49,6 +26,7 @@
          Debug\MainMenu.obj
          Debug\Mesh.obj
          Debug\MeshBuilder.obj
+         Debug\Money.obj
          Debug\SceneManager.obj
          Debug\shader.obj
          Debug\Shooting.obj
@@ -61,4 +39,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.10
+Time Elapsed 00:00:01.02

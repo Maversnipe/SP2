@@ -1,4 +1,5 @@
 #include "Shooting.h"
+#include "Money.h"
 #include "GL\glew.h"
 
 #include "shader.hpp"
@@ -642,6 +643,7 @@ void Shooting::Render()
 		RenderMeshOnScreen(meshList[GEO_LASER0], 65, 5, 20, 20);
 //================================================================================
 	RenderMeshOnScreen(meshList[GEO_HEALTH], 6, 57, 4, 4);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
 	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
 }
 
