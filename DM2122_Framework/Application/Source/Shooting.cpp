@@ -11,6 +11,10 @@ using namespace std;
 //char mapArray[500][500] = {""};
 Shooting::Shooting()
 {
+	enemySize = 50;
+	enemyRadius = 0.5;
+	ObjectRadius = 1.0;
+	enemySpeed = 20;
 }
 
 Shooting::~Shooting()
@@ -108,7 +112,7 @@ void Shooting::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	// Initialise Camera
-	Camera3.Init(Vector3(0, 0, 200), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	Camera.Init(Vector3(0, 0, 200), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
@@ -142,7 +146,8 @@ void Shooting::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
-	meshList[GEO_ENEMY] = MeshBuilder::GenerateCube("enemy", Color(1, 0, 0), 1, 1, 1);
+	meshList[GEO_ENEMY] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
+	meshList[GEO_ENEMY]->textureID = LoadTGA("OBJ//enemy.tga");
 
 
 	//====================================OBJECTS==========================================
@@ -187,12 +192,12 @@ void Shooting::Init()
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
 
-	for (int counter = 0; counter < 10; counter++)
+	for (int counter = 0; counter < enemySize; counter++)
 	{
 		float i = RandomNumber(-250, 250);
 		float j = RandomNumber(-250, 250);
 		enemyPos[counter].Set(i, 0, j);
-		enemyDisappear[counter] = false;
+		enemyDead[counter] = false;
 	}
 }
 
@@ -200,27 +205,121 @@ void Shooting::Update(double dt)
 {
 	elapsed_time += dt;
 	//==========Enemy movements==========
-	for (int counter = 0; counter < 10; counter++)
+	for (int counter = 0; counter < enemySize; counter++)
 	{
-		if (enemyDisappear[counter] == false)
+		if (enemyDead[counter] == false)
 		{
-			if ((Camera3.position - enemyPos[counter]).Length() > 10)
+			if ((Camera.position - enemyPos[counter]).Length() > 3)
 			{
-				Vector3 dirVec = Camera3.position - enemyPos[counter];
-				enemyPos[counter] += dirVec * dt;
+				int test = 0;
+				int test2 = 0;
+				int counter3 = 0;
 
+				for (int counter2 = 0; counter2 < enemySize; counter2++)
+				{
+					for (int counter3 = 0; counter3 < enemySize; counter3++)
+					{
+						dirVec = (Camera.position - enemyPos[counter]).Normalize();
+						enemyRotation1[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
+						if (counter != counter2)
+						{
+							if (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - enemyPos[counter2]).Length()>enemyRadius
+								&& ((enemyPos[counter]) - enemyPos[counter2]).Length()>enemyRadius
+								&& (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius)
+								&& (((enemyPos[counter]) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius)
+								&& (enemyPos[counter] - Camera.position).Length() < 50) //Added length sensor so enmies will only move if character is in radar
+							{
+								test = 1;
+							}
+							else
+							{
+								for (int counter4 = 0; counter4 < enemySize; counter4++)
+								{
+									if (counter4 != counter)
+									{
+										if ((enemyPos[counter] - enemyPos[counter4]).Length() < enemyRadius)
+										{
+											if (rand() % 2< 1)
+											{
+												enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+											}
+											else
+											{
+												enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
+											}
+										}
+									}
+								}
+								if ((((enemyPos[counter]) + (dirVec*dt * enemySpeed) - ObjectPos[counter3]).Length() <= ObjectRadius + enemyRadius))
+								{
+									float z = dirVec.z;
+									float x = dirVec.x;
+									if (z < 0)
+									{
+										z = z*-1;
+									}
+									if (x < 0)
+									{
+										x = x*-1;
+									}
+									if (z <= x)
+									{
+										test2 = 1;
+									}
+									if (z > x)
+									{
+										test2 = 2;
+									}
+								}
+								test = 2;
+								break;
+							}
+						}
+					}
+					if (test == 2)
+					{
+						break;
+					}
+				}
+				if (test == 1)
+				{
+					enemyPos[counter] += dirVec * dt*enemySpeed;
+				}
+				else
+				{
+					if (test2 == 1)
+					{
+						enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
+					}
+					else if (test2 == 2)
+					{
+						enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+					}
+					else
+					{
+						enemyPos[counter] = enemyPos[counter];
+					}
+				}
 			}
 			else
 				enemyPos[counter] = enemyPos[counter];
+		}
+		if (enemyDead[counter] == true)
+		{
+			enemyPos[counter] = {};
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			enemyPos[counter].Set(i, 0, j);
+			enemyDead[counter] = false;
 		}
 	}
 	//====================================
 	fps = 1.0f / dt;
 	framesPerSec = "FPS: " + std::to_string(fps);
 
-	x = Camera3.position.x;
-	y = Camera3.position.y;
-	z = Camera3.position.z;
+	x = Camera.position.x;
+	y = Camera.position.y;
+	z = Camera.position.z;
 	X = "X: " + std::to_string(x);
 	Y = "Y: " + std::to_string(y);
 	Z = "Z: " + std::to_string(z);
@@ -264,7 +363,7 @@ void Shooting::Update(double dt)
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
 
-	if ((Camera3.position.z < 6) && (Application::IsKeyPressed('E')))
+	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
 		pickUpGun = true;
 
 	if (pickUpGun)
@@ -277,10 +376,10 @@ void Shooting::Update(double dt)
 //=======================BULLET MOVEMENTS===================
 	if (Application::IsKeyPressed(VK_LBUTTON) && pickUpGun && (!reload) && elapsed_time > bounce_time)
 	{
-		bullet[bulletCount].pos = Camera3.position;
+		bullet[bulletCount].pos = Camera.position;
 		original[bulletCount].pos = bullet[bulletCount].pos;
 
-		bullet[bulletCount].vel = (Camera3.target - Camera3.position).Normalized() * 3;
+		bullet[bulletCount].vel = (Camera.target - Camera.position).Normalized() * 3;
 		rotateLasHori = horizontalRotation;
 		rotateLasVert = verticalRotation;
 
@@ -307,7 +406,7 @@ void Shooting::Update(double dt)
 		reload = false;
 	}
 //===========================================================
-	Camera3.Update(dt, &horizontalRotation, &verticalRotation);
+	Camera.Update(dt, &horizontalRotation, &verticalRotation);
 }
 
 void Shooting::Render()
@@ -318,7 +417,7 @@ void Shooting::Render()
 
 	//View Stack
 	viewStack.LoadIdentity();
-	viewStack.LookAt(Camera3.position.x, Camera3.position.y, Camera3.position.z, Camera3.target.x, Camera3.target.y, Camera3.target.z, Camera3.up.x, Camera3.up.y, Camera3.up.z);
+	viewStack.LookAt(Camera.position.x, Camera.position.y, Camera.position.z, Camera.target.x, Camera.target.y, Camera.target.z, Camera.up.x, Camera.up.y, Camera.up.z);
 	modelStack.LoadIdentity();
 
 	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top(); // Remember, matrix multiplication is the other way around
@@ -361,18 +460,7 @@ void Shooting::Render()
 	RenderMesh(meshList[GEO_FLOOR], true);
 	modelStack.PopMatrix();
 
-
-	for (int i = 0; i < 10; i++)
-	{
-		if (enemyDisappear[i] == false)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
-			RenderMesh(meshList[GEO_ENEMY], true);
-			modelStack.PopMatrix();
-		}
-	}
-
+	//---------------------------------------------------------------
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -3, 0);
@@ -395,7 +483,7 @@ void Shooting::Render()
 	if (pickUpGun)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(Camera3.target.x, Camera3.target.y, Camera3.target.z);
+		modelStack.Translate(Camera.target.x, Camera.target.y, Camera.target.z);
 		modelStack.Rotate(horizontalRotation, 0, 1, 0);
 		modelStack.Rotate(verticalRotation, 1, 0, 0);
 
@@ -498,13 +586,35 @@ void Shooting::Render()
 
 		modelStack.PopMatrix();
 	}
-//============================================================================
-
+//===============================ENEMIES=================================
+	for (int i = 0; i < enemySize; i++)
+	{
+		if (enemyDead[i] == false)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
+			modelStack.Rotate(enemyRotation1[i], 0, 1, 0);
+			modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
+			modelStack.Scale(0.25, 0.25, 0.25);
+			RenderMesh(meshList[GEO_ENEMY], true);
+			modelStack.PopMatrix();
+		}
+	}
+//===============================TREASURE=================================
+	for (int i = 0; i < enemySize; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_CUBE], true);
+		modelStack.PopMatrix();
+	}
+//================================================================================
 
 	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
-//	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
+//===============================GUN'S LASER CAPACITY=============================
 	if (reload)
 		RenderTextOnScreen(meshList[GEO_TEXT], "RELOADING...", Color(1, 0, 0), 5, 3, 6.5);
 
@@ -530,10 +640,9 @@ void Shooting::Render()
 
 	else if (reload)
 		RenderMeshOnScreen(meshList[GEO_LASER0], 65, 5, 20, 20);
-
+//================================================================================
 	RenderMeshOnScreen(meshList[GEO_HEALTH], 6, 57, 4, 4);
 	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
-//	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
 }
 
 void Shooting::RenderSkybox()

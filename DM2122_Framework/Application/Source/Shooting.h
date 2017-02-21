@@ -22,7 +22,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	ShootingCamera Camera3;
+	ShootingCamera Camera;
 
 	enum GEOMETRY_TYPE
 	{
@@ -124,8 +124,24 @@ private:
 
 	float fps = 0.0;
 	std::string framesPerSec = "";
-	Vector3 enemyPos[10] = {};
-	bool enemyDisappear[10];
+
+
+	//Enemies
+
+	int enemySize;
+	float enemySpeed;
+	float enemyRadius;
+	float ObjectRadius;
+	float enemyRotation1[100] = {};
+	float enemyRotation2[100] = {};
+
+	Vector3 dirVec;
+	Vector3 enemyPos[100] = {};
+	Vector3 ObjectPos[100] = {};
+	bool enemyDead[50];
+
+	//===
+
 	//Bullet
 	Bullet bullet[5];
 	Bullet original[5];
@@ -134,9 +150,10 @@ private:
 	bool reload = false;
 	float elapsed_time = 0.f;
 	float bounce_time = 0.f;
-
 	float rotateLasHori = 0.f;
 	float rotateLasVert = 0.f;
+
+
 	float RandomNumber(float Min, float Max);
 	bool pickUpGun = false;
 
