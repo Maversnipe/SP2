@@ -68,7 +68,11 @@
     <ClCompile Include="Source\ShootingCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Source\Platformer.cpp">
+=======
     <ClCompile Include="Source\Money.cpp">
+>>>>>>> 9a7d03074239490e74cf76715687375d5c5be9ac
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -142,10 +146,14 @@
     <ClInclude Include="Source\ShootingCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Source\Platformer.h">
+=======
     <ClInclude Include="Source\Money.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Bullet.h">
+>>>>>>> 9a7d03074239490e74cf76715687375d5c5be9ac
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
