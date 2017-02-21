@@ -16,6 +16,7 @@
 #include "SPTest.h"
 #include "MainMenu.h"
 #include "Shooting.h"
+#include "Platformer.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -107,7 +108,8 @@ void Application::Run()
 {
 	//Main Loop
 	SceneManager::getInstance()->AddScene(new StudioProject()); // Main Carnival Scene is scene 1
-	SceneManager::getInstance()->AddScene(new SPTest()); // SPTest Scene is scene 2
+	SceneManager::getInstance()->AddScene(new Shooting()); // Shooting Scene is scene 2
+	SceneManager::getInstance()->AddScene(new Platformer()); // Platformer Scene is scene 3
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
