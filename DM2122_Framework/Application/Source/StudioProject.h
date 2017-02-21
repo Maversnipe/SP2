@@ -47,6 +47,7 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 		GEO_GROUND,
+		GEO_ROCKS,
 		NUM_GEOMETRY,
 	};
 
@@ -115,6 +116,10 @@ private:
 
 	float elapsed_time = 0.0;
 	float bounce_time = 0.0;
+	float bounce_time_money = 0.0;
+	float flash_money_time = 0.0;
+	bool noMoney = false;
+	bool displayMoney = false;
 
 	float x = 0.0;
 	float y = 0.0;

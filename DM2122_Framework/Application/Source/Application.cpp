@@ -17,6 +17,7 @@
 #include "MainMenu.h"
 #include "Shooting.h"
 #include "Platformer.h"
+#include "Money.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -106,6 +107,7 @@ void Application::Init()
 
 void Application::Run()
 {
+	Money::getInstance()->setMoney(30);
 	//Main Loop
 	SceneManager::getInstance()->AddScene(new StudioProject()); // Main Carnival Scene is scene 1
 	SceneManager::getInstance()->AddScene(new Shooting()); // Shooting Scene is scene 2
