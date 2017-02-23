@@ -331,7 +331,7 @@ void SPTest::Update(double dt)
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
 
-	Camera4.Update(dt);
+	Camera4.Update(dt, &rotateAngle);
 }
 
 void SPTest::Render()

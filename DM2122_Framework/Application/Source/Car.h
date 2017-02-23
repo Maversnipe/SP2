@@ -4,8 +4,8 @@
 class Car
 {
 public:
-	Car();
-	~Car();
+	Car(){}
+	~Car(){}
 	int health = 100;
 	float fuel = 10000.0f;
 private:

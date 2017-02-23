@@ -112,6 +112,7 @@
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\Camera3.h" />
     <ClInclude Include="Source\Camera4.h" />
+    <ClInclude Include="Source\Car.h" />
     <ClInclude Include="Source\Platformer.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
