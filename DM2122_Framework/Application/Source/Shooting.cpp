@@ -12,10 +12,10 @@ using namespace std;
 //char mapArray[500][500] = {""};
 Shooting::Shooting()
 {
-	enemySize = 50;
+	enemySize = 70;
 	enemyRadius = 0.5;
 	ObjectRadius = 1.0;
-	enemySpeed = 20;
+	enemySpeed = 5;
 }
 
 Shooting::~Shooting()
@@ -192,7 +192,7 @@ void Shooting::Init()
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
-
+	//For randomising enemy
 	for (int counter = 0; counter < enemySize; counter++)
 	{
 		float i = RandomNumber(-250, 250);
@@ -200,11 +200,16 @@ void Shooting::Init()
 		enemyPos[counter].Set(i, 0, j);
 		enemyDead[counter] = false;
 	}
+	//For randomising treasure
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		ObjectPos[0].Set(i, 0, j);
 }
 
 void Shooting::Update(double dt)
 {
 	elapsed_time += dt;
+
 	//==========Enemy movements==========
 	for (int counter = 0; counter < enemySize; counter++)
 	{
@@ -218,16 +223,12 @@ void Shooting::Update(double dt)
 
 				for (int counter2 = 0; counter2 < enemySize; counter2++)
 				{
-					for (int counter3 = 0; counter3 < enemySize; counter3++)
-					{
-						dirVec = (Camera.position - enemyPos[counter]).Normalize();
+					dirVec = (Camera.position - enemyPos[counter]).Normalize();
 						enemyRotation1[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
 						if (counter != counter2)
 						{
 							if (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - enemyPos[counter2]).Length()>enemyRadius
 								&& ((enemyPos[counter]) - enemyPos[counter2]).Length()>enemyRadius
-								&& (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius)
-								&& (((enemyPos[counter]) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius)
 								&& (enemyPos[counter] - Camera.position).Length() < 50) //Added length sensor so enmies will only move if character is in radar
 							{
 								test = 1;
@@ -251,32 +252,10 @@ void Shooting::Update(double dt)
 										}
 									}
 								}
-								if ((((enemyPos[counter]) + (dirVec*dt * enemySpeed) - ObjectPos[counter3]).Length() <= ObjectRadius + enemyRadius))
-								{
-									float z = dirVec.z;
-									float x = dirVec.x;
-									if (z < 0)
-									{
-										z = z*-1;
-									}
-									if (x < 0)
-									{
-										x = x*-1;
-									}
-									if (z <= x)
-									{
-										test2 = 1;
-									}
-									if (z > x)
-									{
-										test2 = 2;
-									}
-								}
 								test = 2;
 								break;
 							}
 						}
-					}
 					if (test == 2)
 					{
 						break;
@@ -315,6 +294,7 @@ void Shooting::Update(double dt)
 		}
 	}
 	//====================================
+
 	fps = 1.0f / dt;
 	framesPerSec = "FPS: " + std::to_string(fps);
 
@@ -374,6 +354,29 @@ void Shooting::Update(double dt)
 		light[0].power = 5;
 		light[0].type = Light::LIGHT_POINT;
 	}
+	int checkNoEnemies = 0;
+//==================CHECKING FOR ENEMIES NEAR CHARCTER============
+	for (int i = 0; i < enemySize; i++)
+	{
+		if ((Camera.position - enemyPos[i]).Length() <= 50)
+		{
+			enemyMarking.push_back(i); //To keep track of enemies within charater's radius
+			checkNoEnemies++;
+		}
+		else if (checkNoEnemies == 0 && (i + 1 == enemySize) )
+		{
+			enemyMarking.clear();
+		}
+	}
+
+	for (int i = 0; i < enemyMarking.size(); i++)
+	{
+		if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
+		{
+			health -= 1;
+			bounce_time_enemy_hit += elapsed_time + 2;
+		}
+	}
 //=======================BULLET MOVEMENTS===================
 	if (Application::IsKeyPressed(VK_LBUTTON) && pickUpGun && (!reload) && elapsed_time > bounce_time)
 	{
@@ -393,8 +396,21 @@ void Shooting::Update(double dt)
 	{
 		if ((original[i].pos - bullet[i].pos).Length() > 50)
 			moveLaser[i] = false;
+
 		else if (moveLaser[i])
+		{
 			bullet[i].pos += bullet[i].vel;
+			//Checking for collision between enemies within radius and bullet 
+			for (int counter = 0; counter < enemyMarking.size(); counter++)
+			{
+				if ((enemyPos[enemyMarking.at(counter)] - bullet[i].pos).Length() < 2)
+				{
+					enemyDead[enemyMarking.at(counter)] = true;
+					moveLaser[i] = false;
+				}
+			}
+		}
+
 	}
 	if (bulletCount >= 5)
 	{
@@ -406,6 +422,37 @@ void Shooting::Update(double dt)
 	{
 		reload = false;
 	}
+//====================FINDNIG TREASURE=======================
+	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
+	{
+		//For randomising treasure
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		ObjectPos[0].Set(i, 0, j);
+		if ((int)RandomNumber(0, 10) >= 6)
+		{
+			getMoney = true;
+			getHealth = false;
+		}
+		else
+		{
+			getMoney = false;
+			if (health < 5) //Limiting health 
+			getHealth = true;
+		}
+	}
+	if (getMoney)
+	{
+		amtMoney = (int)RandomNumber(0, 10);
+		Money::getInstance()->addMoney(amtMoney);
+		getMoney = false;
+	}
+	else if (getHealth)
+	{
+		health += 1;
+		getHealth = false;
+	}
+	
 //===========================================================
 	Camera.Update(dt, &horizontalRotation, &verticalRotation);
 }
@@ -602,14 +649,11 @@ void Shooting::Render()
 		}
 	}
 //===============================TREASURE=================================
-	for (int i = 0; i < enemySize; i++)
-	{
 		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
-		modelStack.Scale(1, 1, 1);
+		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
+		modelStack.Scale(3, 3, 3);
 		RenderMesh(meshList[GEO_CUBE], true);
 		modelStack.PopMatrix();
-	}
 //================================================================================
 
 	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
@@ -641,8 +685,14 @@ void Shooting::Render()
 
 	else if (reload)
 		RenderMeshOnScreen(meshList[GEO_LASER0], 65, 5, 20, 20);
-//================================================================================
-	RenderMeshOnScreen(meshList[GEO_HEALTH], 6, 57, 4, 4);
+	//================================================================================
+	{
+		int moveX = 6;
+		for (int i = 0; i < health; i++, moveX += 5)
+			RenderMeshOnScreen(meshList[GEO_HEALTH], moveX, 57, 4, 4);
+	}
+
+
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
 	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
 }

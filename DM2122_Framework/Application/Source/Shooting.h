@@ -10,6 +10,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "Bullet.h"
+#include <vector>
 
 class Shooting : public Scene
 {
@@ -129,6 +130,10 @@ private:
 	//Enemies
 
 	int enemySize;
+	int objectSize;
+	bool getMoney = false;
+	int amtMoney = 0;
+	bool getHealth = false;
 	float enemySpeed;
 	float enemyRadius;
 	float ObjectRadius;
@@ -137,8 +142,9 @@ private:
 
 	Vector3 dirVec;
 	Vector3 enemyPos[100] = {};
-	Vector3 ObjectPos[100] = {};
+	Vector3 ObjectPos[1] = {};
 	bool enemyDead[50];
+	std::vector <int> enemyMarking;
 
 	//===
 
@@ -150,6 +156,7 @@ private:
 	bool reload = false;
 	float elapsed_time = 0.f;
 	float bounce_time = 0.f;
+	float bounce_time_enemy_hit = 0.0;
 	float rotateLasHori = 0.f;
 	float rotateLasVert = 0.f;
 
