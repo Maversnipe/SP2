@@ -1,23 +1,7 @@
-﻿Build started 2/21/2017 10:25:45 PM.
+﻿Build started 2/22/2017 11:53:18 AM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Platformer.cpp Source\Money.cpp Source\SPTest.cpp
-         SPTest.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.h(121): warning C4351: new behavior: elements of array 'SPTest::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.h(122): warning C4351: new behavior: elements of array 'SPTest::enemyRotation2' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(203): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(205): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(220): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(224): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(229): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(262): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(268): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(272): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(293): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(448): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.cpp(543): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Money.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Platformer.cpp
          Application.cpp
      1>d:\git_root\sp2\dm2122_framework\application\source\sptest.h(121): warning C4351: new behavior: elements of array 'SPTest::enemyRotation1' will be default initialized
      1>d:\git_root\sp2\dm2122_framework\application\source\sptest.h(122): warning C4351: new behavior: elements of array 'SPTest::enemyRotation2' will be default initialized
@@ -56,11 +40,9 @@
          Debug\SPTest.obj
          Debug\StudioProject.obj
          Debug\Utiity.obj
-         LINK : D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe not found or not built by the last incremental link; performing full link
-     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
          Application.vcxproj -> D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe
      1>Done Building Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:09.59
+Time Elapsed 00:00:03.65

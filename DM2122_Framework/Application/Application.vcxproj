@@ -121,6 +121,7 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Money.h" />
+    <ClInclude Include="Source\Platforms.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\shader.hpp" />
@@ -132,7 +133,6 @@
     <ClInclude Include="Source\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="Shader\Blending.fragmentshader" />
     <None Include="Shader\LightSource.fragmentshader" />
     <None Include="Shader\Shading.fragmentshader" />

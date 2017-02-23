@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Platforms.h"
 
 class Platformer : public Scene
 {
@@ -18,6 +19,8 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
+
+	void generatePlatforms();
 
 	Camera3 camera3;
 
