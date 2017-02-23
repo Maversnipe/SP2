@@ -459,5 +459,8 @@ void Platformer::Exit()
 
 void Platformer::generatePlatforms()
 {
+	if (mapProgress = 0)
+	{
 
+	}
 }

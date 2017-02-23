@@ -1,6 +1,8 @@
 #ifndef PLATFORMER_H
 #define PLATFORMER_H
 
+#include <map>
+#include <vector>
 #include "Scene.h"
 #include "Mtx44.h"
 #include "Camera3.h"
@@ -100,6 +102,7 @@ private:
 	float bounce_time = 0.0;
 
 	int mapProgress = 0;
+	std::map<int, std::vector<int>> mapData = {};
 
 	float x = 0.0;
 	float y = 0.0;
