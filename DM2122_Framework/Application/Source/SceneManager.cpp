@@ -63,6 +63,13 @@ void SceneManager::Update(float dt)
 			currSceneID = nextSceneID;
 			maps[currSceneID]->Init();
 		}
+		else if (maps[currSceneID]->changeScene == 4)
+		{
+			maps[currSceneID]->Exit();
+			SetNextScene(4);
+			currSceneID = nextSceneID;
+			maps[currSceneID]->Init();
+		}
 	}
 
 	maps[currSceneID]->Update(dt);

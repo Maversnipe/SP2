@@ -245,6 +245,14 @@ void StudioProject::Update(double dt)
 		bounce_time = elapsed_time + 0.2;
 	}
 
+	if ((camera3.position.x - 2 > building[2].x - 10) && (camera3.position.x + 2 < building[2].x + 15)
+		&& (camera3.position.z - 2 > building[2].z + 25) && (camera3.position.z + 2 < building[2].z + 35)
+		&& (Application::IsKeyPressed('E')) && (elapsed_time > bounce_time))
+	{
+		changeScene = 4;
+		bounce_time = elapsed_time + 0.2;
+	}
+
 	if (Application::IsKeyPressed('E'))
 	{ // So that it does not sense that user pressed E when entering mini-games
 	}
