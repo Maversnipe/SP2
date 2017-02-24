@@ -9,7 +9,7 @@
 #include "LoadTGA.h"
 #include <iostream>
 using namespace std;
-
+Mtx44 stamp;
 Shooting::Shooting()
 {
 	enemySize = 70;
@@ -156,6 +156,9 @@ void Shooting::Init()
 
 	meshList[GEO_GUN] = MeshBuilder::GenerateOBJ("gun", "OBJ//gun.obj");
 	meshList[GEO_GUN]->textureID = LoadTGA("Image//Shooting//gun.tga");
+
+	meshList[GEO_GUN2] = MeshBuilder::GenerateOBJ("gun", "OBJ//gunUsing.obj");
+	meshList[GEO_GUN2]->textureID = LoadTGA("Image//Shooting//gun.tga");
 
 	meshList[GEO_BULLET] = MeshBuilder::GenerateSphere("bullet", Color(1, 0, 0), 18, 36, 1);
 	//===================================LASERS DISPLAY=====================================
@@ -527,6 +530,7 @@ void Shooting::Update(double dt)
 
 //===========================================================
 	Camera.Update(dt, &horizontalRotation, &verticalRotation);
+	stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 }
 
 void Shooting::Render()
@@ -634,17 +638,8 @@ void Shooting::Render()
 	if (pickUpGun)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(Camera.target.x, Camera.target.y, Camera.target.z);
-		modelStack.Rotate(horizontalRotation, 0, 1, 0);
-		modelStack.Rotate(verticalRotation, 1, 0, 0);
-
-		modelStack.PushMatrix();
-		modelStack.Translate(0.3, -0.2, -0.2);
-		modelStack.Rotate(10, 0, 1, 0);
-		modelStack.Scale(0.15, 0.15, 0.15);
-		RenderMesh(meshList[GEO_GUN], true);
-		modelStack.PopMatrix();
-
+		modelStack.LoadMatrix(stamp);
+		RenderMesh(meshList[GEO_GUN2], true);
 		modelStack.PopMatrix();
 	}
 //==============================BULLETS===================================

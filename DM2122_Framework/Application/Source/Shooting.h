@@ -52,6 +52,7 @@ public:
 		GEO_ENEMY,
 		GEO_TABLE,
 		GEO_GUN,
+		GEO_GUN2,
 		GEO_BULLET,
 		NUM_GEOMETRY,
 	};
