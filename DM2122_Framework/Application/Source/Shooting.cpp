@@ -9,7 +9,7 @@
 #include "LoadTGA.h"
 #include <iostream>
 using namespace std;
-//char mapArray[500][500] = {""};
+
 Shooting::Shooting()
 {
 	enemySize = 70;
@@ -148,7 +148,7 @@ void Shooting::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
-	meshList[GEO_ENEMY]->textureID = LoadTGA("OBJ//enemy.tga");
+	meshList[GEO_ENEMY]->textureID = LoadTGA("Image//enemy.tga");
 
 
 	//====================================OBJECTS==========================================
@@ -200,36 +200,53 @@ void Shooting::Init()
 		enemyPos[counter].Set(i, 0, j);
 		enemyDead[counter] = false;
 	}
-	//For randomising treasure
-		float i = RandomNumber(-250, 250);
-		float j = RandomNumber(-250, 250);
-		ObjectPos[0].Set(i, 0, j);
+
+	//For setting tutorial treasure
+		ObjectPos[0].Set(0, -3, -40);
 }
 
 void Shooting::Update(double dt)
 {
 	elapsed_time += dt;
-
-	//==========Enemy movements==========
-	for (int counter = 0; counter < enemySize; counter++)
+	//==========Tutorial Enemy movement========
+	if (disappearTable)
 	{
-		if (enemyDead[counter] == false)
+		if ((Camera.position - enemyTutPos).Length() > 3)
 		{
-			if ((Camera.position - enemyPos[counter]).Length() > 3)
-			{
-				int test = 0;
-				int test2 = 0;
-				int counter3 = 0;
+			int test = 0;
+			dirVec = (Camera.position - enemyTutPos).Normalize();
+			enemyTutRotation1 = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
+			if ((enemyTutPos - Camera.position).Length() < 50) //Added length sensor so enmies will only move if character is in radar
+				test = 1;
 
-				for (int counter2 = 0; counter2 < enemySize; counter2++)
+			if (test == 1)
+				enemyTutPos += dirVec * dt*enemySpeed;
+		}
+		else
+			enemyTutPos = enemyTutPos;
+	}
+	//==========Enemy movements==========
+	if (tutorialEnd)
+	{
+		for (int counter = 0; counter < enemySize; counter++)
+		{
+			if (enemyDead[counter] == false)
+			{
+				if ((Camera.position - enemyPos[counter]).Length() > 3)
 				{
-					dirVec = (Camera.position - enemyPos[counter]).Normalize();
+					int test = 0;
+					int test2 = 0;
+					int counter3 = 0;
+
+					for (int counter2 = 0; counter2 < enemySize; counter2++)
+					{
+						dirVec = (Camera.position - enemyPos[counter]).Normalize();
 						enemyRotation1[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
 						if (counter != counter2)
 						{
 							if (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - enemyPos[counter2]).Length()>enemyRadius
 								&& ((enemyPos[counter]) - enemyPos[counter2]).Length()>enemyRadius
-								&& (enemyPos[counter] - Camera.position).Length() < 50) //Added length sensor so enmies will only move if character is in radar
+								&& (enemyPos[counter] - Camera.position).Length() < 50) //Added length sensor so enemies will only move if character is in radar
 							{
 								test = 1;
 							}
@@ -256,41 +273,42 @@ void Shooting::Update(double dt)
 								break;
 							}
 						}
-					if (test == 2)
-					{
-						break;
+						if (test == 2)
+						{
+							break;
+						}
 					}
-				}
-				if (test == 1)
-				{
-					enemyPos[counter] += dirVec * dt*enemySpeed;
-				}
-				else
-				{
-					if (test2 == 1)
+					if (test == 1)
 					{
-						enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
-					}
-					else if (test2 == 2)
-					{
-						enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+						enemyPos[counter] += dirVec * dt*enemySpeed;
 					}
 					else
 					{
-						enemyPos[counter] = enemyPos[counter];
+						if (test2 == 1)
+						{
+							enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
+						}
+						else if (test2 == 2)
+						{
+							enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+						}
+						else
+						{
+							enemyPos[counter] = enemyPos[counter];
+						}
 					}
 				}
+				else
+					enemyPos[counter] = enemyPos[counter];
 			}
-			else
-				enemyPos[counter] = enemyPos[counter];
-		}
-		if (enemyDead[counter] == true)
-		{
-			enemyPos[counter] = {};
-			float i = RandomNumber(-250, 250);
-			float j = RandomNumber(-250, 250);
-			enemyPos[counter].Set(i, 0, j);
-			enemyDead[counter] = false;
+			if (enemyDead[counter] == true)
+			{
+				enemyPos[counter] = {};
+				float i = RandomNumber(-250, 250);
+				float j = RandomNumber(-250, 250);
+				enemyPos[counter].Set(i, 0, j);
+				enemyDead[counter] = false;
+			}
 		}
 	}
 	//====================================
@@ -343,19 +361,34 @@ void Shooting::Update(double dt)
 		light[0].type = Light::LIGHT_SPOT;
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
-
+//===========================TUTORIAL==========================
 	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
 		pickUpGun = true;
 
 	if (pickUpGun)
 	{
-		light[0].position.Set(0, 30, -40);
+		light[0].position.Set(0, 30, -30);
 		light[0].color.Set(0,1,0);
 		light[0].power = 5;
 		light[0].type = Light::LIGHT_POINT;
+		disappearTable = true;
+		Camera.switchTreasure = true;
 	}
-	int checkNoEnemies = 0;
+
+	if (enemyTutDead && !tutorialEnd)
+	{
+		disappearTreasure = false;
+		if (openTreasure)
+		tutorialEnd = true;
+	}
+//============UPDATING AABB FROM TABLE TO TREASURE===============
+	if (!Camera.switchTreasure)
+		Camera.object.Set(0, 0, 0);
+	else
+		Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
+
 //==================CHECKING FOR ENEMIES NEAR CHARCTER============
+	int checkNoEnemies = 0;
 	for (int i = 0; i < enemySize; i++)
 	{
 		if ((Camera.position - enemyPos[i]).Length() <= 50)
@@ -368,10 +401,21 @@ void Shooting::Update(double dt)
 			enemyMarking.clear();
 		}
 	}
-
-	for (int i = 0; i < enemyMarking.size(); i++)
+	//Decreasing health
+	if (tutorialEnd)
 	{
-		if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
+		for (int i = 0; i < enemyMarking.size(); i++)
+		{
+			if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
+			{
+				health -= 1;
+				bounce_time_enemy_hit += elapsed_time + 2;
+			}
+		}
+	}
+	else if (disappearTable)
+	{
+		if ((Camera.position - enemyTutPos).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 		{
 			health -= 1;
 			bounce_time_enemy_hit += elapsed_time + 2;
@@ -401,14 +445,23 @@ void Shooting::Update(double dt)
 		{
 			bullet[i].pos += bullet[i].vel;
 			//Checking for collision between enemies within radius and bullet 
-			for (int counter = 0; counter < enemyMarking.size(); counter++)
+			if (tutorialEnd)
 			{
-				if ((enemyPos[enemyMarking.at(counter)] - bullet[i].pos).Length() < 2)
+				for (int counter = 0; counter < enemyMarking.size(); counter++)
 				{
-					enemyDead[enemyMarking.at(counter)] = true;
-					moveLaser[i] = false;
+					if ((enemyPos[enemyMarking.at(counter)] - bullet[i].pos).Length() < 2)
+					{
+						enemyDead[enemyMarking.at(counter)] = true;
+						moveLaser[i] = false;
+					}
 				}
 			}
+			else
+				if ((enemyTutPos - bullet[i].pos).Length() < 2)
+				{
+					enemyTutDead = true;
+					moveLaser[i] = false;
+				}
 		}
 
 	}
@@ -425,6 +478,8 @@ void Shooting::Update(double dt)
 //====================FINDNIG TREASURE=======================
 	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
 	{
+		if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
+			openTreasure = true;
 		//For randomising treasure
 		float i = RandomNumber(-250, 250);
 		float j = RandomNumber(-250, 250);
@@ -508,26 +563,57 @@ void Shooting::Render()
 	RenderMesh(meshList[GEO_FLOOR], true);
 	modelStack.PopMatrix();
 
-	//---------------------------------------------------------------
+//=============================TABLE===================================
 
-	modelStack.PushMatrix();
-	modelStack.Translate(0, -3, 0);
-
-	if (!pickUpGun)
+	if (!disappearTable)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(0, 2.2, 0);
-		modelStack.Scale(1, 0.3, 1);
-		modelStack.Rotate(-90, 0, 1, 0);
-		modelStack.Rotate(90, 0, 0, 1);
-		RenderMesh(meshList[GEO_GUN], true);
+		modelStack.Translate(0, -3, 0);
+
+		if (!pickUpGun)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(0, 2.2, 0);
+			modelStack.Scale(1, 0.3, 1);
+			modelStack.Rotate(-90, 0, 1, 0);
+			modelStack.Rotate(90, 0, 0, 1);
+			RenderMesh(meshList[GEO_GUN], true);
+			modelStack.PopMatrix();
+		}
+
+		modelStack.Scale(6, 2, 2);
+		RenderMesh(meshList[GEO_TABLE], true);
+		modelStack.PopMatrix();
+	}
+	
+	//===============================ENEMIES=================================
+
+	if (!enemyTutDead && disappearTable)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(enemyTutPos.x, 0, enemyTutPos.z);
+		modelStack.Rotate(enemyTutRotation1, 0, 1, 0);
+		modelStack.Scale(0.25, 0.25, 0.25);
+		RenderMesh(meshList[GEO_ENEMY], true);
 		modelStack.PopMatrix();
 	}
 
-	modelStack.Scale(6, 2, 2);
-	RenderMesh(meshList[GEO_TABLE], true);
-	modelStack.PopMatrix();
-
+	if (tutorialEnd)
+	{
+		for (int i = 0; i < enemySize; i++)
+		{
+			if (enemyDead[i] == false)
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
+				modelStack.Rotate(enemyRotation1[i], 0, 1, 0);
+				modelStack.Scale(0.25, 0.25, 0.25);
+				RenderMesh(meshList[GEO_ENEMY], true);
+				modelStack.PopMatrix();
+			}
+		}
+	}
+//===============================GUN=====================================
 	if (pickUpGun)
 	{
 		modelStack.PushMatrix();
@@ -634,26 +720,17 @@ void Shooting::Render()
 
 		modelStack.PopMatrix();
 	}
-//===============================ENEMIES=================================
-	for (int i = 0; i < enemySize; i++)
-	{
-		if (enemyDead[i] == false)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
-			modelStack.Rotate(enemyRotation1[i], 0, 1, 0);
-			modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
-			modelStack.Scale(0.25, 0.25, 0.25);
-			RenderMesh(meshList[GEO_ENEMY], true);
-			modelStack.PopMatrix();
-		}
-	}
+
 //===============================TREASURE=================================
+	if (!disappearTreasure)
+	{
 		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
-		modelStack.Scale(3, 3, 3);
+		modelStack.Translate(ObjectPos[0].x, -3, ObjectPos[0].z);
+		modelStack.Scale(2, 2, 2);
 		RenderMesh(meshList[GEO_CUBE], true);
 		modelStack.PopMatrix();
+	}
+
 //================================================================================
 
 	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
@@ -883,9 +960,9 @@ void Shooting::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 	glEnable(GL_DEPTH_TEST);
 }
 
-float Shooting::RandomNumber(float Min, float Max)
+float Shooting::RandomNumber(float min, float max)
 {
-	return ((float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
+	return ((float(rand()) / float(RAND_MAX)) * (max - min)) + min;
 }
 
 void Shooting::Exit()
