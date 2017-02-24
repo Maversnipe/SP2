@@ -77,6 +77,9 @@
     <ClCompile Include="Source\Driving.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlatformerCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -157,13 +160,13 @@
     <ClInclude Include="Source\Bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Platforms.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Car.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Driving.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlatformerCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

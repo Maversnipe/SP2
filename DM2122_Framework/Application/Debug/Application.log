@@ -1,47 +1,23 @@
-﻿Build started 2/23/2017 10:27:49 AM.
+﻿Build started 2/24/2017 12:01:00 PM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Driving.cpp Source\SceneManager.cpp Source\StudioProject.cpp
-         StudioProject.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(183): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(230): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(237): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(245): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(253): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(273): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(280): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(284): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(429): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(437): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(530): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\studioproject.cpp(531): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         SceneManager.cpp
-         Driving.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.h(125): warning C4351: new behavior: elements of array 'Driving::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.h(126): warning C4351: new behavior: elements of array 'Driving::enemyRotation2' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(211): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(213): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(228): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(232): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(237): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(270): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(276): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(280): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(303): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(328): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(513): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(607): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.cpp(608): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Application.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.h(121): warning C4351: new behavior: elements of array 'SPTest::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\sptest.h(122): warning C4351: new behavior: elements of array 'SPTest::enemyRotation2' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\shooting.h(140): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\shooting.h(141): warning C4351: new behavior: elements of array 'Shooting::enemyRotation2' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\shooting.h(155): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.h(125): warning C4351: new behavior: elements of array 'Driving::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\driving.h(126): warning C4351: new behavior: elements of array 'Driving::enemyRotation2' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\application.cpp(121): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Platformer.cpp
+         Platformer.cpp
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.h(111): warning C4351: new behavior: elements of array 'Platformer::mapData' will be default initialized
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(169): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(308): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(316): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(408): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(409): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(476): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(545): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(545): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(553): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(562): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(562): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(571): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(580): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(580): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\glew\lib /LIBPATH:"D:\GIT_ROOT\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
@@ -58,6 +34,7 @@
          Debug\Mesh.obj
          Debug\MeshBuilder.obj
          Debug\Money.obj
+         Debug\PlatformerCamera.obj
          Debug\SceneManager.obj
          Debug\shader.obj
          Debug\Shooting.obj
@@ -65,10 +42,9 @@
          Debug\SPTest.obj
          Debug\StudioProject.obj
          Debug\Utiity.obj
-     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
          Application.vcxproj -> D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe
      1>Done Building Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.74
+Time Elapsed 00:00:01.44

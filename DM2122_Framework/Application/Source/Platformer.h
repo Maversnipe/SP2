@@ -5,11 +5,10 @@
 #include <vector>
 #include "Scene.h"
 #include "Mtx44.h"
-#include "Camera3.h"
+#include "PlatformerCamera.h"
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
-#include "Platforms.h"
 
 class Platformer : public Scene
 {
@@ -22,16 +21,23 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void generatePlatforms();
+	void setPlatforms();
+	void renderPlatforms();
+	float RandomNumber(float, float);
 
-	Camera3 camera3;
+	PlatformerCamera camera;
 
 	enum GEOMETRY_TYPE
 	{
 		GEO_TRIANGLE_1 = 0,
 		GEO_AXES,
 		GEO_QUAD,
-
+		ONE_BLOCK,
+		TWO_BLOCK,
+		THREE_BLOCK,
+		FOUR_BLOCK,
+		FIVE_BLOCK,
+		TREASURE_BLOCK,
 		GEO_TEXT,
 		GEO_CUBE,
 		GEO_LIGHTBALL,
@@ -101,8 +107,8 @@ private:
 	float elapsed_time = 0.0;
 	float bounce_time = 0.0;
 
-	int mapProgress = 0;
-	std::map<int, std::vector<int>> mapData = {};
+	int mapData[40][100] = {};
+	int mapHeight = 20;
 
 	float x = 0.0;
 	float y = 0.0;

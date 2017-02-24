@@ -96,6 +96,7 @@
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\Money.cpp" />
+    <ClCompile Include="Source\PlatformerCamera.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Shooting.cpp" />
@@ -124,7 +125,7 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Money.h" />
-    <ClInclude Include="Source\Platforms.h" />
+    <ClInclude Include="Source\PlatformerCamera.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\shader.hpp" />
