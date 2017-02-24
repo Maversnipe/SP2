@@ -156,7 +156,7 @@ void SPTest::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
-	meshList[GEO_ENEMY]->textureID = LoadTGA("OBJ//enemy.tga");
+	meshList[GEO_ENEMY]->textureID = LoadTGA("Image//enemy.tga");
 
 
 	Mtx44 projection;

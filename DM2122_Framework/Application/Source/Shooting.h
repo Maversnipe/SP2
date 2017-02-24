@@ -127,7 +127,7 @@ private:
 	std::string framesPerSec = "";
 
 
-	//Enemies
+	//============Enemies============
 
 	int enemySize;
 	int objectSize;
@@ -138,17 +138,17 @@ private:
 	float enemyRadius;
 	float ObjectRadius;
 	float enemyRotation1[100] = {};
-	float enemyRotation2[100] = {};
 
 	Vector3 dirVec;
 	Vector3 enemyPos[100] = {};
 	Vector3 ObjectPos[1] = {};
 	bool enemyDead[50];
 	std::vector <int> enemyMarking;
-
-	//===
-
-	//Bullet
+	//========Tutorial enemy=======
+	Vector3 enemyTutPos = {2,0,-20};
+	bool enemyTutDead = false;
+	float enemyTutRotation1 = 0.f;
+	//===========Bullet=============
 	Bullet bullet[5];
 	Bullet original[5];
 	int bulletCount = 0;
@@ -159,10 +159,16 @@ private:
 	float bounce_time_enemy_hit = 0.0;
 	float rotateLasHori = 0.f;
 	float rotateLasVert = 0.f;
-
-
-	float RandomNumber(float Min, float Max);
+    //==========Tutorial============
 	bool pickUpGun = false;
+	bool disappearTable = false;
+	bool disappearEnemy = true;
+	bool disappearTreasure = true;
+	bool tutorialEnd = false;
+	bool openTreasure = false;
+	//===============================
+	float RandomNumber(float min, float max);
+
 
 	float x = 0.0;
 	float y = 0.0;
