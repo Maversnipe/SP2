@@ -37,6 +37,7 @@ public:
 		THREE_BLOCK,
 		FOUR_BLOCK,
 		FIVE_BLOCK,
+		START_END,
 		TREASURE_BLOCK,
 		GEO_TEXT,
 		GEO_CUBE,
@@ -109,6 +110,7 @@ private:
 
 	int mapData[40][100] = {};
 	int mapHeight = 20;
+	bool haveSpace = false;
 
 	float x = 0.0;
 	float y = 0.0;

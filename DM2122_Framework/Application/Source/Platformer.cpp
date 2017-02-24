@@ -100,7 +100,7 @@ void Platformer::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	// Initialise Camera
-	camera.Init(Vector3(0, 20 * 5, 0), Vector3(5, 20 * 5, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(-490, 20 * 5, 0), Vector3(-485, 20 * 5, 0), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
@@ -140,11 +140,14 @@ void Platformer::Init()
 	meshList[THREE_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//3-Platform.obj");
 	meshList[THREE_BLOCK]->textureID = LoadTGA("Image//MainScene//building2.tga");
 
-	meshList[FOUR_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//1-Platform.obj");
+	meshList[FOUR_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//4-Platform.obj");
 	meshList[FOUR_BLOCK]->textureID = LoadTGA("Image//MainScene//building.tga");
 
-	meshList[FIVE_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//1-Platform.obj");
+	meshList[FIVE_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//5-Platform.obj");
 	meshList[FIVE_BLOCK]->textureID = LoadTGA("Image//MainScene//building5.tga");
+
+	meshList[START_END] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//4-Platform.obj");
+	meshList[START_END]->textureID = LoadTGA("Image//MainScene//building6.tga");
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
@@ -278,45 +281,45 @@ void Platformer::Render()
 void Platformer::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 20, 0, 0);
+	modelStack.Translate(-24.95 * 21, 0, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(1050, 1050, 1050);
 	RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Translate(24.95 * 21, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(1050, 1050, 1050);
 	RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -24.95 * 20);
+	modelStack.Translate(0, 0, -24.95 * 21);
 	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(1050, 1050, 1050);
 	RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 24.95 * 20);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Translate(0, 0, 24.95 * 21);
+	modelStack.Scale(1050, 1050, 1050);
 	RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -24.945 * 20, 0);
+	modelStack.Translate(0, -24.945 * 21, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(1050, 1050, 1050);
 	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 24.945 * 20, 0);
+	modelStack.Translate(0, 24.945 * 21, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(1050, 1050, 1050);
 	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
 }
@@ -475,15 +478,16 @@ void Platformer::setPlatforms()
 {
 	srand(time(NULL));
 	for (int startPoint = 0; startPoint < 4; startPoint++)
-		mapData[mapHeight][startPoint] = 4;
+		mapData[mapHeight][startPoint] = 7;
 
 	for (int mapPos = 4; mapPos < 96; mapPos++)
 	{
-		int randomNum = (int)RandomNumber(1.f, 4.f);
-		if (randomNum % 3 != 0)
+		int randomNum = (int)RandomNumber(1.f, 9.f);
+		if (randomNum % 8 != 0 || (haveSpace))
 		{ // Don't have empty spaces
-			randomNum = (int)RandomNumber(1.f, 3.f);
-			if ((randomNum == 1) && (mapHeight < 35))
+			haveSpace = false;
+			randomNum = (int)RandomNumber(1.f, 5.f);
+			if ((randomNum == 3) || (randomNum == 1) && (mapHeight < 35) && (!haveSpace))
 			{ // Go Up
 				mapHeight += 3;
 				randomNum = (int)RandomNumber(1.f, 5.f);
@@ -493,7 +497,7 @@ void Platformer::setPlatforms()
 				}
 				mapPos += (randomNum - 1);
 			}
-			else if ((randomNum == 2) && (mapHeight > 5))
+			else if ((randomNum == 4) || (randomNum == 2) && (mapHeight > 5) && (!haveSpace))
 			{ // Go Down
 				mapHeight -= 3;
 				randomNum = (int)RandomNumber(1.f, 6.f);
@@ -515,12 +519,12 @@ void Platformer::setPlatforms()
 		}
 		else
 		{ // Empty blocks
-			for (int emptyBlocks = 0; emptyBlocks < 3; emptyBlocks++)
+			haveSpace = true;
+			for (int emptyBlocks = 0; emptyBlocks < 2; emptyBlocks++)
 			{
-				mapData[mapHeight - 4][mapPos + emptyBlocks] = 6;
+				mapData[mapHeight + 4][mapPos + emptyBlocks] = 6;
 			}
-			mapPos += 2;
-			mapHeight += 4;
+			mapPos++;
 		}
 	}
 	if (mapHeight < 35)
@@ -528,7 +532,7 @@ void Platformer::setPlatforms()
 
 	for (int lastBlock = 96; lastBlock < 100; lastBlock++)
 	{
-		mapData[mapHeight][lastBlock] = 4;
+		mapData[mapHeight][lastBlock] = 7;
 	}
 }	
 
@@ -542,55 +546,54 @@ void Platformer::renderPlatforms()
 			{
 			case 1:
 				modelStack.PushMatrix();
-				modelStack.Translate((((float)length) + 0.5) * 5, height * 5, 0);
-				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(5, 5, 5);
+				modelStack.Translate(((((float)length) + 0.5) * 10) - 500, height * 5, 0);
+				modelStack.Scale(10, 5, 10);
 				RenderMesh(meshList[ONE_BLOCK], false);
 				modelStack.PopMatrix();
 				break;
 			case 2:
 				modelStack.PushMatrix();
-				modelStack.Translate((((float)length) + 1) * 5, height * 5, 0);
+				modelStack.Translate(((((float)length) + 1) * 10) - 500, height * 5, 0);
 				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(5, 5, 5);
+				modelStack.Scale(10, 5, 5);
 				RenderMesh(meshList[TWO_BLOCK], false);
 				modelStack.PopMatrix();
 				length += 1;
 				break;
 			case 3:
 				modelStack.PushMatrix();
-				modelStack.Translate((((float)length) + 1.5) * 5, height * 5, 0);
+				modelStack.Translate(((((float)length) + 1.5) * 10) - 500, height * 5, 0);
 				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(5, 5, 5);
+				modelStack.Scale(10, 5, 5);
 				RenderMesh(meshList[THREE_BLOCK], false);
 				modelStack.PopMatrix();
 				length += 2;
 				break;
 			case 4:
 				modelStack.PushMatrix();
-				modelStack.Translate((((float)length) + 2) * 5, height * 5, 0);
+				modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, 0);
 				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(5, 5, 5);
+				modelStack.Scale(10, 5, 5);
 				RenderMesh(meshList[FOUR_BLOCK], false);
 				modelStack.PopMatrix();
 				length += 3;
 				break;
 			case 5:
 				modelStack.PushMatrix();
-				modelStack.Translate((((float)length) + 2.5) * 5, height * 5, 0);
-				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(5, 5, 5);
+				modelStack.Translate(((((float)length) + 2.5) * 10) - 500, height * 5, 0);
+				modelStack.Scale(5, 5, 10);
 				RenderMesh(meshList[FIVE_BLOCK], false);
 				modelStack.PopMatrix();
 				length += 4;
 				break;
-			/*case 7:
+			case 7:
 				modelStack.PushMatrix();
-				modelStack.Translate(0, height * 5, 0);
+				modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, 0);
 				modelStack.Scale(5, 5, 5);
-				RenderMesh(meshList[TREASURE_BLOCK], true);
+				RenderMesh(meshList[START_END], false);
 				modelStack.PopMatrix();
-				break;*/
+				length += 3;
+				break;
 			}
 		}
 	}
