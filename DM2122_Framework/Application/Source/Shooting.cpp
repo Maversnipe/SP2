@@ -468,7 +468,7 @@ void Shooting::Update(double dt)
 		}
 
 	}
-	if (bulletCount >= 5)
+	if (bulletCount >= 5 || (Application::IsKeyPressed('R')) && (bulletCount > 0)) // I added the user input for reload here
 	{
 		bulletCount = 0;
 		reload = true;
@@ -486,6 +486,7 @@ void Shooting::Update(double dt)
 				openTreasure = true;
 			if (treasureAnimation == false)
 			{
+				ObjectPos[1].Set(ObjectPos[0].x, ObjectPos[0].y, ObjectPos[0].z);
 				//For randomising treasure
 				float i = RandomNumber(-250, 250);
 				float j = RandomNumber(-250, 250);
@@ -518,7 +519,7 @@ void Shooting::Update(double dt)
 	{
 		health += 1;
 		getHealth = false;
-		playMoney = true; //Determining animation played will be health
+		playMoney = false; //Determining animation played will be health
 	}
 //Treasure animation	
 	if (treasureAnimation)
@@ -676,7 +677,7 @@ void Shooting::Render()
 	if (!playMoney && treasureAnimation)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
+		modelStack.Translate(ObjectPos[1].x, 0, ObjectPos[1].z);
 		modelStack.Rotate(rotateTreasure, 0, 1, 0);
 		modelStack.Scale(3, 3, 3);
 		RenderMesh(meshList[GEO_HEALTH], false);
@@ -686,7 +687,7 @@ void Shooting::Render()
 	else if (playMoney && treasureAnimation)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
+		modelStack.Translate(ObjectPos[1].x, 0, ObjectPos[1].z);
 		modelStack.Rotate(rotateTreasure, 0, 1, 0);
 		modelStack.Scale(3, 3, 3);
 		RenderMesh(meshList[GEO_ROCKS], false);
