@@ -146,11 +146,9 @@ void Shooting::Init()
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
-
+	//======================================ENEMY=======================================
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
 	meshList[GEO_ENEMY]->textureID = LoadTGA("Image//enemy.tga");
-
-
 	//====================================OBJECTS==========================================
 
 	meshList[GEO_TABLE] = MeshBuilder::GenerateOBJ("table", "OBJ//table.obj");
@@ -161,7 +159,6 @@ void Shooting::Init()
 
 	meshList[GEO_BULLET] = MeshBuilder::GenerateSphere("bullet", Color(1, 0, 0), 18, 36, 1);
 	//===================================LASERS DISPLAY=====================================
-
 
 	meshList[GEO_LASER0] = MeshBuilder::GenerateQuad("laser0", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LASER0]->textureID = LoadTGA("Image//Shooting//laser0.tga");
@@ -211,17 +208,21 @@ void Shooting::Update(double dt)
 	//==========Tutorial Enemy movement========
 	if (disappearTable)
 	{
-		if ((Camera.position - enemyTutPos).Length() > 3)
+		if (!enemyTutDead)
 		{
-			int test = 0;
-			dirVec = (Camera.position - enemyTutPos).Normalize();
-			enemyTutRotation1 = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
-			if ((enemyTutPos - Camera.position).Length() < 50) //Added length sensor so enmies will only move if character is in radar
-				test = 1;
+			if ((Camera.position - enemyTutPos).Length() > 3)
+			{
+				int test = 0;
+				dirVec = (Camera.position - enemyTutPos).Normalize();
+				enemyTutRotation1 = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
+				if ((enemyTutPos - Camera.position).Length() < 50) //Added length sensor so enmies will only move if character is in radar
+					test = 1;
 
-			if (test == 1)
-				enemyTutPos += dirVec * dt*enemySpeed;
+				if (test == 1)
+					enemyTutPos += dirVec * dt*enemySpeed;
+			}
 		}
+		
 		else
 			enemyTutPos = enemyTutPos;
 	}
@@ -377,7 +378,6 @@ void Shooting::Update(double dt)
 
 	if (enemyTutDead && !tutorialEnd)
 	{
-		disappearTreasure = false;
 		if (openTreasure)
 		tutorialEnd = true;
 	}
@@ -413,7 +413,7 @@ void Shooting::Update(double dt)
 			}
 		}
 	}
-	else if (disappearTable)
+	else if (disappearTable && !enemyTutDead)
 	{
 		if ((Camera.position - enemyTutPos).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 		{
@@ -456,7 +456,7 @@ void Shooting::Update(double dt)
 					}
 				}
 			}
-			else
+			else if (!enemyTutDead)
 				if ((enemyTutPos - bullet[i].pos).Length() < 2)
 				{
 					enemyTutDead = true;
@@ -476,38 +476,55 @@ void Shooting::Update(double dt)
 		reload = false;
 	}
 //====================FINDNIG TREASURE=======================
-	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
-	{
-		if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
-			openTreasure = true;
-		//For randomising treasure
-		float i = RandomNumber(-250, 250);
-		float j = RandomNumber(-250, 250);
-		ObjectPos[0].Set(i, 0, j);
-		if ((int)RandomNumber(0, 10) >= 6)
+	//Spawning new treasure chest after animation from previous treasure is played
+		if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
 		{
-			getMoney = true;
-			getHealth = false;
+			if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
+				openTreasure = true;
+			if (treasureAnimation == false)
+			{
+				//For randomising treasure
+				float i = RandomNumber(-250, 250);
+				float j = RandomNumber(-250, 250);
+				ObjectPos[0].Set(i, 0, j);
+
+				if ((int)RandomNumber(0, 10) >= 6)
+				{
+					getMoney = true;
+					getHealth = false;
+				}
+				else
+				{
+					getMoney = false;
+					if (health < 5) //Limiting health 
+						getHealth = true;
+				}
+			}
+			rotateTreasure = 0.f;
+			treasureAnimation = true;
 		}
-		else
-		{
-			getMoney = false;
-			if (health < 5) //Limiting health 
-			getHealth = true;
-		}
-	}
+//Player getting rewards
 	if (getMoney)
 	{
 		amtMoney = (int)RandomNumber(0, 10);
-		Money::getInstance()->addMoney(amtMoney);
+		Money::getInstance()->addMoney(amtMoney); //Accessing global money
 		getMoney = false;
+		playMoney = true; //Determining animation played will be money
 	}
 	else if (getHealth)
 	{
 		health += 1;
 		getHealth = false;
+		playMoney = true; //Determining animation played will be health
 	}
-	
+//Treasure animation	
+	if (treasureAnimation)
+	{
+		rotateTreasure += 200.f * dt;
+		if (rotateTreasure > 360.f)
+			treasureAnimation = false;
+	}
+
 //===========================================================
 	Camera.Update(dt, &horizontalRotation, &verticalRotation);
 }
@@ -631,98 +648,28 @@ void Shooting::Render()
 		modelStack.PopMatrix();
 	}
 //==============================BULLETS===================================
-	if (moveLaser[0])
+	for (int i = 0; i < 5; i++)
 	{
+		if (moveLaser[i])
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(bullet[i].pos.x, bullet[i].pos.y, bullet[i].pos.z);
+			modelStack.Rotate(rotateLasHori, 0, 1, 0);
+			modelStack.Rotate(rotateLasVert, 1, 0, 0);
 
-		modelStack.PushMatrix();
-		modelStack.Translate(bullet[0].pos.x, bullet[0].pos.y, bullet[0].pos.z);
-		modelStack.Rotate(rotateLasHori, 0, 1, 0);
-		modelStack.Rotate(rotateLasVert, 1, 0, 0);
+			modelStack.PushMatrix();
+			modelStack.Translate(0.6, -0.4, 0);
+			modelStack.Rotate(5, 0, 1, 0);
+			modelStack.Scale(0.1, 0.1, 0.8);
+			RenderMesh(meshList[GEO_BULLET], false);
+			modelStack.PopMatrix();
 
-		modelStack.PushMatrix();
-		modelStack.Translate(0.6, -0.4, 0);
-		modelStack.Rotate(5, 0, 1, 0);
-		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], false);
-		modelStack.PopMatrix();
+			modelStack.PopMatrix();
+		}
 
-		modelStack.PopMatrix();
 	}
-
-	if (moveLaser[1])
-	{
-
-		modelStack.PushMatrix();
-		modelStack.Translate(bullet[1].pos.x, bullet[1].pos.y, bullet[1].pos.z);
-		modelStack.Rotate(rotateLasHori, 0, 1, 0);
-		modelStack.Rotate(rotateLasVert, 1, 0, 0);
-
-		modelStack.PushMatrix();
-		modelStack.Translate(0.6, -0.4, 0);
-		modelStack.Rotate(5, 0, 1, 0);
-		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], false);
-		modelStack.PopMatrix();
-
-		modelStack.PopMatrix();
-	}
-
-	if (moveLaser[2])
-	{
-
-		modelStack.PushMatrix();
-		modelStack.Translate(bullet[2].pos.x, bullet[2].pos.y, bullet[2].pos.z);
-		modelStack.Rotate(rotateLasHori, 0, 1, 0);
-		modelStack.Rotate(rotateLasVert, 1, 0, 0);
-
-		modelStack.PushMatrix();
-		modelStack.Translate(0.6, -0.4, 0);
-		modelStack.Rotate(5, 0, 1, 0);
-		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], false);
-		modelStack.PopMatrix();
-
-		modelStack.PopMatrix();
-	}
-
-	if (moveLaser[3])
-	{
-
-		modelStack.PushMatrix();
-		modelStack.Translate(bullet[3].pos.x, bullet[3].pos.y, bullet[3].pos.z);
-		modelStack.Rotate(rotateLasHori, 0, 1, 0);
-		modelStack.Rotate(rotateLasVert, 1, 0, 0);
-
-		modelStack.PushMatrix();
-		modelStack.Translate(0.6, -0.4, 0);
-		modelStack.Rotate(5, 0, 1, 0);
-		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], false);
-		modelStack.PopMatrix();
-
-		modelStack.PopMatrix();
-	}
-
-	if (moveLaser[4])
-	{
-
-		modelStack.PushMatrix();
-		modelStack.Translate(bullet[4].pos.x, bullet[4].pos.y, bullet[4].pos.z);
-		modelStack.Rotate(rotateLasHori, 0, 1, 0);
-		modelStack.Rotate(rotateLasVert, 1, 0, 0);
-
-		modelStack.PushMatrix();
-		modelStack.Translate(0.6, -0.4, 0);
-		modelStack.Rotate(5, 0, 1, 0);
-		modelStack.Scale(0.1, 0.1, 0.8);
-		RenderMesh(meshList[GEO_BULLET], false);
-		modelStack.PopMatrix();
-
-		modelStack.PopMatrix();
-	}
-
 //===============================TREASURE=================================
-	if (!disappearTreasure)
+	if (enemyTutDead && !treasureAnimation)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(ObjectPos[0].x, -3, ObjectPos[0].z);
@@ -730,12 +677,26 @@ void Shooting::Render()
 		RenderMesh(meshList[GEO_CUBE], true);
 		modelStack.PopMatrix();
 	}
+//Rendering rewards
+	if (!playMoney && treasureAnimation)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
+		modelStack.Rotate(rotateTreasure, 0, 1, 0);
+		modelStack.Scale(3, 3, 3);
+		RenderMesh(meshList[GEO_HEALTH], false);
+		modelStack.PopMatrix();
+	}
 
-//================================================================================
-
-	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+	else if (playMoney && treasureAnimation)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
+		modelStack.Rotate(rotateTreasure, 0, 1, 0);
+		modelStack.Scale(3, 3, 3);
+		RenderMesh(meshList[GEO_ROCKS], false);
+		modelStack.PopMatrix();
+	}
 //===============================GUN'S LASER CAPACITY=============================
 	if (reload)
 		RenderTextOnScreen(meshList[GEO_TEXT], "RELOADING...", Color(1, 0, 0), 5, 3, 6.5);
@@ -772,6 +733,11 @@ void Shooting::Render()
 
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
 	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+	//================================================================================
+
+	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
 }
 
 void Shooting::RenderSkybox()

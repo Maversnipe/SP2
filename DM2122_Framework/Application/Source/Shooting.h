@@ -94,8 +94,6 @@ public:
 	float translateX;
 	float scaleAll;
 	bool dead = false;
-	int HP = 100;
-	int health = 3;
 	int money = 0;
 
 	float horizontalRotation;
@@ -128,12 +126,8 @@ private:
 
 
 	//============Enemies============
-
 	int enemySize;
 	int objectSize;
-	bool getMoney = false;
-	int amtMoney = 0;
-	bool getHealth = false;
 	float enemySpeed;
 	float enemyRadius;
 	float ObjectRadius;
@@ -141,7 +135,6 @@ private:
 
 	Vector3 dirVec;
 	Vector3 enemyPos[100] = {};
-	Vector3 ObjectPos[1] = {};
 	bool enemyDead[50];
 	std::vector <int> enemyMarking;
 	//========Tutorial enemy=======
@@ -163,9 +156,17 @@ private:
 	bool pickUpGun = false;
 	bool disappearTable = false;
 	bool disappearEnemy = true;
-	bool disappearTreasure = true;
 	bool tutorialEnd = false;
 	bool openTreasure = false;
+	//============Treasure===========
+	Vector3 ObjectPos[2] = {};
+	bool getMoney = false;
+	int amtMoney = 0;
+	bool getHealth = false;
+	int health = 3;
+	float rotateTreasure = 0.f;
+	bool treasureAnimation = false;
+	bool playMoney = false;
 	//===============================
 	float RandomNumber(float min, float max);
 
