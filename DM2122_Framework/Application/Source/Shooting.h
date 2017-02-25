@@ -168,6 +168,7 @@ private:
 	float rotateTreasure = 0.f;
 	bool treasureAnimation = false;
 	bool playMoney = false;
+	bool treasureTaken = false;
 	//===============================
 	float RandomNumber(float min, float max);
 

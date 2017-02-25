@@ -479,33 +479,45 @@ void Shooting::Update(double dt)
 		reload = false;
 	}
 //====================FINDNIG TREASURE=======================
+	//Treasure animation	
+	if (treasureAnimation)
+	{
+		rotateTreasure += 200.f * dt;
+		if (rotateTreasure > 360.f)
+			treasureAnimation = false;
+	}
 	//Spawning new treasure chest after animation from previous treasure is played
 		if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
 		{
 			if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
 				openTreasure = true;
-			if (treasureAnimation == false)
-			{
-				ObjectPos[1].Set(ObjectPos[0].x, ObjectPos[0].y, ObjectPos[0].z);
-				//For randomising treasure
-				float i = RandomNumber(-250, 250);
-				float j = RandomNumber(-250, 250);
-				ObjectPos[0].Set(i, 0, j);
 
-				if ((int)RandomNumber(0, 10) >= 6)
-				{
-					getMoney = true;
-					getHealth = false;
-				}
-				else
-				{
-					getMoney = false;
-					if (health < 5) //Limiting health 
-						getHealth = true;
-				}
-			}
 			rotateTreasure = 0.f;
 			treasureAnimation = true;
+
+			treasureTaken = true;
+		}
+		if (!treasureAnimation && treasureTaken)
+		{
+			//ObjectPos[1].Set(ObjectPos[0].x, ObjectPos[0].y, ObjectPos[0].z);
+			//For randomising treasure
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			ObjectPos[0].Set(i, 0, j);
+
+			if ((int)RandomNumber(0, 10) >= 6)
+			{
+				getMoney = true;
+				getHealth = false;
+			}
+			else
+			{
+				getMoney = false;
+				if (health < 5) //Limiting health 
+					getHealth = true;
+			}
+
+			treasureTaken = false;
 		}
 //Player getting rewards
 	if (getMoney)
@@ -520,13 +532,6 @@ void Shooting::Update(double dt)
 		health += 1;
 		getHealth = false;
 		playMoney = false; //Determining animation played will be health
-	}
-//Treasure animation	
-	if (treasureAnimation)
-	{
-		rotateTreasure += 200.f * dt;
-		if (rotateTreasure > 360.f)
-			treasureAnimation = false;
 	}
 
 //===========================================================
@@ -677,7 +682,7 @@ void Shooting::Render()
 	if (!playMoney && treasureAnimation)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[1].x, 0, ObjectPos[1].z);
+		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
 		modelStack.Rotate(rotateTreasure, 0, 1, 0);
 		modelStack.Scale(3, 3, 3);
 		RenderMesh(meshList[GEO_HEALTH], false);
@@ -687,7 +692,7 @@ void Shooting::Render()
 	else if (playMoney && treasureAnimation)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[1].x, 0, ObjectPos[1].z);
+		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
 		modelStack.Rotate(rotateTreasure, 0, 1, 0);
 		modelStack.Scale(3, 3, 3);
 		RenderMesh(meshList[GEO_ROCKS], false);
