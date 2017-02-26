@@ -207,7 +207,7 @@ void Shooting::Init()
 
 void Shooting::Update(double dt)
 {
-	if (tutorialEnd) //pausing game to show tutorial option
+	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
 		Camera.Update(dt, &horizontalRotation, &verticalRotation);
 	elapsed_time += dt;
 	//========Playing tutorial option========
@@ -245,7 +245,11 @@ void Shooting::Update(double dt)
 					test = 1;
 
 				if (test == 1)
+				{
 					enemyTutPos += dirVec * dt*enemySpeed;
+					Camera.enemyPos.push_back(enemyTutPos);
+				}
+					
 			}
 		}
 		
@@ -414,37 +418,36 @@ void Shooting::Update(double dt)
 		Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
 
 //==================CHECKING FOR ENEMIES NEAR CHARCTER============
-	int checkNoEnemies = 0;
-	for (int i = 0; i < enemySize; i++)
-	{
-		if ((Camera.position - enemyPos[i]).Length() <= 50)
-		{
-			enemyMarking.push_back(i); //To keep track of enemies within charater's radius
-			checkNoEnemies++;
-		}
-		else if (checkNoEnemies == 0 && (i + 1 == enemySize) )
-		{
-			enemyMarking.clear();
-		}
-	}
-	//Decreasing health
 	if (tutorialEnd)
 	{
+		enemyMarking.clear(); 	//Clearing all data to save space, and update any dead enemies that turn into new enemies
+		Camera.enemyPos.clear(); //Clearing all data to save space, and update any dead enemies that turn into new enemies
+		for (int i = 0; i < enemySize; i++)
+		{
+			if ((Camera.position - enemyPos[i]).Length() <= 50)
+			{
+				enemyMarking.push_back(i); //To keep track of enemies within charater's and bullet's radius
+			}
+		}
+//=========================DECREASING HEALTH======================
 		for (int i = 0; i < enemyMarking.size(); i++)
 		{
+			Camera.enemyPos.push_back(enemyPos[enemyMarking.at(i)]); //Setting enemy positions 
+			//Enemy hits the player 
 			if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 			{
 				health -= 1;
-				bounce_time_enemy_hit += elapsed_time + 2;
+				bounce_time_enemy_hit += elapsed_time + 1; //Ensuring that player does not get hit so fast with multiple attacks
 			}
 		}
 	}
+	//Mechanic for tutorial enemy
 	else if (disappearTable && !enemyTutDead)
 	{
 		if ((Camera.position - enemyTutPos).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 		{
 			health -= 1;
-			bounce_time_enemy_hit += elapsed_time + 2;
+			bounce_time_enemy_hit += elapsed_time + 1; 
 		}
 	}
 //=======================BULLET MOVEMENTS===================
@@ -487,6 +490,7 @@ void Shooting::Update(double dt)
 				{
 					enemyTutDead = true;
 					moveLaser[i] = false;
+					Camera.enemyPos.clear();
 				}
 		}
 

@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 #include "AABB.h"
+#include <vector>
 
 class ShootingCamera : public Camera
 {
@@ -30,6 +31,10 @@ public:
 	AABB objectAABB;
 
 	bool switchTreasure = false;
+//===========Enemy sphere collision================
+	std::vector <Vector3> enemyPos;
+	bool collideEnemies(Vector3, Vector3);
+	bool collideEnemy = false;
 //=================================================
 	float mouseY = 0;
 	float mouseX = 0;

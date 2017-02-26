@@ -136,7 +136,7 @@ private:
 
 	Vector3 dirVec;
 	Vector3 enemyPos[100] = {};
-	bool enemyDead[50];
+	bool enemyDead[100];
 	std::vector <int> enemyMarking;
 	//========Tutorial enemy=======
 	Vector3 enemyTutPos = {2,0,-20};
