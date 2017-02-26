@@ -207,7 +207,30 @@ void Shooting::Init()
 
 void Shooting::Update(double dt)
 {
+	if (tutorialEnd) //pausing game to show tutorial option
+		Camera.Update(dt, &horizontalRotation, &verticalRotation);
 	elapsed_time += dt;
+	//========Playing tutorial option========
+	if (!tutorialStart && !tutorialEnd)
+	{
+		if (Application::IsKeyPressed('9'))
+		{
+			tutorialStart = true;
+		}
+
+		else if (Application::IsKeyPressed('0'))
+		{
+			tutorialEnd = true;
+			pickUpGun = true;
+			disappearTable = true; 
+			openTreasure = true;
+			enemyTutDead = true;
+			srand(time(NULL));
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			ObjectPos[0].Set(i, -3, j);
+		}
+	}
 	//==========Tutorial Enemy movement========
 	if (disappearTable)
 	{
@@ -468,13 +491,14 @@ void Shooting::Update(double dt)
 		}
 
 	}
-	if (bulletCount >= 5 || (Application::IsKeyPressed('R')) && (bulletCount > 0)) // I added the user input for reload here
+	// Reloading gun
+	if (bulletCount >= 5 || (Application::IsKeyPressed('R')) && (bulletCount > 0)) 
 	{
 		bulletCount = 0;
 		reload = true;
 		bounce_time = elapsed_time + 2.5;
 	}
-	if (elapsed_time > bounce_time && reload)
+	if (elapsed_time > bounce_time && reload) //Duration for "Reloading" text on screen 
 	{
 		reload = false;
 	}
@@ -486,26 +510,15 @@ void Shooting::Update(double dt)
 		if (rotateTreasure > 360.f)
 			treasureAnimation = false;
 	}
-	//Spawning new treasure chest after animation from previous treasure is played
-		if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
+	//Opening treasure
+	if (((ObjectPos[0] - Camera.position).Length() < 9) && Application::IsKeyPressed('E') && elapsed_time > bounce_time_treasure)
 		{
 			if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
 				openTreasure = true;
 
-			rotateTreasure = 0.f;
-			treasureAnimation = true;
-
-			treasureTaken = true;
-		}
-		if (!treasureAnimation && treasureTaken)
-		{
-			//ObjectPos[1].Set(ObjectPos[0].x, ObjectPos[0].y, ObjectPos[0].z);
-			//For randomising treasure
-			float i = RandomNumber(-250, 250);
-			float j = RandomNumber(-250, 250);
-			ObjectPos[0].Set(i, 0, j);
-
-			if ((int)RandomNumber(0, 10) >= 6)
+			srand(time(NULL));
+			//Randomising rewards only after treasure is opened
+			if ((int)RandomNumber(0, 10) >= 5)
 			{
 				getMoney = true;
 				getHealth = false;
@@ -516,10 +529,22 @@ void Shooting::Update(double dt)
 				if (health < 5) //Limiting health 
 					getHealth = true;
 			}
-
+			//treausure animations
+			rotateTreasure = 0.f;
+			treasureAnimation = true;
+			treasureTaken = true;
+			bounce_time_treasure += elapsed_time + 0.2; //Making sure player cannot take multiple treasures at once
+		}
+		//Randomising next treasure only after previous treasure reward is taken 
+		if (!treasureAnimation && treasureTaken)
+		{
+			//For randomising treasure
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			ObjectPos[0].Set(i, 0, j);
 			treasureTaken = false;
 		}
-//Player getting rewards
+    //Player getting rewards
 	if (getMoney)
 	{
 		amtMoney = (int)RandomNumber(0, 10);
@@ -535,7 +560,7 @@ void Shooting::Update(double dt)
 	}
 
 //===========================================================
-	Camera.Update(dt, &horizontalRotation, &verticalRotation);
+
 	stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 }
 
@@ -734,6 +759,9 @@ void Shooting::Render()
 
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
 	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+	//================================================================================
+	if (!tutorialStart && !tutorialEnd)
+		RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);
 	//================================================================================
 
 	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);

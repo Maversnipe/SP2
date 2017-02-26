@@ -159,13 +159,15 @@ private:
 	bool disappearEnemy = true;
 	bool tutorialEnd = false;
 	bool openTreasure = false;
+	bool tutorialStart = false;
 	//============Treasure===========
-	Vector3 ObjectPos[2] = {};
+	Vector3 ObjectPos[1] = {};
 	bool getMoney = false;
 	int amtMoney = 0;
 	bool getHealth = false;
 	int health = 3;
 	float rotateTreasure = 0.f;
+	float bounce_time_treasure = 0.f;
 	bool treasureAnimation = false;
 	bool playMoney = false;
 	bool treasureTaken = false;

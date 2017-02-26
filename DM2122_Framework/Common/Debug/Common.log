@@ -1,8 +1,8 @@
-﻿Build started 2/24/2017 1:54:34 PM.
-     1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
+﻿Build started 26/2/2017 3:33:57 PM.
+     1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
      1>Lib:
-         Common.vcxproj -> D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Common.lib
-     1>Done Building Project "D:\GIT_ROOT\SP2\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
+         Common.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Common.lib
+     1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
 
 Build succeeded.
 
