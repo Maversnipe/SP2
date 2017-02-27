@@ -138,6 +138,7 @@ private:
 	Vector3 enemyPos[100] = {};
 	bool enemyDead[100];
 	std::vector <int> enemyMarking;
+	int notifyPlayer = 0;
 	//========Tutorial enemy=======
 	Vector3 enemyTutPos = {2,0,-20};
 	bool enemyTutDead = false;

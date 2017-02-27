@@ -212,8 +212,7 @@ void Shooting::Init()
 
 void Shooting::Update(double dt)
 {
-	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
-		Camera.Update(dt, &horizontalRotation, &verticalRotation);
+
 	elapsed_time += dt;
 	//========Playing tutorial option========
 	if (!tutorialStart && !tutorialEnd)
@@ -252,7 +251,6 @@ void Shooting::Update(double dt)
 				if (test == 1)
 				{
 					enemyTutPos += dirVec * dt*enemySpeed;
-					Camera.enemyPos.push_back(enemyTutPos);
 				}
 					
 			}
@@ -337,14 +335,10 @@ void Shooting::Update(double dt)
 				else
 					enemyPos[counter] = enemyPos[counter];
 			}
-			if (enemyDead[counter] == true)
-			{
-				enemyPos[counter] = {};
-				float i = RandomNumber(-250, 250);
-				float j = RandomNumber(-250, 250);
-				enemyPos[counter].Set(i, 0, j);
-				enemyDead[counter] = false;
-			}
+		//	else if (enemyDead[counter] == true)
+		//	{
+			
+		//	}
 		}
 	}
 	//====================================
@@ -429,7 +423,7 @@ void Shooting::Update(double dt)
 		Camera.enemyPos.clear(); //Clearing all data to save space, and update any dead enemies that turn into new enemies
 		for (int i = 0; i < enemySize; i++)
 		{
-			if ((Camera.position - enemyPos[i]).Length() <= 50)
+			if ((Camera.position - enemyPos[i]).Length() < 50)
 			{
 				enemyMarking.push_back(i); //To keep track of enemies within charater's and bullet's radius
 			}
@@ -438,21 +432,24 @@ void Shooting::Update(double dt)
 		for (int i = 0; i < enemyMarking.size(); i++)
 		{
 			Camera.enemyPos.push_back(enemyPos[enemyMarking.at(i)]); //Setting enemy positions 
+	//		Camera.hitNoti(enemyPos[enemyMarking.at(i)]);
 			//Enemy hits the player 
 			if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 			{
 				health -= 1;
-				bounce_time_enemy_hit += elapsed_time + 1; //Ensuring that player does not get hit so fast with multiple attacks
+				bounce_time_enemy_hit = elapsed_time + 1; //Ensuring that player does not get hit so fast with multiple attacks
 			}
 		}
 	}
 	//Mechanic for tutorial enemy
 	else if (disappearTable && !enemyTutDead)
 	{
+	//	Camera.hitNoti(enemyTutPos);
+		Camera.enemyPos.push_back(enemyTutPos);
 		if ((Camera.position - enemyTutPos).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 		{
 			health -= 1;
-			bounce_time_enemy_hit += elapsed_time + 1; 
+			bounce_time_enemy_hit = elapsed_time + 1; 
 		}
 	}
 //=======================BULLET MOVEMENTS===================
@@ -487,6 +484,16 @@ void Shooting::Update(double dt)
 					{
 						enemyDead[enemyMarking.at(counter)] = true;
 						moveLaser[i] = false;
+						//Generating new enemy
+						enemyPos[enemyMarking.at(counter)] = {};
+						float i = RandomNumber(-250, 250);
+						float j = RandomNumber(-250, 250);
+						enemyPos[enemyMarking.at(counter)].Set(i, 0, j);
+						enemyDead[enemyMarking.at(counter)] = false;
+						/*for (int i = 0; i < 4; i++)
+						{
+							Camera.sideNoti[i] = 0;
+						}*/
 					}
 				}
 			}
@@ -496,6 +503,10 @@ void Shooting::Update(double dt)
 					enemyTutDead = true;
 					moveLaser[i] = false;
 					Camera.enemyPos.clear();
+					/*for (int i = 0; i < 4; i++)
+					{
+						Camera.sideNoti[i] = 0;
+					}*/
 				}
 		}
 
@@ -569,7 +580,8 @@ void Shooting::Update(double dt)
 	}
 
 //===========================================================
-
+	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
+		Camera.Update(dt, &horizontalRotation, &verticalRotation);
 	stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 }
 
@@ -768,6 +780,27 @@ void Shooting::Render()
 
 	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
 	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+	for (int i = 0; i < 4; i++)
+	{
+		switch (Camera.sideNoti[i])
+		{
+		case 0:
+			break;
+		case 1:
+			RenderMeshOnScreen(meshList[GEO_HEALTH], 3, 30, 4, 4); //Left
+			break;
+		case 2:
+			RenderMeshOnScreen(meshList[GEO_HEALTH], 75, 30, 4, 4); //Right
+			break;
+		case 3:
+			RenderMeshOnScreen(meshList[GEO_HEALTH], 50, 57, 4, 4); //Up
+			break;
+		case 4:
+			RenderMeshOnScreen(meshList[GEO_HEALTH], 50, 10, 4, 4); //Down
+			break;
+		}
+	}
+	
 	//================================================================================
 	if (!tutorialStart && !tutorialEnd)
 		RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);

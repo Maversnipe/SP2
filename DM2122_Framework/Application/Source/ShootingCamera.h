@@ -35,6 +35,9 @@ public:
 	std::vector <Vector3> enemyPos;
 	bool collideEnemies(Vector3, Vector3);
 	bool collideEnemy = false;
+//=============Enemy hit notification==============
+	void hitNoti(Vector3);
+	int sideNoti[4];
 //=================================================
 	float mouseY = 0;
 	float mouseX = 0;
