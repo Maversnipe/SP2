@@ -133,12 +133,41 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 			position += view * (float)(30.f * dt);
 		}
 	}
-
+	if (enemyPos.size() != 0)
+	{
+		for (int i = 0; i < enemyPos.size(); i++)
+		{
+			hitNoti(enemyPos[i]);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			sideNoti[i] = 0;
+		}
+	}
+		
 	if (Application::IsKeyPressed('A'))
 	{
 		newPos = position - (right * velocity);
 		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-
+		//========Enemy collisions =========
+		if (enemyPos.size() != 0)
+		{
+			for (int i = 0; i < enemyPos.size(); i++)
+			{
+				collideEnemy = false;
+				if (collideEnemies(newPos, enemyPos[i]))
+				{
+					collideEnemy = collideEnemies(newPos, enemyPos[i]);
+					break;
+				}
+			}
+		}
+		else 
+			collideEnemy = false;
+		//==============AABB================
 		if (collideAABBobject(charAABB, objectAABB))
 			{
 				if (((charAABB.min.x < objectAABB.min.x) || (charAABB.max.x > objectAABB.max.x))
@@ -159,7 +188,10 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 					target.z = position.z + (view.z * velocity);
 				}
 			}
-					
+		//========Enemy collisions =========
+		else if (collideEnemy)
+			position = position;
+		//==================================
 		else
 		{
 			position.x = position.x - (right.x * velocity);
@@ -172,7 +204,22 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 	{
 		newPos = position + (right * velocity);
 		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-
+		//========Enemy collisions =========
+		if (enemyPos.size() != 0)
+		{
+			for (int i = 0; i < enemyPos.size(); i++)
+			{
+				collideEnemy = false;
+				if (collideEnemies(newPos, enemyPos[i]))
+				{
+					collideEnemy = collideEnemies(newPos, enemyPos[i]);
+					break;
+				}
+			}
+		}
+		else
+			collideEnemy = false;
+		//==============AABB================
 		if (collideAABBobject(charAABB, objectAABB))
 		{
 			if (((charAABB.min.x < objectAABB.min.x) || (charAABB.max.x > objectAABB.max.x))
@@ -193,7 +240,10 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 				target.z = position.z + (view.z * velocity);
 			}
 		}
-
+		//========Enemy collisions =========
+		else if (collideEnemy)
+			position = position;
+		//==================================
 		else
 		{
 			position.x = position.x + (right.x * velocity);
@@ -206,7 +256,22 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 	{
 		newPos = position + (view * velocity);
 		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-
+		//========Enemy collisions =========
+		if (enemyPos.size() != 0)
+		{
+			for (int i = 0; i < enemyPos.size(); i++)
+			{
+				collideEnemy = false;
+				if (collideEnemies(newPos, enemyPos[i]))
+				{
+					collideEnemy = collideEnemies(newPos, enemyPos[i]);
+					break;
+				}
+			}
+		}
+		else
+			collideEnemy = false;
+		//==============AABB================
 		if (collideAABBobject(charAABB, objectAABB))
 		{
 			if (((charAABB.min.x < objectAABB.min.x) || (charAABB.max.x > objectAABB.max.x))
@@ -227,7 +292,10 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 				target.z = position.z + (view.z * velocity);
 			}
 		}
-
+		//========Enemy collisions =========
+		else if (collideEnemy)
+			position = position;
+		//==================================
 		else
 		{
 			position.x = position.x + (view.x * velocity);
@@ -240,7 +308,22 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 	{
 		newPos = position - (view * velocity);
 		charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-
+		//========Enemy collisions =========
+		if (enemyPos.size() != 0)
+		{
+			for (int i = 0; i < enemyPos.size(); i++)
+			{
+				collideEnemy = false;
+				if (collideEnemies(newPos, enemyPos[i]))
+				{
+					collideEnemy = collideEnemies(newPos, enemyPos[i]);
+					break;
+				}
+			}
+		}
+		else
+			collideEnemy = false;
+		//==============AABB================
 		if (collideAABBobject(charAABB, objectAABB))
 		{
 			if (((charAABB.min.x < objectAABB.min.x) || (charAABB.max.x > objectAABB.max.x))
@@ -261,7 +344,10 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 				target.z = position.z + (view.z * velocity);
 			}
 		}
-
+		//========Enemy collisions =========
+		else if (collideEnemy)
+			position = position;
+		//==================================
 		else
 		{
 			position.x = position.x - (view.x * velocity);
@@ -313,4 +399,42 @@ bool ShootingCamera::collideAABBobject(AABB charAABB, AABB buildingAABB)
 {
 	return((charAABB.max.x > buildingAABB.min.x) && (charAABB.max.z > buildingAABB.min.z)
 		&& (charAABB.min.x < buildingAABB.max.x) && (charAABB.min.z < buildingAABB.max.z));
+}
+
+bool ShootingCamera::collideEnemies(Vector3 character, Vector3 enemy)
+{
+	if ((character - enemy).Length() < 3)
+		return true;
+	else
+		return false;
+}
+
+void ShootingCamera::hitNoti(Vector3 enemy)
+{
+	Vector3 newPosA = position - (right * velocity); //Left side
+	Vector3 newPosD = position + (right * velocity); //Right side
+	Vector3 newPosW = position + (view * velocity); //Front side
+	Vector3 newPosS = position - (view * velocity); //Back side
+
+	//Left side
+	if (collideEnemies(newPosA, enemy))
+		sideNoti[0] = 1;
+	else
+		sideNoti[0] = 0;
+	//Right side
+	if (collideEnemies(newPosD, enemy))
+		sideNoti[1] = 2;
+	else
+		sideNoti[1] = 0;
+	//Front side
+	if (collideEnemies(newPosW, enemy))
+		sideNoti[2] = 3;
+	else
+		sideNoti[2] = 0;
+	//Back side
+	if (collideEnemies(newPosS, enemy))
+		sideNoti[3] = 4;
+	else
+		sideNoti[3] = 0;
+
 }

@@ -4,10 +4,10 @@
 class Car
 {
 public:
-	Car(){}
-	~Car(){}
-	int health = 100;
-	float fuel = 10000.0f;
+	Car(){};
+	~Car(){};
+	float health;
+	float fuel;
 private:
 };
 

@@ -2,7 +2,7 @@
 #define CAMERA_4_H
 
 #include "Camera.h"
-#include "Car.h"
+#include <vector>
 
 class Camera4 : public Camera
 {
@@ -16,16 +16,16 @@ public:
 	Vector3 defaultUp;
 	Vector3 view;
 	Vector3 right;
-	Vector3 move;
-
-	Car car;
+	std::vector <Vector3> ObjPos;
+	//Car car;
 
 	Camera4();
 	~Camera4();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, float*);
+	virtual void Update(double dt, float*,float&);
 	virtual void Reset();
 
+	bool collision = false;
 	float mouseY = 0;
 	float mouseX = 0;
 	double xpos, ypos;

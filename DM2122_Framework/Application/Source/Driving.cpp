@@ -12,9 +12,14 @@ using namespace std;
 Driving::Driving()
 {
 	enemySize = 10;
+	objectSize = 30;
 	enemyRadius = 0.5;
 	ObjectRadius = 1.0;
 	enemySpeed = 20;
+	healthPack = 5;
+	fuelPack = 5;
+	car.health = 100;
+	car.fuel = 10000.0f;
 }
 
 Driving::~Driving()
@@ -82,8 +87,11 @@ void Driving::Init()
 
 	// Set default values
 	rotateAngle = 0;
-	translateX = 0;
-	scaleExplosion = 1;
+	fuel = 0;
+	for (int i = 0; i < enemySize; i++)
+	{
+		scaleExplosion[i] = 1;
+	}
 
 	light[0].type = Light::LIGHT_SPOT;
 	light[0].position.Set(0, 20, 0);
@@ -111,39 +119,40 @@ void Driving::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	// Initialise Camera
-	Camera4.Init(Vector3(5, 2, 5), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	Camera4.Init(Vector3(5, 1, 5), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
 		meshList[i] = NULL;
 	}
 
-	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
+	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 0, 0), 1, 1);
+	//meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//blood-valley_ft.tga");
 
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//blood-valley_bk.tga");
 
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//blood-valley_rt.tga");
 
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1, 1);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//blood-valley_lf.tga");
 
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1, 1);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//blood-valley_dn.tga");
 
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1, 1);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//blood-valley_up.tga");
 
 	meshList[GEO_BB8] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
 	meshList[GEO_BB8]->textureID = LoadTGA("Image//BB8.tga");
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
-	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 1, 0), 1, 1, 1);
+	meshList[GEO_CUBE1] = MeshBuilder::GenerateCube("cube", Color(1, 0, 0), 1, 1, 1);
+	meshList[GEO_CUBE2] = MeshBuilder::GenerateCube("cube", Color(0, 0, 0), 1, 1, 1);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightSphere", Color(1, 1, 1), 18, 36, 1);
 	meshList[GEO_EXPLOSION] = MeshBuilder::GenerateSphere("explosion", Color(1, 0, 0), 18, 36, 1);
 
@@ -162,6 +171,15 @@ void Driving::Init()
 	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("car", "OBJ//car.obj");
 	meshList[GEO_CAR]->textureID = LoadTGA("Image//car.tga");
 
+	meshList[GEO_ROCK] = MeshBuilder::GenerateOBJ("rock", "OBJ//rock.obj");
+	meshList[GEO_ROCK]->textureID = LoadTGA("Image//rock.tga");
+
+	meshList[GEO_FUEL] = MeshBuilder::GenerateOBJ("fuel", "OBJ//fuel.obj");
+	meshList[GEO_FUEL]->textureID = LoadTGA("Image//fuel.tga");
+
+	meshList[GEO_HEALTH] = MeshBuilder::GenerateOBJ("health", "OBJ//health.obj");
+	//meshList[GEO_HEALTH]->textureID = LoadTGA("Image//health.tga");
+
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -175,11 +193,26 @@ void Driving::Init()
 		enemyDead[counter] = false;
 		enemyExplosion[counter] = false;
 	}
-	for (int counter = 0; counter < enemySize; counter++)
+	for (int counter = 0; counter < healthPack; counter++)
+	{
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		HealthPos[counter].Set(i, 0, j);
+		healthPacktaken[counter] = false;
+	}
+	for (int counter = 0; counter < fuelPack; counter++)
+	{
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		FuelPos[counter].Set(i, 0, j);
+		fuelPacktaken[counter] = false;
+	}
+	for (int counter = 0; counter < objectSize; counter++)
 	{
 		float i = RandomNumber(-250, 250);
 		float j = RandomNumber(-250, 250);
 		ObjectPos[counter].Set(i, 0, j);
+		Camera4.ObjPos.push_back(ObjectPos[counter]);
 	}
 }
 
@@ -188,13 +221,13 @@ void Driving::Update(double dt)
 
 	//car.carposition.y = 0;
 	//Camera4.position/*.Set(Camera4.position.x + car.move.x, 5, Camera4.position.z + car.move.z)*/ = car.carposition;
-	carVec.Set(Camera4.target.x, 0, Camera4.target.z);
+	carVec.Set(Camera4.position.x/* + (Camera4.view.x * 5)*/, 0, Camera4.position.z/*+(Camera4.view.x * 5)*/);
 	//==========Enemy movements==========
 	for (int counter = 0; counter < enemySize; counter++)
 	{
 		if (enemyDead[counter] == false && enemyExplosion[counter] == false)
 		{
-			if ((carVec - enemyPos[counter]).Length() > 3 /*&& (Camera4.position - enemyPos[counter]).Length() < 30*/)
+			if ((carVec - enemyPos[counter]).Length() > 1 /*&& (Camera4.position - enemyPos[counter]).Length() < 30*/)
 			{
 				int test = 0;
 				int test2 = 0;
@@ -202,10 +235,10 @@ void Driving::Update(double dt)
 
 				for (int counter2 = 0; counter2 < enemySize; counter2++)
 				{
-					for (int counter3 = 0; counter3 < enemySize; counter3++)
+					for (int counter3 = 0; counter3 < objectSize; counter3++)
 					{
 						dirVec = (carVec - enemyPos[counter]).Normalize();
-						enemyRotation1[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
+						enemyRotation[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
 						if (counter != counter2)
 						{
 							if (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - enemyPos[counter2]).Length()>enemyRadius
@@ -289,7 +322,7 @@ void Driving::Update(double dt)
 			{
 				enemyPos[counter] = enemyPos[counter];
 			}
-			if ((carVec - enemyPos[counter]).Length() > 3 && (carVec - enemyPos[counter]).Length() < 6)
+			if ((carVec - enemyPos[counter]).Length() > 1 && (carVec - enemyPos[counter]).Length() < 2)
 			{
 				ExplosionPos[counter] = enemyPos[counter];
 				enemyExplosion[counter] = true;
@@ -298,18 +331,18 @@ void Driving::Update(double dt)
 		}
 		if (enemyExplosion[counter] == true)
 		{
-			if (scaleExplosion < 3)
+			if (scaleExplosion[counter] < 3)  //esther was here lookahorse12@gmail.com
 			{
-				scaleExplosion += 0.01;
-				ExplosionRadius[counter] = scaleExplosion;
+				scaleExplosion[counter] += 0.1;
+				ExplosionRadius[counter] = scaleExplosion[counter];
 				if ((carVec - ExplosionPos[counter]).Length() <= 3 + ExplosionRadius[counter])
 				{
-					car.health -= 20;
+					car.health -= 1;
 				}
 			}
 			else
 			{
-				scaleExplosion = 1;
+				scaleExplosion[counter] = 1;
 				enemyExplosion[counter] = false;
 				ExplosionRadius[counter] = 1;
 				enemyDead[counter] = true;
@@ -322,6 +355,50 @@ void Driving::Update(double dt)
 			float j = RandomNumber(-250, 250);
 			enemyPos[counter].Set(i, 0, j);
 			enemyDead[counter] = false;
+		}
+	}
+	for (int counter = 0; counter < healthPack; counter++)
+	{
+		if (car.health < 100)
+		{
+			if ((carVec - HealthPos[counter]).Length() <= 2)
+			{
+				car.health += 20;
+				healthPacktaken[counter] = true;
+			}
+		}
+		if (car.health > 100)
+		{
+			car.health = 100;
+		}
+		if (healthPacktaken[counter] == true)
+		{
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			HealthPos[counter].Set(i, 0, j);
+			healthPacktaken[counter] = false;
+		}
+	}
+	for (int counter = 0; counter < fuelPack; counter++)
+	{
+		if (car.fuel < 10000)
+		{
+			if ((carVec - FuelPos[counter]).Length() <= 2)
+			{
+				car.fuel += 2000;
+				fuelPacktaken[counter] = true;
+			}
+		}
+		if (car.fuel > 10000)
+		{
+			car.fuel = 10000;
+		}
+		if (fuelPacktaken[counter] == true)
+		{
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			FuelPos[counter].Set(i, 0, j);
+			fuelPacktaken[counter] = false;
 		}
 	}
 	//====================================
@@ -365,8 +442,10 @@ void Driving::Update(double dt)
 		light[0].type = Light::LIGHT_SPOT;
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
-
-	Camera4.Update(dt, &rotateAngle);
+	if (car.health > 0)
+	{
+		Camera4.Update(dt, &rotateAngle, car.fuel);
+	}
 	if (car.health < 0)
 	{
 		car.health = 0;
@@ -379,7 +458,7 @@ void Driving::Update(double dt)
 	{
 		changeScene = 3;
 	}
-	cout << car.health << "            "<< endl;
+	cout << car.health << "            " << car.fuel << endl;
 }
 
 void Driving::Render()
@@ -410,7 +489,7 @@ void Driving::Render()
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
-		(Camera4.position.x), (Camera4.position.y ), (Camera4.position.z),
+		(Camera4.position.x - (Camera4.view.x * 5)), (Camera4.position.y), (Camera4.position.z - (Camera4.view.z * 5)),
 		Camera4.target.x, Camera4.target.y, Camera4.target.z,
 		Camera4.up.x, Camera4.up.y, Camera4.up.z);
 	modelStack.LoadIdentity();
@@ -434,20 +513,35 @@ void Driving::Render()
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
-			modelStack.Rotate(enemyRotation1[i], 0, 1, 0);
-			modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
+			modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+			//modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
 			modelStack.Scale(0.25, 0.25, 0.25);
 			RenderMesh(meshList[GEO_ENEMY], true);
 			modelStack.PopMatrix();
 		}
 	}
-	for (int i = 0; i < enemySize; i++)
+	for (int i = 0; i < objectSize; i++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
-		//modelStack.Rotate(enemyRotation[i], 0, 1, 0);
 		modelStack.Scale(1, 1, 1);
-		RenderMesh(meshList[GEO_CUBE], true);
+		RenderMesh(meshList[GEO_ROCK], true);
+		modelStack.PopMatrix();
+	}
+	for (int i = 0; i < healthPack; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(HealthPos[i].x, 0, HealthPos[i].z);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_HEALTH], true);
+		modelStack.PopMatrix();
+	}
+	for (int i = 0; i < fuelPack; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(FuelPos[i].x, 0, FuelPos[i].z);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_FUEL], true);
 		modelStack.PopMatrix();
 	}
 	for (int i = 0; i < enemySize; i++)
@@ -456,7 +550,6 @@ void Driving::Render()
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(ExplosionPos[i].x, 0, ExplosionPos[i].z);
-			//modelStack.Rotate(enemyRotation[i], 0, 1, 0);
 			modelStack.Scale(ExplosionRadius[i], ExplosionRadius[i], ExplosionRadius[i]);
 			RenderMesh(meshList[GEO_EXPLOSION], true);
 			modelStack.PopMatrix();
@@ -465,12 +558,15 @@ void Driving::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(carVec.x, carVec.y, carVec.z);
 	modelStack.Rotate(rotateAngle, 0, 1, 0);
-	modelStack.Scale(1, 1, 1);
+	modelStack.Scale(0.25, 0.25, 0.25);
 	RenderMesh(meshList[GEO_CAR], true);
 	modelStack.PopMatrix();
 	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
-	RenderMeshOnScreen(meshList[GEO_QUAD], 5, 5, 5, 5);//No transform needed
+	RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((100-(int)car.health) / 20)), 57, ((int)car.health / 10), 2);//No transform needed
+	RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 0, 0), 2, 0.5, 28.5);
 
+	RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((10000 - (int)car.fuel) / 2000)), 55, ((int)car.fuel / 1000), 2);//No transform needed
+	RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 0, 0), 2, 0.5, 27.5);
 }
 
 void Driving::RenderSkybox()
