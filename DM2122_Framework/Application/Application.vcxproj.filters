@@ -12,9 +12,6 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{f513d723-5b55-4113-a312-74bd862bd7ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Scene">
-      <UniqueIdentifier>{a0659cd1-0e00-46a0-9261-f49d789a3f73}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -166,14 +163,13 @@
     <ClInclude Include="Source\PlatformerCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Source\Platforms.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Enemy.h">
->>>>>>> 6352a3459b7e481525f18a20915b85b59827d36b
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

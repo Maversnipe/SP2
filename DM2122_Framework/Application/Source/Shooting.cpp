@@ -530,7 +530,6 @@ void Shooting::Update(double dt)
 		if (rotateTreasure > 360.f)
 			treasureAnimation = false;
 	}
-<<<<<<< HEAD
 	//Spawning new treasure chest after animation from previous treasure is played
 	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
 	{
@@ -565,7 +564,6 @@ void Shooting::Update(double dt)
 		treasureTaken = false;
 	}
 	//Player getting rewards
-=======
 	//Opening treasure
 	if (((ObjectPos[0] - Camera.position).Length() < 9) && Application::IsKeyPressed('E') && elapsed_time > bounce_time_treasure)
 		{
@@ -601,7 +599,6 @@ void Shooting::Update(double dt)
 			treasureTaken = false;
 		}
     //Player getting rewards
->>>>>>> 6352a3459b7e481525f18a20915b85b59827d36b
 	if (getMoney)
 	{
 		amtMoney = (int)RandomNumber(0, 10);
