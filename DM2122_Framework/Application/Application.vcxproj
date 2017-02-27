@@ -101,7 +101,6 @@
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Shooting.cpp" />
     <ClCompile Include="Source\ShootingCamera.cpp" />
-    <ClCompile Include="Source\SPTest.cpp" />
     <ClCompile Include="Source\StudioProject.cpp" />
     <ClCompile Include="Source\Utiity.cpp" />
   </ItemGroup>
@@ -116,6 +115,8 @@
     <ClInclude Include="Source\Camera4.h" />
     <ClInclude Include="Source\Car.h" />
     <ClInclude Include="Source\Driving.h" />
+    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Platformer.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
@@ -131,7 +132,6 @@
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Shooting.h" />
     <ClInclude Include="Source\ShootingCamera.h" />
-    <ClInclude Include="Source\SPTest.h" />
     <ClInclude Include="Source\StudioProject.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />

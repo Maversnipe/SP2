@@ -30,7 +30,8 @@ void Shooting::Init()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
+	glEnable(GL_BLEND);
+
 	// Blend
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -121,10 +122,14 @@ void Shooting::Init()
 	}
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");	meshList[GEO_FLOOR] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1, 1);
-	meshList[GEO_FLOOR]->textureID = LoadTGA("Image//Shooting//floor.tga");
+	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
+
+	meshList[GEO_FLOOR] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1, 1);
+	meshList[GEO_FLOOR]->textureID = LoadTGA("Image//Shooting//floor.tga");
+
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//Shooting//front.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//Shooting//front.tga");
+
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//Shooting//back.tga");
 

@@ -9,6 +9,8 @@
 #include "AABB.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Car.h"
+//#include "Object.h"
 
 using std::vector;
 
@@ -26,6 +28,7 @@ public:
 	Camera4 Camera4;
 
 	Car car;
+	//Object object[100];
 
 	enum GEOMETRY_TYPE
 	{
@@ -39,6 +42,8 @@ public:
 
 		GEO_TEXT,
 		GEO_CUBE,
+		GEO_CUBE1,
+		GEO_CUBE2,
 		GEO_LIGHTBALL,
 		GEO_EXPLOSION,
 		GEO_LEFT,
@@ -49,6 +54,9 @@ public:
 		GEO_BACK,
 		GEO_ENEMY,
 		GEO_CAR,
+		GEO_ROCK,
+		GEO_FUEL,
+		GEO_HEALTH,
 		NUM_GEOMETRY,
 	};
 
@@ -87,8 +95,8 @@ public:
 	unsigned m_parameters[U_TOTAL];
 
 	float rotateAngle;
-	float translateX;
-	float scaleExplosion;
+	float fuel;
+	float scaleExplosion[100];
 	bool dead = false;
 	int HP = 100;
 
@@ -119,20 +127,26 @@ private:
 	std::string framesPerSec = "";
 
 	int enemySize;
+	int healthPack;
+	int fuelPack;
+	int objectSize;
 	float enemySpeed;
 	float enemyRadius;
 	float ObjectRadius;
-	float enemyRotation1[100] = {};
-	float enemyRotation2[100] = {};
+	float enemyRotation[100] = {};
 
 	Vector3 dirVec;
 	Vector3 carVec;
-	Vector3 enemyPos[100] = {};
 	Vector3 ObjectPos[100] = {};
+	Vector3 HealthPos[100] = {};
+	Vector3 FuelPos[100] = {};
 	Vector3 ExplosionPos[100] = {};
-	float ExplosionRadius[50];
-	bool enemyDead[50];
-	bool enemyExplosion[50];
+	Vector3 enemyPos[100] = {};
+	float ExplosionRadius[100];
+	bool enemyDead[100];
+	bool enemyExplosion[100];
+	bool fuelPacktaken[100];
+	bool healthPacktaken[100];
 	float RandomNumber(float Min, float Max);
 };
 

@@ -1,9 +1,9 @@
-﻿Build started 26/2/2017 3:33:57 PM.
-     1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2/27/2017 9:36:04 AM.
+     1>Project "E:\New folder (2)\DM2122_Framework\Common\Common.vcxproj" on node 2 (Build target(s)).
      1>Lib:
-         Common.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Common.lib
-     1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
+         Common.vcxproj -> E:\New folder (2)\DM2122_Framework\Debug\Common.lib
+     1>Done Building Project "E:\New folder (2)\DM2122_Framework\Common\Common.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.03
+Time Elapsed 00:00:00.23
