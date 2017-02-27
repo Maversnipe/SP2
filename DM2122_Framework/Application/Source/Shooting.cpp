@@ -487,39 +487,39 @@ void Shooting::Update(double dt)
 			treasureAnimation = false;
 	}
 	//Spawning new treasure chest after animation from previous treasure is played
-		if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
+	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
+	{
+		if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
+			openTreasure = true;
+
+		rotateTreasure = 0.f;
+		treasureAnimation = true;
+
+		treasureTaken = true;
+	}
+	if (!treasureAnimation && treasureTaken)
+	{
+		//ObjectPos[1].Set(ObjectPos[0].x, ObjectPos[0].y, ObjectPos[0].z);
+		//For randomising treasure
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		ObjectPos[0].Set(i, 0, j);
+
+		if ((int)RandomNumber(0, 10) >= 6)
 		{
-			if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
-				openTreasure = true;
-
-			rotateTreasure = 0.f;
-			treasureAnimation = true;
-
-			treasureTaken = true;
+			getMoney = true;
+			getHealth = false;
 		}
-		if (!treasureAnimation && treasureTaken)
+		else
 		{
-			//ObjectPos[1].Set(ObjectPos[0].x, ObjectPos[0].y, ObjectPos[0].z);
-			//For randomising treasure
-			float i = RandomNumber(-250, 250);
-			float j = RandomNumber(-250, 250);
-			ObjectPos[0].Set(i, 0, j);
-
-			if ((int)RandomNumber(0, 10) >= 6)
-			{
-				getMoney = true;
-				getHealth = false;
-			}
-			else
-			{
-				getMoney = false;
-				if (health < 5) //Limiting health 
-					getHealth = true;
-			}
-
-			treasureTaken = false;
+			getMoney = false;
+			if (health < 5) //Limiting health 
+				getHealth = true;
 		}
-//Player getting rewards
+
+		treasureTaken = false;
+	}
+	//Player getting rewards
 	if (getMoney)
 	{
 		amtMoney = (int)RandomNumber(0, 10);

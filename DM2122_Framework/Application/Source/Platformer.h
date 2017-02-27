@@ -9,6 +9,7 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
+#include "Platforms.h"
 
 class Platformer : public Scene
 {
@@ -105,12 +106,15 @@ private:
 
 	void RenderSkybox();
 
+	// Time
 	float elapsed_time = 0.0;
 	float bounce_time = 0.0;
 
+	// Map (Platform location)
 	int mapData[40][100] = {};
 	int mapHeight = 20;
 	bool haveSpace = false;
+	std::vector<Platforms> platformID[6];
 
 	float x = 0.0;
 	float y = 0.0;

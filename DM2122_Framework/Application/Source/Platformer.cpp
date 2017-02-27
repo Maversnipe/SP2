@@ -100,7 +100,7 @@ void Platformer::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	// Initialise Camera
-	camera.Init(Vector3(-490, 20 * 5, 0), Vector3(-485, 20 * 5, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(-485, 21 * 5, 0), Vector3(-480, 21 * 5, 0), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
@@ -134,19 +134,19 @@ void Platformer::Init()
 	meshList[ONE_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//1-Platform.obj");
 	meshList[ONE_BLOCK]->textureID = LoadTGA("Image//MainScene//building4.tga");
 
-	meshList[TWO_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//2-Platform.obj");
+	meshList[TWO_BLOCK] = MeshBuilder::GenerateOBJ("two sized", "OBJ//Platformer//2-Platform.obj");
 	meshList[TWO_BLOCK]->textureID = LoadTGA("Image//MainScene//building3.tga");
 
-	meshList[THREE_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//3-Platform.obj");
+	meshList[THREE_BLOCK] = MeshBuilder::GenerateOBJ("three sized", "OBJ//Platformer//3-Platform.obj");
 	meshList[THREE_BLOCK]->textureID = LoadTGA("Image//MainScene//building2.tga");
 
-	meshList[FOUR_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//4-Platform.obj");
+	meshList[FOUR_BLOCK] = MeshBuilder::GenerateOBJ("four sized", "OBJ//Platformer//4-Platform.obj");
 	meshList[FOUR_BLOCK]->textureID = LoadTGA("Image//MainScene//building.tga");
 
-	meshList[FIVE_BLOCK] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//5-Platform.obj");
+	meshList[FIVE_BLOCK] = MeshBuilder::GenerateOBJ("five sized", "OBJ//Platformer//5-Platform.obj");
 	meshList[FIVE_BLOCK]->textureID = LoadTGA("Image//MainScene//building5.tga");
 
-	meshList[START_END] = MeshBuilder::GenerateOBJ("one sized", "OBJ//Platformer//4-Platform.obj");
+	meshList[START_END] = MeshBuilder::GenerateOBJ("start-end", "OBJ//Platformer//4-Platform.obj");
 	meshList[START_END]->textureID = LoadTGA("Image//MainScene//building6.tga");
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
@@ -217,11 +217,7 @@ void Platformer::Update(double dt)
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
 
-	if (Application::IsKeyPressed('E'))
-	{ // So that it does not sense that user pressed E when entering mini-games
-	}
-
-	camera.Update(dt);
+	camera.Update(dt, platformID);
 }
 
 void Platformer::Render()
@@ -479,9 +475,17 @@ void Platformer::setPlatforms()
 	srand(time(NULL));
 	for (int startPoint = 0; startPoint < 4; startPoint++)
 		mapData[mapHeight][startPoint] = 7;
+	Platforms first;
+	first.type = 4;
+	first.pos.Set(-480, mapHeight * 5, 0);
+	first.platformAABB.SaveCoord(Vector3(first.pos.x - 10, (float)first.pos.y - 2.5, first.pos.z - 10),
+		Vector3(first.pos.x + 10, (float)first.pos.y + 2.5, first.pos.z + 10));
+	platformID[5].push_back(first);
 
 	for (int mapPos = 4; mapPos < 96; mapPos++)
 	{
+		Platforms platformCreated;
+		int platformType;
 		int randomNum = (int)RandomNumber(1.f, 9.f);
 		if (randomNum % 8 != 0 || (haveSpace))
 		{ // Don't have empty spaces
@@ -496,6 +500,7 @@ void Platformer::setPlatforms()
 					mapData[mapHeight][mapPos + blockNum] = randomNum;
 				}
 				mapPos += (randomNum - 1);
+				platformType = randomNum;
 			}
 			else if ((randomNum == 4) || (randomNum == 2) && (mapHeight > 5) && (!haveSpace))
 			{ // Go Down
@@ -506,6 +511,7 @@ void Platformer::setPlatforms()
 					mapData[mapHeight][mapPos + blockNum] = randomNum;
 				}
 				mapPos += (randomNum - 1);
+				platformType = randomNum;
 			}
 			else
 			{ // Stay Same Height
@@ -515,6 +521,39 @@ void Platformer::setPlatforms()
 					mapData[mapHeight][mapPos + blockNum] = randomNum;
 				}
 				mapPos += (randomNum - 1);
+				platformType = randomNum;
+			}
+
+			platformCreated.type = platformType;
+			platformCreated.pos.Set(((mapPos + ((float)platformType * 0.5)) * 10) - 500, mapHeight * 5, 0);
+
+			switch (platformType)
+			{
+			case 1:
+				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
+					Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
+				platformID[0].push_back(platformCreated);
+				break;
+			case 2:
+				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
+					Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
+				platformID[1].push_back(platformCreated);
+				break;
+			case 3:
+				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 15),
+					Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 15));
+				platformID[2].push_back(platformCreated);
+				break;
+			case 4:
+				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 10, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
+					Vector3(platformCreated.pos.x + 10, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
+				platformID[3].push_back(platformCreated);
+				break;
+			case 5:
+				platformCreated.platformAABB.SaveCoord(Vector3((float)platformCreated.pos.x - 12.5, platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
+					Vector3((float)platformCreated.pos.x + 12.5, platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
+				platformID[4].push_back(platformCreated);
+				break;
 			}
 		}
 		else
@@ -534,6 +573,12 @@ void Platformer::setPlatforms()
 	{
 		mapData[mapHeight][lastBlock] = 7;
 	}
+	Platforms last;
+	last.type = 4;
+	last.pos.Set(480, mapHeight * 5, 0);
+	last.platformAABB.SaveCoord(Vector3(last.pos.x - 10, (float)last.pos.y - 2.5, last.pos.z - 10),
+		Vector3(last.pos.x + 10, (float)last.pos.y + 2.5, last.pos.z + 10));
+	platformID[5].push_back(last);
 }	
 
 void Platformer::renderPlatforms()

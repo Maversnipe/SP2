@@ -23,14 +23,15 @@ void PlatformerCamera::Init(const Vector3& pos, const Vector3& target, const Vec
 	this->up = right.Cross(view).Normalized();
 	defaultUp.Set(0, 1, 0);
 	ShowCursor(false);
+
+	emptyPlatform.type = 0;
 }
 
-void PlatformerCamera::Update(double dt)
+void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 {
 	view = (target - position).Normalized();
 	right = view.Cross(up);
 	up = right.Cross(view).Normalized();
-
 
 	Mtx44 rotation, yaw, pitch;
 	yaw = mouseY;
@@ -61,7 +62,6 @@ void PlatformerCamera::Update(double dt)
 	{
 		verticalAngle = -1;
 		rotateVert = 0;
-
 	}
 	right.y = 0;
 	right.Normalize();
@@ -123,45 +123,102 @@ void PlatformerCamera::Update(double dt)
 			position += view * (float)(30.f * dt);
 		}
 	}
-
-	if (Application::IsKeyPressed('A'))
+	if (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
 	{
-		/*position.x = position.x - (right.x * velocity);
-		target.x = position.x + (view.x * velocity);
-		position.z = position.z - (right.z * velocity);
-		target.z = position.z + (view.z * velocity);*/
-		position = position - (right * velocity);
-		target = position + (view * velocity);
+		if (Application::IsKeyPressed('A'))
+		{
+			/*for (int platType = 0; platType < 6; platType++)
+			{
+			for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+			{
+			if (onPlatform(it->platformAABB))
+			}
+			}*/
+			/*position.x = position.x - (right.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z - (right.z * velocity);
+			target.z = position.z + (view.z * velocity);*/
+			position = position - (right * velocity);
+			target = position + (view * velocity);
+		}
+
+		if (Application::IsKeyPressed('D'))
+		{
+			/*for (int platType = 0; platType < 6; platType++)
+			{
+			for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+			{
+			if (onPlatform(it->platformAABB))
+			}
+			}*/
+			/*position.x = position.x + (right.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z + (right.z * velocity);
+			target.z = position.z + (view.z * velocity);*/
+			position = position + (right * velocity);
+			target = position + (view * velocity);
+		}
+
+		if (Application::IsKeyPressed('W'))
+		{
+			newPos = position + (view * velocity);
+			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
+			for (int platType = 0; platType < 6; platType++)
+			{
+				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+				{
+					if (onPlatform(charAABB, it->platformAABB))
+					{
+						nextPlatform = *it;
+						break;
+					}
+				}
+			}
+			if (nextPlatform.type != 0)
+			{
+
+			}
+			else
+			{
+				
+			}
+			position.x = position.x + (view.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z + (view.z * velocity);
+			target.z = position.z + (view.z * velocity);
+		}
+
+		if (Application::IsKeyPressed('S'))
+		{
+			/*for (int platType = 0; platType < 6; platType++)
+			{
+			for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+			{
+			if (onPlatform(*it->platformAABB))
+			}
+			}*/
+			/*position.x = position.x - (view.x * velocity);
+			target.x = position.x + (view.x * velocity);
+			position.z = position.z - (view.z * velocity);
+			target.z = position.z + (view.z * velocity);*/
+			position = position - (view * velocity);
+			target = position + (view * velocity);
+		}
 	}
-
-	if (Application::IsKeyPressed('D'))
+	else
 	{
-		/*position.x = position.x + (right.x * velocity);
-		target.x = position.x + (view.x * velocity);
-		position.z = position.z + (right.z * velocity);
-		target.z = position.z + (view.z * velocity);*/
-		position = position + (right * velocity);
-		target = position + (view * velocity);
-	}
 
-	if (Application::IsKeyPressed('W'))
-	{
-		/*position.x = position.x + (view.x * velocity);
-		target.x = position.x + (view.x * velocity);
-		position.z = position.z + (view.z * velocity);
-		target.z = position.z + (view.z * velocity);*/
-		position = position + (view * velocity);
-		target = position + (view * velocity);
-	}
-
-	if (Application::IsKeyPressed('S'))
-	{
-		/*position.x = position.x - (view.x * velocity);
-		target.x = position.x + (view.x * velocity);
-		position.z = position.z - (view.z * velocity);
-		target.z = position.z + (view.z * velocity);*/
-		position = position - (view * velocity);
-		target = position + (view * velocity);
+		for (int platType = 0; platType < 6; platType++)
+		{
+			for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+			{
+				if (onPlatform(charAABB, it->platformAABB))
+				{
+					currPlatform = *it;
+					break;
+				}
+			}
+		}
 	}
 
 	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
@@ -182,4 +239,11 @@ void PlatformerCamera::Update(double dt)
 	{
 		Reset();
 	}
+}
+
+bool PlatformerCamera::onPlatform(AABB character, AABB platform)
+{
+	return((character.min.x < platform.max.x) && (character.max.x > platform.min.x)
+		&& (character.min.z < platform.max.z) && (character.max.z > platform.min.z)
+		&& (character.min.y > platform.max.y));
 }

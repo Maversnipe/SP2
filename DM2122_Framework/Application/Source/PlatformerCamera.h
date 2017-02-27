@@ -3,6 +3,8 @@
 
 #include "Camera.h"
 #include "AABB.h"
+#include <vector>
+#include "Platforms.h"
 
 class PlatformerCamera : public Camera
 {
@@ -15,7 +17,7 @@ public:
 	PlatformerCamera();
 	~PlatformerCamera();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt);
+	virtual void Update(double dt, std::vector<Platforms> []);
 
 	float mouseY = 0;
 	float mouseX = 0;
@@ -25,7 +27,12 @@ public:
 	float rotateHori = 0;
 	double velocity = 1;
 
-
+	// Platform Stuff
+	bool onPlatform(AABB, AABB);
+	AABB charAABB;
+	Platforms currPlatform;
+	Platforms nextPlatform;
+	Platforms emptyPlatform;
 private:
 	Vector3 view;
 	Vector3 right;
