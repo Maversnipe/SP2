@@ -26,13 +26,19 @@ public:
 	float rotateVert = 0;
 	float rotateHori = 0;
 	double velocity = 1;
+	double fallingVelocity = 20;
 
 	// Platform Stuff
 	bool onPlatform(AABB, AABB);
 	AABB charAABB;
 	Platforms currPlatform;
 	Platforms nextPlatform;
-	Platforms emptyPlatform;
+	Platforms noPlatform;
+
+	// Jumping
+	bool jump = false;
+	float playerOriginalHeight = 0.0;
+
 private:
 	Vector3 view;
 	Vector3 right;

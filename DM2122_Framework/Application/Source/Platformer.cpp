@@ -100,7 +100,7 @@ void Platformer::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	// Initialise Camera
-	camera.Init(Vector3(-485, 21 * 5, 0), Vector3(-480, 21 * 5, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(-485, 23 * 5, 0), Vector3(-480, 23 * 5, 0), Vector3(0, 1, 0));
 
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
@@ -151,13 +151,6 @@ void Platformer::Init()
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
-	for (int i = 0; i < 40; i++)
-	{
-		for (int z = 0; z < 100; z++)
-		{
-			mapData[i][z] = 0;
-		}
-	}
 
 	setPlatforms();
 
@@ -472,6 +465,14 @@ void Platformer::Exit()
 
 void Platformer::setPlatforms()
 {
+	for (int i = 0; i < 40; i++)
+	{
+		for (int z = 0; z < 100; z++)
+		{
+			mapData[i][z] = 0;
+		}
+	}
+
 	srand(time(NULL));
 	for (int startPoint = 0; startPoint < 4; startPoint++)
 		mapData[mapHeight][startPoint] = 7;
