@@ -38,6 +38,7 @@ public:
 //=============Enemy hit notification==============
 	void hitNoti(Vector3);
 	int sideNoti[4];
+	bool multipleEnemies = false;
 //=================================================
 	float mouseY = 0;
 	float mouseX = 0;

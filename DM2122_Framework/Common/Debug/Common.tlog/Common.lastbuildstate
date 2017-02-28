@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+<<<<<<< HEAD
 Debug|Win32|D:\GIT_ROOT\SP2\DM2122_Framework\|
+=======
+Debug|Win32|E:\New folder (2)\DM2122_Framework\|
+>>>>>>> 61213e3315e623cf260051bbbb8bf85f4c119973

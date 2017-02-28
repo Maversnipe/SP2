@@ -42,6 +42,7 @@ public:
 		GEO_ROCKS,
 		GEO_CUBE,
 		GEO_LIGHTBALL,
+		GEO_LIGHTSPOT,
 		GEO_LEFT,
 		GEO_RIGHT,
 		GEO_TOP,
@@ -53,7 +54,13 @@ public:
 		GEO_TABLE,
 		GEO_GUN,
 		GEO_GUN2,
+		GEO_FLASHLIGHT,
+		GEO_FLASHLIGHT2,
 		GEO_BULLET,
+		GEO_HITNOTITOP,
+		GEO_HITNOTIBOTTOM,
+		GEO_HITNOTIRIGHT,
+		GEO_HITNOTILEFT,
 		NUM_GEOMETRY,
 	};
 
@@ -66,6 +73,7 @@ public:
 		U_MATERIAL_DIFFUSE,
 		U_MATERIAL_SPECULAR,
 		U_MATERIAL_SHININESS,
+		//Light one
 		U_LIGHT0_POSITION,
 		U_LIGHT0_COLOR,
 		U_LIGHT0_POWER,
@@ -78,6 +86,19 @@ public:
 		U_LIGHT0_COSCUTOFF,
 		U_LIGHT0_COSINNER,
 		U_LIGHT0_EXPONENT,
+		//Light two 
+		U_LIGHT1_POSITION,
+		U_LIGHT1_COLOR,
+		U_LIGHT1_POWER,
+		U_LIGHT1_KC,
+		U_LIGHT1_KL,
+		U_LIGHT1_KQ,
+		U_LIGHT1_TYPE,
+		U_LIGHT1_SPOTDIRECTION,
+		U_LIGHT1_COSCUTOFF,
+		U_LIGHT1_COSINNER,
+		U_LIGHT1_EXPONENT,
+		//===
 		U_NUMLIGHTS,
 		U_COLOR_TEXTURE_ENABLED,
 		U_COLOR_TEXTURE,
@@ -110,7 +131,7 @@ private:
 
 	MS modelStack, viewStack, projectionStack;
 
-	Light light[1];
+	Light light[2];
 
 	void RenderMesh(Mesh *mesh, bool enableLight);
 
@@ -127,7 +148,7 @@ private:
 
 
 	//============Enemies============
-	int enemySize;
+	int enemySize = 70;
 	int objectSize;
 	float enemySpeed;
 	float enemyRadius;

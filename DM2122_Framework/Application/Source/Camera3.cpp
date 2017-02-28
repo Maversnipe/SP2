@@ -6,6 +6,13 @@ extern GLFWwindow* m_window;
 
 Camera3::Camera3()
 {
+	int width, height;
+	glfwGetWindowSize(m_window, &width, &height);
+
+	int mid_x = width / 2;
+	int mid_y = height / 2;
+
+	glfwSetCursorPos(m_window, mid_x, mid_y);
 }
 
 Camera3::~Camera3()
@@ -24,15 +31,15 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	defaultUp.Set(0, 1, 0);
 	ShowCursor(false);
 
-	buildings[0].Set(-125, 0, -23);
-	buildings[1].Set(-45, 0, -23);
-	buildings[2].Set(35, 0, -23);
-	buildings[3].Set(115, 0, -23);
+	buildings[0].Set(-80, 0, -23);
+	buildings[1].Set(0, 0, -23);
+	buildings[2].Set(90, 0, -23);
+	buildings[3].Set(0, -2, 200);
 
 	buildingAABB[0].SaveCoord(Vector3(buildings[0].x - 20, buildings[0].y - 20, buildings[0].z - 20), Vector3(buildings[0].x + 25, buildings[0].y + 25, buildings[0].z + 25));
 	buildingAABB[1].SaveCoord(Vector3(buildings[1].x - 20, buildings[1].y - 20, buildings[1].z - 20), Vector3(buildings[1].x + 25, buildings[1].y + 25, buildings[1].z + 25));
 	buildingAABB[2].SaveCoord(Vector3(buildings[2].x - 20, buildings[2].y - 20, buildings[2].z - 20), Vector3(buildings[2].x + 25, buildings[2].y + 25, buildings[2].z + 25));
-	buildingAABB[3].SaveCoord(Vector3(buildings[3].x - 20, buildings[3].y - 20, buildings[3].z - 20), Vector3(buildings[3].x + 25, buildings[3].y + 25, buildings[3].z + 25));
+	buildingAABB[3].SaveCoord(Vector3(buildings[3].x - 18, buildings[3].y - 18, buildings[3].z - 18), Vector3(buildings[3].x + 18, buildings[3].y + 18, buildings[3].z + 18));
 }
 
 void Camera3::Update(double dt)
