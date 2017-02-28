@@ -10,8 +10,8 @@ public:
 	~SceneManager();
 	static SceneManager *getInstance();
 
-	void AddScene(Scene*);
-	void SetNextScene(int);
+	void AddScene(Scene*, std::string);
+	void SetNextScene(std::string);
 	void Update(float);
 
 	int menuSelect = 0;
@@ -20,9 +20,9 @@ private:
 	SceneManager() {}
 	static SceneManager *sceneManager;
 
-	int currSceneID = 0;
-	int nextSceneID = 0;
-	std::map<int, Scene*> maps;
+	std::string currSceneID = "";
+	std::string nextSceneID = "";
+	std::map<std::string, Scene*> maps;
 };
 
 #endif

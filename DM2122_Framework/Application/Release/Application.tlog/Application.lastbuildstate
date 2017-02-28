@@ -1,6 +1,2 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
-<<<<<<< HEAD
-Release|Win32|C:\Users\Jean\Documents\SP2\DM2122_Framework\|
-=======
-Release|Win32|E:\Poly\Year 1 Semester 2\SP2\.git\DM2122_Framework\|
->>>>>>> 5d03231840ae899006dff216f3c7192300bbf604
+Release|Win32|D:\GIT_ROOT\SP2\DM2122_Framework\|

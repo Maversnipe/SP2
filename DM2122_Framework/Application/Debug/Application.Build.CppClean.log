@@ -4,46 +4,27 @@ d:\git_root\sp2\dm2122_framework\application\debug\camera.obj
 d:\git_root\sp2\dm2122_framework\application\debug\camera2.obj
 d:\git_root\sp2\dm2122_framework\application\debug\camera3.obj
 d:\git_root\sp2\dm2122_framework\application\debug\camera4.obj
+d:\git_root\sp2\dm2122_framework\application\debug\driving.obj
+d:\git_root\sp2\dm2122_framework\application\debug\loadobj.obj
+d:\git_root\sp2\dm2122_framework\application\debug\loadtga.obj
 d:\git_root\sp2\dm2122_framework\application\debug\mainmenu.obj
+d:\git_root\sp2\dm2122_framework\application\debug\mesh.obj
+d:\git_root\sp2\dm2122_framework\application\debug\meshbuilder.obj
+d:\git_root\sp2\dm2122_framework\application\debug\money.obj
+d:\git_root\sp2\dm2122_framework\application\debug\platformer.obj
+d:\git_root\sp2\dm2122_framework\application\debug\platformercamera.obj
 d:\git_root\sp2\dm2122_framework\application\debug\scenemanager.obj
 d:\git_root\sp2\dm2122_framework\application\debug\shooting.obj
 d:\git_root\sp2\dm2122_framework\application\debug\shootingcamera.obj
 d:\git_root\sp2\dm2122_framework\application\debug\studioproject.obj
-d:\git_root\sp2\dm2122_framework\application\debug\sptest.obj
+d:\git_root\sp2\dm2122_framework\application\debug\utiity.obj
+d:\git_root\sp2\dm2122_framework\application\debug\main.obj
+d:\git_root\sp2\dm2122_framework\application\debug\shader.obj
 d:\git_root\sp2\dm2122_framework\application\debug\application.obj
-d:\git_root\sp2\dm2122_framework\application\debug\platformer.obj
-d:\git_root\sp2\dm2122_framework\application\debug\driving.obj
-d:\git_root\sp2\dm2122_framework\application\debug\platformercamera.obj
-e:\new folder (2)\dm2122_framework\debug\application.ilk
-e:\new folder (2)\dm2122_framework\debug\application.exe
-e:\new folder (2)\dm2122_framework\debug\application.pdb
 d:\git_root\sp2\dm2122_framework\debug\application.ilk
 d:\git_root\sp2\dm2122_framework\debug\application.exe
 d:\git_root\sp2\dm2122_framework\debug\application.pdb
-e:\new folder (2)\dm2122_framework\application\debug\application.res
 d:\git_root\sp2\dm2122_framework\application\debug\application.res
-d:\git_root\sp2\dm2122_framework\application\debug\cameramainmenu.obj
-d:\git_root\sp2\dm2122_framework\application\debug\car.obj
-d:\git_root\sp2\dm2122_framework\application\debug\jumpinggame.obj
-d:\git_root\sp2\dm2122_framework\application\debug\loadobj.obj
-d:\git_root\sp2\dm2122_framework\application\debug\loadtga.obj
-d:\git_root\sp2\dm2122_framework\application\debug\main.obj
-d:\git_root\sp2\dm2122_framework\application\debug\mesh.obj
-d:\git_root\sp2\dm2122_framework\application\debug\meshbuilder.obj
-d:\git_root\sp2\dm2122_framework\application\debug\money.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scene1.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scene2.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scene3.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scene4.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scenelight.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scenelight2.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scenemodel.obj
-d:\git_root\sp2\dm2122_framework\application\debug\sceneskybox.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scenetext.obj
-d:\git_root\sp2\dm2122_framework\application\debug\scenetexture.obj
-d:\git_root\sp2\dm2122_framework\application\debug\sceneui.obj
-d:\git_root\sp2\dm2122_framework\application\debug\shader.obj
-d:\git_root\sp2\dm2122_framework\application\debug\utiity.obj
 d:\git_root\sp2\dm2122_framework\application\debug\application.tlog\cl.command.1.tlog
 d:\git_root\sp2\dm2122_framework\application\debug\application.tlog\cl.read.1.tlog
 d:\git_root\sp2\dm2122_framework\application\debug\application.tlog\cl.write.1.tlog

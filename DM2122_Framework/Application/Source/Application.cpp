@@ -110,11 +110,6 @@ void Application::Run()
 {
 	Money::getInstance()->setMoney(30);
 	//Main Loop
-	SceneManager::getInstance()->AddScene(new StudioProject()); // Main Carnival Scene is scene 1
-	SceneManager::getInstance()->AddScene(new Shooting()); // Shooting Scene is scene 2
-	SceneManager::getInstance()->AddScene(new Platformer()); // Platformer Scene is scene 3
-	SceneManager::getInstance()->AddScene(new Driving()); // Test Scene is scene 4
-
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{

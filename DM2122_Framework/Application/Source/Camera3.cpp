@@ -33,7 +33,7 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 
 	buildings[0].Set(-80, 0, -23);
 	buildings[1].Set(0, 0, -23);
-	buildings[2].Set(90, 0, -23);
+	buildings[2].Set(80, 0, -23);
 	buildings[3].Set(0, -2, 200);
 
 	buildingAABB[0].SaveCoord(Vector3(buildings[0].x - 20, buildings[0].y - 20, buildings[0].z - 20), Vector3(buildings[0].x + 25, buildings[0].y + 25, buildings[0].z + 25));

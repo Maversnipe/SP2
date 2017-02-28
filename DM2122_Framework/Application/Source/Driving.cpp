@@ -166,7 +166,7 @@ void Driving::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
-	meshList[GEO_ENEMY]->textureID = LoadTGA("OBJ//enemy.tga");
+	meshList[GEO_ENEMY]->textureID = LoadTGA("Image//enemy.tga");
 
 	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("car", "OBJ//car.obj");
 	meshList[GEO_CAR]->textureID = LoadTGA("Image//car.tga");
@@ -214,11 +214,14 @@ void Driving::Init()
 		ObjectPos[counter].Set(i, 0, j);
 		Camera4.ObjPos.push_back(ObjectPos[counter]);
 	}
+
+	changeScene = 0;
 }
 
 void Driving::Update(double dt)
 {
-
+	if (Application::IsKeyPressed(VK_BACK))
+		changeScene = 1;
 	//car.carposition.y = 0;
 	//Camera4.position/*.Set(Camera4.position.x + car.move.x, 5, Camera4.position.z + car.move.z)*/ = car.carposition;
 	carVec.Set(Camera4.position.x/* + (Camera4.view.x * 5)*/, 0, Camera4.position.z/*+(Camera4.view.x * 5)*/);

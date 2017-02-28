@@ -30,9 +30,7 @@ public:
 
 	enum GEOMETRY_TYPE
 	{
-		GEO_TRIANGLE_1 = 0,
-		GEO_AXES,
-		GEO_QUAD,
+		GEO_AXES = 0,
 		ONE_BLOCK,
 		TWO_BLOCK,
 		THREE_BLOCK,

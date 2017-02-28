@@ -175,7 +175,7 @@ void StudioProject::Init()
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
 
-
+	changeScene = 0;
 }
 
 void StudioProject::Update(double dt)
@@ -231,26 +231,23 @@ void StudioProject::Update(double dt)
 
 	if ((camera3.position.x - 2 > building[0].x - 10) && (camera3.position.x + 2 < building[0].x + 15)
 		&& (camera3.position.z - 2 > building[0].z + 25) && (camera3.position.z + 2 < building[0].z + 35)
-		&& (Application::IsKeyPressed('E')) && (elapsed_time > bounce_time))
+		&& (Application::IsKeyPressed('E')))
 	{
 		changeScene = 2;
-		bounce_time = elapsed_time + 0.2;
 	}
 
 	if ((camera3.position.x - 2 > building[1].x - 10) && (camera3.position.x + 2 < building[1].x + 15)
 		&& (camera3.position.z - 2 > building[1].z + 25) && (camera3.position.z + 2 < building[1].z + 35)
-		&& (Application::IsKeyPressed('E')) && (elapsed_time > bounce_time))
+		&& (Application::IsKeyPressed('E')))
 	{
 		changeScene = 3;
-		bounce_time = elapsed_time + 0.2;
 	}
 
 	if ((camera3.position.x - 2 > building[2].x - 10) && (camera3.position.x + 2 < building[2].x + 15)
 		&& (camera3.position.z - 2 > building[2].z + 25) && (camera3.position.z + 2 < building[2].z + 35)
-		&& (Application::IsKeyPressed('E')) && (elapsed_time > bounce_time))
+		&& (Application::IsKeyPressed('E')))
 	{
 		changeScene = 4;
-		bounce_time = elapsed_time + 0.2;
 	}
 
 	if (Application::IsKeyPressed('E'))

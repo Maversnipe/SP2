@@ -10,6 +10,15 @@ class PlatformerCamera : public Camera
 {
 public:
 
+	enum PLATFORM_GAMESTATES
+	{
+		SELECT_ABILITIES,
+		PAUSE,
+		GAMEOVER,
+		GAME,
+		COUNT
+	};
+
 	Vector3 defaultPosition;
 	Vector3 defaultTarget;
 	Vector3 defaultUp;

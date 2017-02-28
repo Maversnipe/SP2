@@ -265,10 +265,15 @@ void Shooting::Init()
 
 	//For setting tutorial treasure
 		ObjectPos[0].Set(0, -3, -40);
+
+	// Change Scene Stuff
+	changeScene = 0;
 }
 
 void Shooting::Update(double dt)
 {
+	if (Application::IsKeyPressed(VK_BACK))
+		changeScene = 1;
 	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
 		Camera.Update(dt, &horizontalRotation, &verticalRotation);
 	elapsed_time += dt;
