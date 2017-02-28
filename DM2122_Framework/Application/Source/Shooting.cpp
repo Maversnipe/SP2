@@ -12,10 +12,7 @@ using namespace std;
 Mtx44 stamp;
 Shooting::Shooting()
 {
-	enemySize = 70;
-	enemyRadius = 0.5;
-	ObjectRadius = 1.0;
-	enemySpeed = 5;
+
 }
 
 Shooting::~Shooting()
@@ -24,6 +21,7 @@ Shooting::~Shooting()
 
 void Shooting::Init()
 {
+
 	// Init VBO here
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f); // Set background color to dark blue
 
@@ -60,6 +58,7 @@ void Shooting::Init()
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 
+	//Light 1
 	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
 	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
 	m_parameters[U_LIGHT0_POWER] = glGetUniformLocation(m_programID, "lights[0].power");
@@ -72,6 +71,19 @@ void Shooting::Init()
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 
+	//Light 2 
+	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
+	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
+	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
+	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
+	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
+	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");
+	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
+	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[1].spotDirection");
+	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
+	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
+	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
+	//===
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
 
@@ -100,7 +112,19 @@ void Shooting::Init()
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);	
 
-	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
+	light[1].type = Light::LIGHT_SPOT;
+	light[1].position.Set(0, 0, 0);
+	light[1].color.Set(1, 1, 1);
+	light[1].power = 0;
+	light[1].kC = 1.f;
+	light[1].kL = 0.01f;
+	light[1].kQ = 0.001f;
+	light[1].cosCutoff = cos(Math::DegreeToRadian(15));
+	light[1].cosInner = cos(Math::DegreeToRadian(10));
+	light[1].exponent = 3.f;
+	light[1].spotDirection.Set(0.f, 1.f, 0.f);
+
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
 	// Make sure you pass uniform parameters after glUseProgram()
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
@@ -112,6 +136,16 @@ void Shooting::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
+
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 
 	// Initialise Camera
 	Camera.Init(Vector3(0, 0, 200), Vector3(0, 0, 0), Vector3(0, 1, 0));
@@ -185,7 +219,11 @@ void Shooting::Init()
 
 	meshList[GEO_LASER5] = MeshBuilder::GenerateQuad("laser5", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LASER5]->textureID = LoadTGA("Image//Shooting//laser5.tga");
-
+	//===================================FLASHLIGHT=========================================
+	meshList[GEO_FLASHLIGHT] = MeshBuilder::GenerateOBJ("flashlight", "OBJ//torchlight.obj");
+	meshList[GEO_FLASHLIGHT]->textureID = LoadTGA("Image//enemy.tga");
+	meshList[GEO_FLASHLIGHT2] = MeshBuilder::GenerateOBJ("flashlight2", "OBJ//torchlightUsing.obj");
+	meshList[GEO_FLASHLIGHT2]->textureID = LoadTGA("Image//enemy.tga");
 	//=======================================HEALTH=========================================
 	meshList[GEO_HEALTH] = MeshBuilder::GenerateQuad("health", Color(1, 1, 1), 1, 1);
 	meshList[GEO_HEALTH]->textureID = LoadTGA("Image//health.tga");
@@ -211,6 +249,11 @@ void Shooting::Init()
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
+	//================
+	enemySize = 70;
+	enemyRadius = 0.5;
+	ObjectRadius = 1.0;
+	enemySpeed = 5;
 	//For randomising enemy
 	for (int counter = 0; counter < enemySize; counter++)
 	{
@@ -411,18 +454,27 @@ void Shooting::Update(double dt)
 		light[0].type = Light::LIGHT_SPOT;
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
+
 //===========================TUTORIAL==========================
 	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
 		pickUpGun = true;
 
 	if (pickUpGun)
 	{
-		light[0].position.Set(0, 30, -30);
-		light[0].color.Set(0,1,0);
-		light[0].power = 5;
-		light[0].type = Light::LIGHT_POINT;
+//		light[0].position.Set(0, 30, -30);
+//		light[0].color.Set(0,1,0);
+//		light[0].power = 5;
+//		light[0].type = Light::LIGHT_POINT;
 		disappearTable = true;
 		Camera.switchTreasure = true;
+		light[0].power = 1;
+		//light[0].cosCutoff = cos(Math::DegreeToRadian(15));
+		//light[0].cosInner = cos(Math::DegreeToRadian(10));
+		light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
+		light[0].position.Set(Camera.position.x, Camera.position.y, Camera.position.z - 30);
+//		light[1].power = 5;
+//		light[1].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
+//		light[1].position.Set(Camera.position.x, Camera.position.y, Camera.position.z - 15);
 	}
 
 	if (enemyTutDead && !tutorialEnd)
@@ -695,11 +747,17 @@ void Shooting::Render()
 		if (!pickUpGun)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(0, 2.2, 0);
-			modelStack.Scale(1, 0.3, 1);
+			modelStack.Translate(2, 2.45, 0);
 			modelStack.Rotate(-90, 0, 1, 0);
 			modelStack.Rotate(90, 0, 0, 1);
 			RenderMesh(meshList[GEO_GUN], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(-2, 2.75, 0);
+			modelStack.Rotate(-45, 0, 1, 0);
+			modelStack.Rotate(80, 0, 0, 1);
+			RenderMesh(meshList[GEO_FLASHLIGHT], true);
 			modelStack.PopMatrix();
 		}
 
@@ -735,12 +793,17 @@ void Shooting::Render()
 			}
 		}
 	}
-//===============================GUN=====================================
+//============================GUN & FLASHLIGHT===========================
 	if (pickUpGun)
 	{
 		modelStack.PushMatrix();
 		modelStack.LoadMatrix(stamp);
 		RenderMesh(meshList[GEO_GUN2], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.LoadMatrix(stamp);
+		RenderMesh(meshList[GEO_FLASHLIGHT2], true);
 		modelStack.PopMatrix();
 	}
 //==============================BULLETS===================================
