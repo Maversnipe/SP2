@@ -193,6 +193,20 @@ void Shooting::Init()
 	//=======================================ROCK===========================================
 	meshList[GEO_ROCKS] = MeshBuilder::GenerateQuad("rock", Color(1, 1, 1), 1, 1);
 	meshList[GEO_ROCKS]->textureID = LoadTGA("Image//starRocks.tga");
+	//================================HIT NOTIFICATION======================================
+
+	meshList[GEO_HITNOTITOP] = MeshBuilder::GenerateQuad("hit notification", Color(1, 1, 1), 1, 1);
+	meshList[GEO_HITNOTITOP]->textureID = LoadTGA("Image//Shooting//hitNotiTop.tga");
+
+	meshList[GEO_HITNOTIBOTTOM] = MeshBuilder::GenerateQuad("hit notification", Color(1, 1, 1), 1, 1);
+	meshList[GEO_HITNOTIBOTTOM]->textureID = LoadTGA("Image//Shooting//hitNotiBottom.tga");
+
+	meshList[GEO_HITNOTILEFT] = MeshBuilder::GenerateQuad("hit notification", Color(1, 1, 1), 1, 1);
+	meshList[GEO_HITNOTILEFT]->textureID = LoadTGA("Image//Shooting//hitNotiLeft.tga");
+
+	meshList[GEO_HITNOTIRIGHT] = MeshBuilder::GenerateQuad("hit notification", Color(1, 1, 1), 1, 1);
+	meshList[GEO_HITNOTIRIGHT]->textureID = LoadTGA("Image//Shooting//hitNotiRight.tga");
+
 	//======================================================================================
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -212,7 +226,8 @@ void Shooting::Init()
 
 void Shooting::Update(double dt)
 {
-
+	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
+		Camera.Update(dt, &horizontalRotation, &verticalRotation);
 	elapsed_time += dt;
 	//========Playing tutorial option========
 	if (!tutorialStart && !tutorialEnd)
@@ -335,10 +350,15 @@ void Shooting::Update(double dt)
 				else
 					enemyPos[counter] = enemyPos[counter];
 			}
-		//	else if (enemyDead[counter] == true)
-		//	{
-			
-		//	}
+			else if (enemyDead[counter] == true)
+			{
+			//Generating new enemy
+			enemyPos[counter] = {};
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			enemyPos[counter].Set(i, 0, j);
+			enemyDead[counter] = false;
+			}
 		}
 	}
 	//====================================
@@ -429,10 +449,16 @@ void Shooting::Update(double dt)
 			}
 		}
 //=========================DECREASING HEALTH======================
+		for (int i = 0; i < 4; i++)
+		{
+			Camera.sideNoti[i] = 0;
+		}
 		for (int i = 0; i < enemyMarking.size(); i++)
 		{
+
 			Camera.enemyPos.push_back(enemyPos[enemyMarking.at(i)]); //Setting enemy positions 
-	//		Camera.hitNoti(enemyPos[enemyMarking.at(i)]);
+			Camera.hitNoti(Camera.enemyPos[i]);
+
 			//Enemy hits the player 
 			if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 			{
@@ -444,7 +470,7 @@ void Shooting::Update(double dt)
 	//Mechanic for tutorial enemy
 	else if (disappearTable && !enemyTutDead)
 	{
-	//	Camera.hitNoti(enemyTutPos);
+		Camera.hitNoti(enemyTutPos);
 		Camera.enemyPos.push_back(enemyTutPos);
 		if ((Camera.position - enemyTutPos).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
 		{
@@ -480,20 +506,10 @@ void Shooting::Update(double dt)
 			{
 				for (int counter = 0; counter < enemyMarking.size(); counter++)
 				{
-					if ((enemyPos[enemyMarking.at(counter)] - bullet[i].pos).Length() < 2)
+					if ((enemyPos[enemyMarking.at(counter)] - bullet[i].pos).Length() < 1)
 					{
 						enemyDead[enemyMarking.at(counter)] = true;
 						moveLaser[i] = false;
-						//Generating new enemy
-						enemyPos[enemyMarking.at(counter)] = {};
-						float i = RandomNumber(-250, 250);
-						float j = RandomNumber(-250, 250);
-						enemyPos[enemyMarking.at(counter)].Set(i, 0, j);
-						enemyDead[enemyMarking.at(counter)] = false;
-						/*for (int i = 0; i < 4; i++)
-						{
-							Camera.sideNoti[i] = 0;
-						}*/
 					}
 				}
 			}
@@ -503,10 +519,10 @@ void Shooting::Update(double dt)
 					enemyTutDead = true;
 					moveLaser[i] = false;
 					Camera.enemyPos.clear();
-					/*for (int i = 0; i < 4; i++)
+					for (int i = 0; i < 4; i++)
 					{
 						Camera.sideNoti[i] = 0;
-					}*/
+					}
 				}
 		}
 
@@ -614,8 +630,7 @@ void Shooting::Update(double dt)
 	}
 
 //===========================================================
-	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
-		Camera.Update(dt, &horizontalRotation, &verticalRotation);
+
 	stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 }
 
@@ -821,16 +836,16 @@ void Shooting::Render()
 		case 0:
 			break;
 		case 1:
-			RenderMeshOnScreen(meshList[GEO_HEALTH], 3, 30, 4, 4); //Left
+			RenderMeshOnScreen(meshList[GEO_HITNOTILEFT], 10, 30, 40, 40); //Left
 			break;
 		case 2:
-			RenderMeshOnScreen(meshList[GEO_HEALTH], 75, 30, 4, 4); //Right
+			RenderMeshOnScreen(meshList[GEO_HITNOTIRIGHT], 70, 30, 40, 40); //Right
 			break;
 		case 3:
-			RenderMeshOnScreen(meshList[GEO_HEALTH], 50, 57, 4, 4); //Up
+			RenderMeshOnScreen(meshList[GEO_HITNOTITOP], 40, 52, 40, 40); //Up
 			break;
 		case 4:
-			RenderMeshOnScreen(meshList[GEO_HEALTH], 50, 10, 4, 4); //Down
+			RenderMeshOnScreen(meshList[GEO_HITNOTIBOTTOM], 40, 10, 40, 40); //Down
 			break;
 		}
 	}

@@ -180,7 +180,7 @@ void MainMenu::Update(double dt)
 	rotateCaro += 40 * dt;
 	if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > bounce_time)) // Down
 	{
-		if (selectScene >= 0 && selectScene < 3)
+		if (selectScene >= 0 && selectScene < 2)
 		{
 			selectScene++;
 		}
@@ -189,7 +189,7 @@ void MainMenu::Update(double dt)
 
 	if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > bounce_time))// Up
 	{
-		if (selectScene > 0 && selectScene < 4)
+		if (selectScene > 0 && selectScene < 3)
 		{
 			selectScene--;
 		}
@@ -254,27 +254,21 @@ void MainMenu::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-45, 0, -23);
+	modelStack.Translate(-80, 0, -23);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_BUILDING], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(35, 0, -23);
+	modelStack.Translate(0, 0, -23);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_BUILDING2], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(115, 0, -23);
+	modelStack.Translate(80, 0, -23);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_BUILDING3], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-125, 0, -23);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING4], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -294,33 +288,23 @@ void MainMenu::Render()
 
 	if (selectScene == 0)
 	{
-		RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 40, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_BOARD], 20, 20, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 35, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
 	}
 
 	if (selectScene == 1)
 	{
-		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 30, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_BOARD], 20, 20, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 25, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
 	}
 
 	if (selectScene == 2)
 	{
-		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_ARROWBOARD], 20, 20, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 10, 30, 30);//No transform needed
-	}
-			if (selectScene == 3)
-	{
-		RenderMeshOnScreen(meshList[GEO_START], 20, 40, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 30, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_BOARD], 20, 20, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 10, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 15, 30, 30);//No transform needed
 	}
 }
 

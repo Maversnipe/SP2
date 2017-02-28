@@ -133,20 +133,7 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 			position += view * (float)(30.f * dt);
 		}
 	}
-	if (enemyPos.size() != 0)
-	{
-		for (int i = 0; i < enemyPos.size(); i++)
-		{
-			hitNoti(enemyPos[i]);
-		}
-	}
-	else
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			sideNoti[i] = 0;
-		}
-	}
+	
 		
 	if (Application::IsKeyPressed('A'))
 	{
@@ -357,6 +344,21 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		}
 	}
 
+	//if (enemyPos.size() != 0)
+	//{
+	//	for (int i = 0; i < enemyPos.size(); i++)
+	//	{
+	//		hitNoti(enemyPos[i]);
+	//	}
+	//}
+	//else
+	//{
+	//	for (int i = 0; i < 4; i++)
+	//	{
+	//		sideNoti[i] = 0;
+	//	}
+	//}
+
 	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
 	camYaw.SetToRotation(rotateHori, 0, 1, 0);
 	rotation = camPitch * camYaw;
@@ -419,22 +421,14 @@ void ShootingCamera::hitNoti(Vector3 enemy)
 	//Left side
 	if (collideEnemies(newPosA, enemy))
 		sideNoti[0] = 1;
-	else
-		sideNoti[0] = 0;
 	//Right side
 	if (collideEnemies(newPosD, enemy))
 		sideNoti[1] = 2;
-	else
-		sideNoti[1] = 0;
 	//Front side
 	if (collideEnemies(newPosW, enemy))
 		sideNoti[2] = 3;
-	else
-		sideNoti[2] = 0;
 	//Back side
 	if (collideEnemies(newPosS, enemy))
 		sideNoti[3] = 4;
-	else
-		sideNoti[3] = 0;
 
 }

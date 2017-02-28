@@ -166,10 +166,10 @@ void StudioProject::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 	
 	// Building Coords
-	building[0].Set(-125, 0, -23);
-	building[1].Set(-45, 0, -23);
-	building[2].Set(35, 0, -23);
-	building[3].Set(115, 0, -23);
+	building[0].Set(-80, 0, -23);
+	building[1].Set(0, 0, -23);
+	building[2].Set(80, 0, -23);
+	building[3].Set(0, -2, 200);
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -370,12 +370,6 @@ void StudioProject::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(building[3].x, building[3].y, building[3].z);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING4], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, -2, 200);
 
 	modelStack.PushMatrix();
 	modelStack.Rotate(rotateCaro, 0, 1, 0);
