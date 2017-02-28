@@ -6,6 +6,13 @@ extern GLFWwindow* m_window;
 
 Camera3::Camera3()
 {
+	int width, height;
+	glfwGetWindowSize(m_window, &width, &height);
+
+	int mid_x = width / 2;
+	int mid_y = height / 2;
+
+	glfwSetCursorPos(m_window, mid_x, mid_y);
 }
 
 Camera3::~Camera3()

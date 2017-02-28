@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 28/2/2017 6:01:59 PM.
      1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
@@ -59,3 +60,14 @@
 Build succeeded.
 
 Time Elapsed 00:00:01.21
+=======
+﻿Build started 2/28/2017 2:02:18 PM.
+     1>Project "E:\New folder (2)\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         Application.vcxproj -> E:\New folder (2)\DM2122_Framework\Debug\Application.exe
+     1>Done Building Project "E:\New folder (2)\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.92
+>>>>>>> fa78c9318278b5276fc091ad45e7961e2d2b85c9

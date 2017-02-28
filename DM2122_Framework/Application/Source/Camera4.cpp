@@ -60,9 +60,7 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 	{
 		if (Application::IsKeyPressed('A'))
 		{
-			if (Application::IsKeyPressed('W'))
-			{
-				float yaw = (float)(CAMERA_SPEED * dt);
+				float yaw = (float)(CAR_SPEED * dt);
 				Mtx44 rotation;
 				rotation.SetToRotation(yaw, 0, 1, 0);
 				view.y = 0;
@@ -70,93 +68,133 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 				target = position + view;
 				up = rotation * up;
 				*rotate += yaw;
-				fuel = fuel - 10;
-			}
-			else if (Application::IsKeyPressed('S'))
-			{
-				float yaw = (float)(-CAMERA_SPEED * dt);
-				Mtx44 rotation;
-				rotation.SetToRotation(yaw, 0, 1, 0);
-				view.y = 0;
-				view = rotation * view;
-				target = position + view;
-				up = rotation * up;
-				*rotate += yaw;
-				fuel = fuel - 10;
-			}
+				fuel = fuel - 1;
 		}
 		if (Application::IsKeyPressed('D'))
 		{
-			if (Application::IsKeyPressed('W'))
-			{
-				float yaw = (float)(-CAMERA_SPEED * dt);
-				Mtx44 rotation;
-				rotation.SetToRotation(yaw, 0, 1, 0);
-				view.y = 0;
-				view = rotation * view;
-				target = position + view;
-				up = rotation * up;
-				*rotate += yaw;
-				fuel = fuel - 10;
-			}
-			else if (Application::IsKeyPressed('S'))
-			{
-				float yaw = (float)(CAMERA_SPEED * dt);
-				Mtx44 rotation;
-				rotation.SetToRotation(yaw, 0, 1, 0);
-				view.y = 0;
-				view = rotation * view;
-				target = position + view;
-				up = rotation * up;
-				*rotate += yaw;
-				fuel = fuel - 10;
-			}
+			float yaw = (float)(-CAR_SPEED * dt);
+			Mtx44 rotation;
+			rotation.SetToRotation(yaw, 0, 1, 0);
+			view.y = 0;
+			view = rotation * view;
+			target = position + view;
+			up = rotation * up;
+			*rotate += yaw;
+			fuel = fuel - 1;
 		}
 		if (Application::IsKeyPressed('W'))
 		{
+			if (CAR_SPEED < 75.0f)
+			{
+				CAR_SPEED += 0.4f;
+			}
+			else
+			{
+				CAR_SPEED = 75.0f;
+			}
 			view.y = 0;
 			for (int i = 0; i < ObjPos.size(); i++)
 			{
-				if (((position + view) - ObjPos[i]).Length()>2)
+				if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.75)
 				{
 					collision = false;
 				}
 				else
 				{
 					collision = true;
+					CAR_SPEED = 0;
 					break;
 				}
 			}
 			if (collision == false)
 			{
-				position = position + view;
+				position = position + (view*dt * CAR_SPEED);
 				target = position + view;
-				fuel = fuel - 10;
+				fuel = fuel - 1;
 			}
 		}
 		if (Application::IsKeyPressed('S'))
 		{
+			if (CAR_SPEED > -50.0f)
+			{
+				CAR_SPEED -= 0.8f;
+			}
+			else
+			{
+				CAR_SPEED = -50.0f;
+			}
 			view.y = 0;
 			for (int i = 0; i < ObjPos.size(); i++)
 			{
-				if (((position -  view) - ObjPos[i]).Length()>2)
+				if (((position+(view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.75)
 				{
 					collision = false;
 				}
 				else
 				{
 					collision = true;
+					CAR_SPEED = 0;
 					break;
 				}
 			}
 			if (collision == false)
 			{
-				position = position - view;
+				position = position + (view*dt * CAR_SPEED);
 				target = position + view;
-				fuel = fuel - 10;
+				fuel = fuel - 1;
+			}
+		}
+		if (Application::IsKeyPressed('S') != true && Application::IsKeyPressed('W') != true)
+		{
+			if (CAR_SPEED > 0)
+			{
+				CAR_SPEED -= 0.2f;
+				for (int i = 0; i < ObjPos.size(); i++)
+				{
+					if (((position + view) - ObjPos[i]).Length()>1.75)
+					{
+						collision = false;
+					}
+					else
+					{
+						collision = true;
+						CAR_SPEED = 0;
+						break;
+					}
+				}
+				if (collision == false)
+				{
+					position = position + (view*dt * CAR_SPEED);
+					target = position + view;
+					fuel = fuel - 1;
+				}
+			}
+			else if (CAR_SPEED < 0)
+			{
+				CAR_SPEED += 0.2f;
+				for (int i = 0; i < ObjPos.size(); i++)
+				{
+					if (((position - view) - ObjPos[i]).Length()>1.75)
+					{
+						collision = false;
+					}
+					else
+					{
+						collision = true;
+						CAR_SPEED = 0;
+						break;
+					}
+				}
+				if (collision == false)
+				{
+					position = position + (view*dt * CAR_SPEED);
+					target = position + view;
+					fuel = fuel - 1;
+				}
 			}
 		}
 	}
+
 	if (fuel < 0)
 	{
 		fuel = 0;
