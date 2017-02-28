@@ -93,15 +93,15 @@ void Driving::Init()
 		scaleExplosion[i] = 1;
 	}
 
-	light[0].type = Light::LIGHT_SPOT;
-	light[0].position.Set(0, 20, 0);
+	light[0].type = Light::LIGHT_DIRECTIONAL;
+	light[0].position.Set(0, 100, 0);
 	light[0].color.Set(1, 1, 1);
 	light[0].power = 1;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
-	light[0].cosCutoff = cos(Math::DegreeToRadian(45));
-	light[0].cosInner = cos(Math::DegreeToRadian(30));
+	light[0].cosCutoff = cos(Math::DegreeToRadian(180));
+	light[0].cosInner = cos(Math::DegreeToRadian(120));
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
@@ -178,7 +178,7 @@ void Driving::Init()
 	meshList[GEO_FUEL]->textureID = LoadTGA("Image//fuel.tga");
 
 	meshList[GEO_HEALTH] = MeshBuilder::GenerateOBJ("health", "OBJ//health.obj");
-	//meshList[GEO_HEALTH]->textureID = LoadTGA("Image//health.tga");
+	meshList[GEO_HEALTH]->textureID = LoadTGA("Image//health.tga");
 
 
 	Mtx44 projection;

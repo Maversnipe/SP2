@@ -33,6 +33,7 @@ public:
 	float horizontalAngle = 0.0f;
 	float rotateVert = 0;
 	float rotateHori = 0;
+	float CAR_SPEED = 0.f;
 
 private:
 
