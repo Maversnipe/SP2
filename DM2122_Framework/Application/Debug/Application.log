@@ -1,55 +1,6 @@
-﻿Build started 1/3/2017 5:25:57 AM.
+﻿Build started 1/3/2017 7:23:10 AM.
      1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\FileReading.cpp Source\Platformer.cpp
-         Platformer.cpp
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(242): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(249): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(256): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(263): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(269): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(277): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(369): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(370): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(448): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(453): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(454): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(455): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(508): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(508): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(509): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(510): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(514): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(515): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(516): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(520): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(520): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(521): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(522): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(526): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(527): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(528): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(532): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(532): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(533): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(560): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(561): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(562): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(578): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(578): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(585): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(594): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(594): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(603): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(612): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(612): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformer.cpp(620): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         FileReading.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         Application.cpp
-       Link:
+     1>Link:
          D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
          Debug\Camera.obj
@@ -73,9 +24,10 @@
          Debug\ShootingCamera.obj
          Debug\StudioProject.obj
          Debug\Utiity.obj
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
          Application.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe
      1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.32
+Time Elapsed 00:00:00.48

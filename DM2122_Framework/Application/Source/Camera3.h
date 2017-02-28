@@ -28,6 +28,7 @@ public:
 	int slideAABBbuilding(AABB, AABB);
 	bool collideAABBbuilding(AABB, AABB);
 	int buildingNum = 0;
+	bool playCarousell = false;
 	
 	float mouseY = 0;
 	float mouseX = 0;

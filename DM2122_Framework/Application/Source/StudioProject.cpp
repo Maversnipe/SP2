@@ -288,9 +288,45 @@ void StudioProject::Update(double dt)
 		displayMoney = false;
 		noMoney = false;
 	}
-//===========================================================================================		
+//==================================CAROUSELL===========================================		
+	//Position of carousell
+	if (((camera3.position.x >= -26) && (camera3.position.x <= 26) && (camera3.position.z >= 174) && (camera3.position.z <= 230)) && Application::IsKeyPressed('Q') && !camera3.playCarousell && (elapsed_time > bounce_time))
+	{
+		if (Money::getInstance()->getMoney() >= 5)
+		{
+			Money::getInstance()->deductMoney(5);
+			camera3.playCarousell = true;
+			//Saving previous positions
+			prevPos = camera3.position;
+			prevTarget = camera3.target;
+		}
+		//If player has not enough money
+		else
+			Money::getInstance()->notEnoughMoney = true;
+		bounce_time = elapsed_time + 10;
+	}
 
-
+	if (camera3.playCarousell)
+	{
+		//Moving in a circle
+		theta = increment; //Increment is like the position of slice in a drawn circle. Each slice has 1 degree
+		camera3.position.z = 10 * cos(Math::DegreeToRadian(theta)) + 200;
+		camera3.position.x = 10 * sin(Math::DegreeToRadian(theta)) + (-5);
+		camera3.position.y = 5;
+		if (increment < (360 + 1)) //360 is the angle of circle
+			increment++;
+		else if (increment >= (360 + 1))
+			increment = 0;
+		if (Application::IsKeyPressed('E'))
+		{
+			camera3.playCarousell = false;
+			//Returning to previous position
+			camera3.position = prevPos;
+			camera3.target = prevTarget;
+			increment = 0;
+		}
+	}
+//===================================================================
 	camera3.Update(dt);
 }
 

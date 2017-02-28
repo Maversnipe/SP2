@@ -113,6 +113,12 @@ private:
 	void RenderSkybox();
 
 	Vector3 building[4] = {};
+	//==Carousell==
+	Vector3 prevPos = {};
+	Vector3 prevTarget = {};
+	int increment = 0;
+	float theta = 0.f;
+	//=============
 
 	float elapsed_time = 0.0;
 	float bounce_time = 0.0;
