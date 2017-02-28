@@ -52,7 +52,7 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 	rotateVert = (mid_y - ypos) * dt * CamSpeed;
 
 	// control vertical limit
-	verticalAngle += dt *rotateVert;
+	verticalAngle += (float)(dt * rotateVert);
 	if (verticalAngle > 1)
 	{
 		verticalAngle = 1;
@@ -124,25 +124,35 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 		}
 	}
 	//===================Jumping===========================
-	if (Application::IsKeyPressed(VK_SPACE))
+	if (Application::IsKeyPressed(VK_SPACE) && !jump && onGround)
 	{
 		jump = true;
 		playerOriginalHeight = position.y;
+		fallingVelocity = -30;
+		onGround = false;
+		gravity = 19.6;
 	}
 
-	if ((jump) && (position.y < (playerOriginalHeight + 40)))
+	if ((jump) && fallingVelocity < 0)
 	{
-		position.y += (fallingVelocity * dt);
-		target.y += (fallingVelocity * dt);
+		position.y -= (float)(fallingVelocity * dt);
+		target.y -= (float)(fallingVelocity * dt);
+		fallingVelocity += (float)(gravity * dt);
 	}
-	else if (position.y > (playerOriginalHeight + 40))
+	else if (position.y > (playerOriginalHeight) && jump)
+	{
 		jump = false;
+		fallingVelocity = 0;
+		gravity = 29.4;
+	}
 
 	//======================Character Movement====================
 	if (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
-	{
+	{ // If character is moving
 		nextPlatform = noPlatform;
 		currPlatform = noPlatform;
+		if (velocity < 0.5)
+			velocity += (float)dt;
 		if (Application::IsKeyPressed('A'))
 		{
 			newPos = position - (right * velocity);
@@ -160,18 +170,22 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 			}
 			if ((nextPlatform.type == 0) && (!jump))
 			{
-				position.y -= fallingVelocity * dt;
-				target.y -= fallingVelocity * dt;
+				position.y += (float)(fallingVelocity * dt);
+				target.y += (float)(fallingVelocity * dt);
+				fallingVelocity -= (float)(gravity * dt);
+				onGround = false;
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 4)) && (!jump))
+				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
 				{
-					position.y -= fallingVelocity * dt;
-					target.y -= fallingVelocity * dt;
+					position.y += (float)(fallingVelocity * dt);
+					target.y += (float)(fallingVelocity * dt);
+					fallingVelocity -= (float)(gravity * dt);
 				}
+				if (position.y < nextPlatform.pos.y + 7)
+					onGround = true;
 			}
-
 			position.x = position.x - (right.x * velocity);
 			target.x = position.x + (view.x * velocity);
 			position.z = position.z - (right.z * velocity);
@@ -195,18 +209,21 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 			}
 			if ((nextPlatform.type == 0) && (!jump))
 			{
-				position.y -= fallingVelocity * dt;
-				target.y -= fallingVelocity * dt;
+				position.y += (float)(fallingVelocity * dt);
+				target.y += (float)(fallingVelocity * dt);
+				fallingVelocity -= (float)(gravity * dt);
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 4)) && (!jump))
+				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
 				{
-					position.y -= fallingVelocity * dt;
-					target.y -= fallingVelocity * dt;
+					position.y += (float)(fallingVelocity * dt);
+					target.y += (float)(fallingVelocity * dt);
+					fallingVelocity -= (float)(gravity * dt);
 				}
+				if (position.y < nextPlatform.pos.y + 7)
+					onGround = true;
 			}
-
 			position.x = position.x + (right.x * velocity);
 			target.x = position.x + (view.x * velocity);
 			position.z = position.z + (right.z * velocity);
@@ -230,18 +247,21 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 			}
 			if ((nextPlatform.type == 0) && (!jump))
 			{
-				position.y -= fallingVelocity * dt;
-				target.y -= fallingVelocity * dt;
+				position.y += (float)(fallingVelocity * dt);
+				target.y += (float)(fallingVelocity * dt);
+				fallingVelocity -= (float)(gravity * dt);
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 4)) && (!jump))
+				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
 				{
-					position.y -= fallingVelocity * dt;
-					target.y -= fallingVelocity * dt;
+					position.y += (float)(fallingVelocity * dt);
+					target.y += (float)(fallingVelocity * dt);
+					fallingVelocity -= (float)(gravity * dt);
 				}
+				if (position.y < nextPlatform.pos.y + 7)
+					onGround = true;
 			}
-
 			position.x = position.x + (view.x * velocity);
 			target.x = position.x + (view.x * velocity);
 			position.z = position.z + (view.z * velocity);
@@ -265,18 +285,21 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 			}
 			if ((nextPlatform.type == 0) && (!jump))
 			{
-				position.y -= fallingVelocity * dt;
-				target.y -= fallingVelocity * dt;
+				position.y += (float)(fallingVelocity * dt);
+				target.y += (float)(fallingVelocity * dt);
+				fallingVelocity -= (float)(gravity * dt);
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 4)) && (!jump))
+				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
 				{
-					position.y -= fallingVelocity * dt;
-					target.y -= fallingVelocity * dt;
+					position.y += (float)(fallingVelocity * dt);
+					target.y += (float)(fallingVelocity * dt);
+					fallingVelocity -= (float)(gravity * dt);
 				}
+				if (position.y < nextPlatform.pos.y + 7)
+					onGround = true;
 			}
-
 			position.x = position.x - (view.x * velocity);
 			target.x = position.x + (view.x * velocity);
 			position.z = position.z - (view.z * velocity);
@@ -284,7 +307,8 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 		}
 	}
 	else
-	{
+	{ // If character is not moving
+		velocity = 0;
 		charAABB.SaveCoord(Vector3(position.x - 2, position.y - 2, position.z - 2), Vector3(position.x + 2, position.y + 2, position.z + 2));
 		for (int platType = 0; platType < 6; platType++)
 		{
@@ -297,18 +321,22 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 				}
 			}
 		}
-		if (currPlatform.type == 0)
+		if (currPlatform.type == 0 && !jump)
 		{
-			position.y -= fallingVelocity * dt;
-			target.y -= fallingVelocity * dt;
+			position.y += (float)(fallingVelocity * dt);
+			target.y += (float)(fallingVelocity * dt);
+			fallingVelocity -= (float)(gravity * dt);
 		}
 		else
 		{
-			if ((position.y > (currPlatform.pos.y + 4)) && (!jump))
+			if ((position.y > (currPlatform.pos.y + 7)) && (!jump))
 			{
-				position.y -= fallingVelocity * dt;
-				target.y -= fallingVelocity * dt;
+				position.y += (float)(fallingVelocity * dt);
+				target.y += (float)(fallingVelocity * dt);
+				fallingVelocity -= (float)(gravity * dt);
 			}
+			if (position.y < currPlatform.pos.y + 7)
+				onGround = true;
 		}
 	}
 
@@ -319,22 +347,11 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 	target = (position + view);
 	up = camYaw * up;
 	right = camPitch * right;
-
-	if (Application::IsKeyPressed('M'))
-	{
-		Vector3 view = (target - position).Normalized();
-		position -= view * (float)(30.f * dt);
-	}
-
-	if (Application::IsKeyPressed('L'))
-	{
-		Reset();
-	}
 }
 
 bool PlatformerCamera::onPlatform(AABB character, AABB platform)
 {
 	return((character.min.x < platform.max.x) && (character.max.x > platform.min.x)
 		&& (character.min.z < platform.max.z) && (character.max.z > platform.min.z)
-		/*&& (character.min.y > platform.max.y)*/);
+		&& (character.min.y > platform.max.y));
 }

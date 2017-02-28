@@ -107,11 +107,11 @@ private:
 	void RenderSkybox();
 
 	// Time
-	float elapsed_time = 0.0;
-	float bounce_time = 0.0;
+	double elapsed_time = 0.0;
+	double bounce_time = 0.0;
 
 	// Map (Platform location)
-	int mapData[40][100] = {};
+	int mapData[40][100];
 	int mapHeight = 20;
 	bool haveSpace = false;
 	std::vector<Platforms> platformID[6];

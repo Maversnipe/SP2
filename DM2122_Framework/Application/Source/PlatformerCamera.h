@@ -25,8 +25,8 @@ public:
 	float verticalAngle = 0.0f;
 	float rotateVert = 0;
 	float rotateHori = 0;
-	double velocity = 1;
-	double fallingVelocity = 20;
+	float velocity = 0;
+	float fallingVelocity = 0;
 
 	// Platform Stuff
 	bool onPlatform(AABB, AABB);
@@ -37,7 +37,14 @@ public:
 
 	// Jumping
 	bool jump = false;
-	float playerOriginalHeight = 0.0;
+	double playerOriginalHeight = 0.0;
+	bool onGround = true;
+	double gravity = 19.6;
+
+	// Special Abilities
+	bool doubleJump = false;
+	bool superSpeed = false;
+	bool jumpHigher = false;
 
 private:
 	Vector3 view;
