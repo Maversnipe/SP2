@@ -128,6 +128,7 @@ private:
 	std::string X = "";
 	std::string Y = "";
 	std::string Z = "";
+	std::string words = "";
 };
 
 #endif

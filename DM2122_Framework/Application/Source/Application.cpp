@@ -19,6 +19,7 @@
 #include "Platformer.h"
 #include "Money.h"
 #include "Driving.h"
+#include "FileReading.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -109,6 +110,7 @@ void Application::Init()
 void Application::Run()
 {
 	Money::getInstance()->setMoney(30);
+	FileReading::getInstance()->readFiles();
 	//Main Loop
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
