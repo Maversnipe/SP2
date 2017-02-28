@@ -34,8 +34,6 @@ public:
 	float verticalAngle = 0.0f;
 	float rotateVert = 0;
 	float rotateHori = 0;
-	float velocity = 0;
-	float fallingVelocity = 0;
 
 	// Platform Stuff
 	bool onPlatform(AABB, AABB);
@@ -44,11 +42,18 @@ public:
 	Platforms nextPlatform;
 	Platforms noPlatform;
 
-	// Jumping
-	bool jump = false;
-	double playerOriginalHeight = 0.0;
-	bool onGround = true;
-	double gravity = 19.6;
+	// Character Movement
+		// Moving Direction
+			float velocity = 0;
+			void charMovement(double, std::vector<Platforms> []);
+			
+		// Jumping
+			void jumping(double);
+			bool jump = false;
+			double playerOriginalHeight = 0.0;
+			bool onGround = true;
+			double gravity = 19.6;
+			float fallingVelocity = 0;
 
 	// Special Abilities
 	bool doubleJump = false;

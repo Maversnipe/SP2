@@ -71,7 +71,6 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 	right = view.Cross(up).Normalized();
 
 	static const float CAMERA_SPEED = 50.f;
-	Vector3 newPos;
 
 	if (Application::IsKeyPressed(37)) // Left
 	{
@@ -123,36 +122,29 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 			position += view * (float)(30.f * dt);
 		}
 	}
-	//===================Jumping===========================
-	if (Application::IsKeyPressed(VK_SPACE) && !jump && onGround)
-	{
-		jump = true;
-		playerOriginalHeight = position.y;
-		fallingVelocity = -30;
-		onGround = false;
-		gravity = 19.6;
-	}
 
-	if ((jump) && fallingVelocity < 0)
-	{
-		position.y -= (float)(fallingVelocity * dt);
-		target.y -= (float)(fallingVelocity * dt);
-		fallingVelocity += (float)(gravity * dt);
-	}
-	else if (position.y > (playerOriginalHeight) && jump)
-	{
-		jump = false;
-		fallingVelocity = 0;
-		gravity = 29.4;
-	}
+	jumping(dt);
+	charMovement(dt, platformID);
 
-	//======================Character Movement====================
+	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
+	camYaw.SetToRotation(rotateHori, 0, 1, 0);
+	rotation = camPitch * camYaw;
+	view = (rotation * view).Normalized();
+	target = (position + view);
+	up = camYaw * up;
+	right = camPitch * right;
+}
+
+void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID[])
+{ //======================Character Movement====================
+	Vector3 newPos;
+
 	if (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
 	{ // If character is moving
 		nextPlatform = noPlatform;
 		currPlatform = noPlatform;
-		if (velocity < 0.5)
-			velocity += (float)dt;
+		if (velocity < 0.7)
+			velocity += (float)(dt * 2);
 		if (Application::IsKeyPressed('A'))
 		{
 			newPos = position - (right * velocity);
@@ -339,14 +331,31 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 				onGround = true;
 		}
 	}
+}
 
-	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
-	camYaw.SetToRotation(rotateHori, 0, 1, 0);
-	rotation = camPitch * camYaw;
-	view = (rotation * view).Normalized();
-	target = (position + view);
-	up = camYaw * up;
-	right = camPitch * right;
+void PlatformerCamera::jumping(double dt)
+{ //===================Jumping===========================
+	if (Application::IsKeyPressed(VK_SPACE) && !jump && onGround)
+	{
+		jump = true;
+		playerOriginalHeight = position.y;
+		fallingVelocity = -30;
+		onGround = false;
+		gravity = 19.6;
+	}
+
+	if ((jump) && fallingVelocity < 0)
+	{
+		position.y -= (float)(fallingVelocity * dt);
+		target.y -= (float)(fallingVelocity * dt);
+		fallingVelocity += (float)(gravity * dt);
+	}
+	else if (position.y >(playerOriginalHeight) && jump)
+	{
+		jump = false;
+		fallingVelocity = 0;
+		gravity = 29.4;
+	}
 }
 
 bool PlatformerCamera::onPlatform(AABB character, AABB platform)

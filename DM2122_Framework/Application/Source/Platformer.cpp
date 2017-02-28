@@ -179,6 +179,7 @@ void Platformer::Update(double dt)
 
 	if (Application::IsKeyPressed(VK_BACK))
 		changeScene = 1;
+	
 	camera.Update(dt, platformID);
 }
 
@@ -433,119 +434,126 @@ void Platformer::Exit()
 
 void Platformer::setPlatforms()
 {
-	for (int i = 0; i < 40; i++)
+	for (int j = 0; j < 9; j++)
 	{
-		for (int z = 0; z < 100; z++)
+		for (int i = 0; i < 40; i++)
 		{
-			mapData[i][z] = 0;
+			for (int z = 0; z < 100; z++)
+			{
+				mapData[j][i][z] = 0;
+			}
 		}
-	}
+	}	
 
 	srand(time(NULL));
 	for (int startPoint = 0; startPoint < 4; startPoint++)
-		mapData[mapHeight][startPoint] = 7;
+		mapData[4][mapHeight][startPoint] = 7;
 	Platforms first;
 	first.type = 4;
 	first.pos.Set(-480, mapHeight * 5, 0);
 	first.platformAABB.SaveCoord(Vector3(first.pos.x - 10, (float)first.pos.y - 2.5, first.pos.z - 10),
 		Vector3(first.pos.x + 10, (float)first.pos.y + 2.5, first.pos.z + 10));
 	platformID[5].push_back(first);
-
-	for (int mapPos = 4; mapPos < 96; mapPos++)
+	
+	for (int mapZpos = 0; mapZpos < 9; mapZpos++)
 	{
-		Platforms platformCreated;
-		int platformType;
-		int randomNum = (int)RandomNumber(1.f, 9.f);
-		if (randomNum % 8 != 0 || (haveSpace))
-		{ // Don't have empty spaces
-			haveSpace = false;
-			randomNum = (int)RandomNumber(1.f, 5.f);
-			if ((randomNum == 3) || (randomNum == 1) && (mapHeight < 35) && (!haveSpace))
-			{ // Go Up
-				mapHeight += 3;
+		mapHeight = 20;
+		for (int mapPos = 4; mapPos < 96; mapPos++)
+		{
+			Platforms platformCreated;
+			int platformType;
+			int randomNum = (int)RandomNumber(1.f, 9.f);
+			if (randomNum % 8 != 0 || (haveSpace))
+			{ // Don't have empty spaces
+				haveSpace = false;
 				randomNum = (int)RandomNumber(1.f, 5.f);
-				for (int blockNum = 0; blockNum < randomNum; blockNum++)
-				{
-					mapData[mapHeight][mapPos + blockNum] = randomNum;
+				if ((randomNum == 3) || (randomNum == 1) && (mapHeight < 35) && (!haveSpace))
+				{ // Go Up
+					mapHeight += 3;
+					randomNum = (int)RandomNumber(1.f, 5.f);
+					for (int blockNum = 0; blockNum < randomNum; blockNum++)
+					{
+						mapData[mapZpos][mapHeight][mapPos + blockNum] = randomNum;
+					}
+					mapPos += (randomNum - 1);
+					platformType = randomNum;
 				}
-				mapPos += (randomNum - 1);
-				platformType = randomNum;
-			}
-			else if ((randomNum == 4) || (randomNum == 2) && (mapHeight > 5) && (!haveSpace))
-			{ // Go Down
-				mapHeight -= 3;
-				randomNum = (int)RandomNumber(1.f, 6.f);
-				for (int blockNum = 0; blockNum < randomNum; blockNum++)
-				{
-					mapData[mapHeight][mapPos + blockNum] = randomNum;
+				else if ((randomNum == 4) || (randomNum == 2) && (mapHeight > 5) && (!haveSpace))
+				{ // Go Down
+					mapHeight -= 3;
+					randomNum = (int)RandomNumber(1.f, 6.f);
+					for (int blockNum = 0; blockNum < randomNum; blockNum++)
+					{
+						mapData[mapZpos][mapHeight][mapPos + blockNum] = randomNum;
+					}
+					mapPos += (randomNum - 1);
+					platformType = randomNum;
 				}
-				mapPos += (randomNum - 1);
-				platformType = randomNum;
+				else
+				{ // Stay Same Height
+					randomNum = (int)RandomNumber(1.f, 6.f);
+					for (int blockNum = 0; blockNum < randomNum; blockNum++)
+					{
+						mapData[mapZpos][mapHeight][mapPos + blockNum] = randomNum;
+					}
+					mapPos += (randomNum - 1);
+					platformType = randomNum;
+				}
+
+				platformCreated.type = platformType;
+
+				switch (platformType)
+				{
+				case 1:
+					platformCreated.pos.Set(((((float)mapPos) + 0.5) * 10) - 500, mapHeight * 5, mapZpos * 40 - 125);
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
+						Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
+					platformID[0].push_back(platformCreated);
+					break;
+				case 2:
+					platformCreated.pos.Set(((((float)mapPos - 1) + 1) * 10) - 500, mapHeight * 5, mapZpos * 40 - 125);
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
+						Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
+					platformID[1].push_back(platformCreated);
+					break;
+				case 3:
+					platformCreated.pos.Set(((((float)mapPos - 2) + 1.5) * 10) - 500, mapHeight * 5, mapZpos * 40 - 125);
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 15),
+						Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 15));
+					platformID[2].push_back(platformCreated);
+					break;
+				case 4:
+					platformCreated.pos.Set(((((float)mapPos - 3) + 2) * 10) - 500, mapHeight * 5, mapZpos * 40 - 125);
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 10, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
+						Vector3(platformCreated.pos.x + 10, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
+					platformID[3].push_back(platformCreated);
+					break;
+				case 5:
+					platformCreated.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5, mapZpos * 40 - 125);
+					platformCreated.platformAABB.SaveCoord(Vector3((float)platformCreated.pos.x - 12.5, platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
+						Vector3((float)platformCreated.pos.x + 12.5, platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
+					platformID[4].push_back(platformCreated);
+					break;
+				}
 			}
 			else
-			{ // Stay Same Height
-				randomNum = (int)RandomNumber(1.f, 6.f);
-				for (int blockNum = 0; blockNum < randomNum; blockNum++)
+			{ // Empty blocks
+				haveSpace = true;
+				for (int emptyBlocks = 0; emptyBlocks < 2; emptyBlocks++)
 				{
-					mapData[mapHeight][mapPos + blockNum] = randomNum;
+					mapData[mapZpos][mapHeight + 4][mapPos + emptyBlocks] = 6;
 				}
-				mapPos += (randomNum - 1);
-				platformType = randomNum;
+				mapPos++;
 			}
-
-			platformCreated.type = platformType;/*
-			platformCreated.pos.Set(((mapPos + ((float)platformType * 0.5)) * 10) - 500, mapHeight * 5, 0);*/
-
-			switch (platformType)
-			{
-			case 1:
-				platformCreated.pos.Set(((((float)mapPos) + 0.5) * 10) - 500, mapHeight * 5, 0);
-				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
-					Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
-				platformID[0].push_back(platformCreated);
-				break;
-			case 2:
-				platformCreated.pos.Set(((((float)mapPos - 1) + 1) * 10) - 500, mapHeight * 5, 0);
-				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
-					Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
-				platformID[1].push_back(platformCreated);
-				break;
-			case 3:
-				platformCreated.pos.Set(((((float)mapPos - 2) + 1.5) * 10) - 500, mapHeight * 5, 0);
-				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 15),
-					Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 15));
-				platformID[2].push_back(platformCreated);
-				break;
-			case 4:
-				platformCreated.pos.Set(((((float)mapPos - 3) + 2) * 10) - 500, mapHeight * 5, 0);
-				platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 10, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
-					Vector3(platformCreated.pos.x + 10, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
-				platformID[3].push_back(platformCreated);
-				break;
-			case 5:
-				platformCreated.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5, 0);
-				platformCreated.platformAABB.SaveCoord(Vector3((float)platformCreated.pos.x - 12.5, platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
-					Vector3((float)platformCreated.pos.x + 12.5, platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
-				platformID[4].push_back(platformCreated);
-				break;
-			}
-		}
-		else
-		{ // Empty blocks
-			haveSpace = true;
-			for (int emptyBlocks = 0; emptyBlocks < 2; emptyBlocks++)
-			{
-				mapData[mapHeight + 4][mapPos + emptyBlocks] = 6;
-			}
-			mapPos++;
 		}
 	}
+	
 	if (mapHeight < 35)
 		mapHeight += 3;
 
 	for (int lastBlock = 96; lastBlock < 100; lastBlock++)
 	{
-		mapData[mapHeight][lastBlock] = 7;
+		mapData[4][mapHeight][lastBlock] = 7;
 	}
 	Platforms last;
 	last.type = 4;
@@ -557,62 +565,65 @@ void Platformer::setPlatforms()
 
 void Platformer::renderPlatforms()
 {
-	for (int height = 0; height < 40; height++)
+	for (int width = 0; width < 9; width++)
 	{
-		for (int length = 0; length < 100; length++)
+		for (int height = 0; height < 40; height++)
 		{
-			switch (mapData[height][length])
+			for (int length = 0; length < 100; length++)
 			{
-			case 1:
-				modelStack.PushMatrix();
-				modelStack.Translate(((((float)length) + 0.5) * 10) - 500, height * 5, 0);
-				modelStack.Scale(10, 5, 10);
-				RenderMesh(meshList[ONE_BLOCK], false);
-				modelStack.PopMatrix();
-				break;
-			case 2:
-				modelStack.PushMatrix();
-				modelStack.Translate(((((float)length) + 1) * 10) - 500, height * 5, 0);
-				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(10, 5, 5);
-				RenderMesh(meshList[TWO_BLOCK], false);
-				modelStack.PopMatrix();
-				length += 1;
-				break;
-			case 3:
-				modelStack.PushMatrix();
-				modelStack.Translate(((((float)length) + 1.5) * 10) - 500, height * 5, 0);
-				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(10, 5, 5);
-				RenderMesh(meshList[THREE_BLOCK], false);
-				modelStack.PopMatrix();
-				length += 2;
-				break;
-			case 4:
-				modelStack.PushMatrix();
-				modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, 0);
-				modelStack.Rotate(90, 0, 1, 0);
-				modelStack.Scale(10, 5, 5);
-				RenderMesh(meshList[FOUR_BLOCK], false);
-				modelStack.PopMatrix();
-				length += 3;
-				break;
-			case 5:
-				modelStack.PushMatrix();
-				modelStack.Translate(((((float)length) + 2.5) * 10) - 500, height * 5, 0);
-				modelStack.Scale(5, 5, 10);
-				RenderMesh(meshList[FIVE_BLOCK], false);
-				modelStack.PopMatrix();
-				length += 4;
-				break;
-			case 7:
-				modelStack.PushMatrix();
-				modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, 0);
-				modelStack.Scale(5, 5, 5);
-				RenderMesh(meshList[START_END], false);
-				modelStack.PopMatrix();
-				length += 3;
-				break;
+				switch (mapData[width][height][length])
+				{
+				case 1:
+					modelStack.PushMatrix();
+					modelStack.Translate(((((float)length) + 0.5) * 10) - 500, height * 5, width * 40 - 125);
+					modelStack.Scale(10, 5, 10);
+					RenderMesh(meshList[ONE_BLOCK], false);
+					modelStack.PopMatrix();
+					break;
+				case 2:
+					modelStack.PushMatrix();
+					modelStack.Translate(((((float)length) + 1) * 10) - 500, height * 5, width * 40 - 125);
+					modelStack.Rotate(90, 0, 1, 0);
+					modelStack.Scale(10, 5, 5);
+					RenderMesh(meshList[TWO_BLOCK], false);
+					modelStack.PopMatrix();
+					length += 1;
+					break;
+				case 3:
+					modelStack.PushMatrix();
+					modelStack.Translate(((((float)length) + 1.5) * 10) - 500, height * 5, width * 40 - 125);
+					modelStack.Rotate(90, 0, 1, 0);
+					modelStack.Scale(10, 5, 5);
+					RenderMesh(meshList[THREE_BLOCK], false);
+					modelStack.PopMatrix();
+					length += 2;
+					break;
+				case 4:
+					modelStack.PushMatrix();
+					modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, width * 40 - 125);
+					modelStack.Rotate(90, 0, 1, 0);
+					modelStack.Scale(10, 5, 5);
+					RenderMesh(meshList[FOUR_BLOCK], false);
+					modelStack.PopMatrix();
+					length += 3;
+					break;
+				case 5:
+					modelStack.PushMatrix();
+					modelStack.Translate(((((float)length) + 2.5) * 10) - 500, height * 5, width * 40 - 125);
+					modelStack.Scale(5, 5, 10);
+					RenderMesh(meshList[FIVE_BLOCK], false);
+					modelStack.PopMatrix();
+					length += 4;
+					break;
+				case 7:
+					modelStack.PushMatrix();
+					modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, 0);
+					modelStack.Scale(5, 5, 5);
+					RenderMesh(meshList[START_END], false);
+					modelStack.PopMatrix();
+					length += 3;
+					break;
+				}
 			}
 		}
 	}

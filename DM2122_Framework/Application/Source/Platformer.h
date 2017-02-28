@@ -78,7 +78,15 @@ public:
 		U_TEXT_ENABLED,
 		U_TEXT_COLOR,
 		U_TOTAL,
+	};
 
+	enum PLATFORMER_GAMESTATE
+	{
+		ABILITY_SELECT,
+		GAME,
+		GAMEOVER,
+		PAUSE,
+		COUNT
 	};
 
 	unsigned m_parameters[U_TOTAL];
@@ -109,7 +117,7 @@ private:
 	double bounce_time = 0.0;
 
 	// Map (Platform location)
-	int mapData[40][100];
+	int mapData[9][40][100];
 	int mapHeight = 20;
 	bool haveSpace = false;
 	std::vector<Platforms> platformID[6];
