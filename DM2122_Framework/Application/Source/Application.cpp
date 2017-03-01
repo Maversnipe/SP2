@@ -20,6 +20,7 @@
 #include "Money.h"
 #include "Driving.h"
 #include "FileReading.h"
+#include "SP_Gabriel.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game

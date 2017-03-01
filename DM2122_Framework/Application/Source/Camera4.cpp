@@ -95,7 +95,7 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 			view.y = 0;
 			for (int i = 0; i < ObjPos.size(); i++)
 			{
-				if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.75)
+				if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 				{
 					collision = false;
 				}
@@ -126,7 +126,7 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 			view.y = 0;
 			for (int i = 0; i < ObjPos.size(); i++)
 			{
-				if (((position+(view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.75)
+				if (((position+(view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 				{
 					collision = false;
 				}
@@ -151,7 +151,7 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 				CAR_SPEED -= 0.2f;
 				for (int i = 0; i < ObjPos.size(); i++)
 				{
-					if (((position + view) - ObjPos[i]).Length()>1.75)
+					if (((position + view) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}
@@ -174,7 +174,7 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 				CAR_SPEED += 0.2f;
 				for (int i = 0; i < ObjPos.size(); i++)
 				{
-					if (((position - view) - ObjPos[i]).Length()>1.75)
+					if (((position - view) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}

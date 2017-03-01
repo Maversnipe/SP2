@@ -48,6 +48,7 @@ public:
 		GEO_BACK,
 		GEO_GROUND,
 		GEO_ROCKS,
+		GEO_LOAD1,
 		NUM_GEOMETRY,
 	};
 
@@ -112,7 +113,7 @@ private:
 
 	void RenderSkybox();
 
-	Vector3 building[4] = {};
+	Vector3 building[5] = {};
 	//==Carousell==
 	Vector3 prevPos = {};
 	Vector3 prevTarget = {};

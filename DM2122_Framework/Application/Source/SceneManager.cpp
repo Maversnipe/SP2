@@ -6,6 +6,7 @@
 #include "Money.h"
 #include "Driving.h"
 #include "StudioProject.h"
+#include "SP_Gabriel.h"
 
 SceneManager *SceneManager::sceneManager = NULL;
 
@@ -47,78 +48,99 @@ void SceneManager::Update(float dt)
 	{ // Main Menu Scene
 		if (maps[currSceneID]->changeScene == 1)
 		{
+			SetNextScene("MainScene");
+			AddScene(new StudioProject(), "MainScene");
+			maps[nextSceneID]->Init();
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("MainScene");
 			currSceneID = nextSceneID;
-			AddScene(new StudioProject(), "MainScene");			
-			maps[currSceneID]->Init();
 		}
 	}
 	else if (currSceneID == "MainScene")
 	{ // Main Scene (Buildings inside)
 		if (maps[currSceneID]->changeScene == 2)
 		{
+			SetNextScene("Shooting");
+			AddScene(new Shooting(), "Shooting");
+			maps[nextSceneID]->Init();
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("Shooter");
 			currSceneID = nextSceneID;
-			AddScene(new Shooting(), "Shooting");
-			maps[currSceneID]->Init();
 		}
 		else if (maps[currSceneID]->changeScene == 3)
 		{
+			SetNextScene("Platformer");
+			AddScene(new Platformer(), "Platformer");
+			maps[nextSceneID]->Init();
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("Platformer");
 			currSceneID = nextSceneID;
-			AddScene(new Platformer(), "Platformer");
-			maps[currSceneID]->Init();
 		}
 		else if (maps[currSceneID]->changeScene == 4)
 		{
+			SetNextScene("Driving");
+			AddScene(new Driving(), "Driving");
+			maps[nextSceneID]->Init();
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("Driving");
 			currSceneID = nextSceneID;
-			AddScene(new Driving(), "Driving");
-			maps[currSceneID]->Init();
+		}
+		else if (maps[currSceneID]->changeScene == 5)
+		{
+			SetNextScene("Gabriel");
+			AddScene(new SP_Gabriel(), "Gabriel");
+			maps[nextSceneID]->Init();
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			currSceneID = nextSceneID;
 		}
 	}
 	else if (currSceneID == "Shooting")
 	{ // Shooting Game Scene
 		if (maps[currSceneID]->changeScene == 1)
 		{
+			SetNextScene("MainScene");
+			AddScene(new StudioProject(), "MainScene");
+			maps[nextSceneID]->Init();
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("MainScene");
 			currSceneID = nextSceneID;
-			AddScene(new StudioProject(), "MainScene");
-			maps[currSceneID]->Init();
 		}
 	}
 	else if (currSceneID == "Platformer")
 	{ // Platformer Game Scene
 		if (maps[currSceneID]->changeScene == 1)
 		{
+			SetNextScene("MainScene");
+			AddScene(new StudioProject(), "MainScene");
+			maps[nextSceneID]->Init();
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("MainScene");
 			currSceneID = nextSceneID;
-			AddScene(new StudioProject(), "MainScene");
-			maps[currSceneID]->Init();
 		}
 	}
 	else if (currSceneID == "Driving")
 	{ // Driving Game Scene
 		if (maps[currSceneID]->changeScene == 1)
 		{
+			SetNextScene("MainScene");
+			AddScene(new StudioProject(), "MainScene");
+			maps[nextSceneID]->Init();
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("MainScene");
 			currSceneID = nextSceneID;
+		}
+	}
+	else if (currSceneID == "Gabriel")
+	{ // Shooting Game Scene
+		if (maps[currSceneID]->changeScene == 1)
+		{
+			SetNextScene("MainScene");
 			AddScene(new StudioProject(), "MainScene");
-			maps[currSceneID]->Init();
+			maps[nextSceneID]->Init();
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			currSceneID = nextSceneID;
 		}
 	}
 
