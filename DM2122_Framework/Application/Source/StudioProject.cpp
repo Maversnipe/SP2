@@ -164,7 +164,10 @@ void StudioProject::Init()
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
-	
+	//======================================================================================
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+
 	// Building Coords
 	building[0].Set(-80, 0, -23);
 	building[1].Set(0, 0, -23);
@@ -311,6 +314,9 @@ void StudioProject::Update(double dt)
 			Money::getInstance()->notEnoughMoney = true;
 		bounce_time = elapsed_time + 10;
 	}
+	if (Application::IsKeyPressed('Q'))
+	{
+	}
 
 	if (camera3.playCarousell)
 	{
@@ -373,66 +379,72 @@ void StudioProject::Render()
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	//---------------------------------------------------------------
-	RenderMesh(meshList[GEO_AXES], false);
+	if (changeScene != 0)
+		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
+	else
+	{
+		RenderMesh(meshList[GEO_AXES], false);
 
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+		RenderMesh(meshList[GEO_LIGHTBALL], false);
+		modelStack.PopMatrix();
 
-	RenderSkybox();
+		RenderSkybox();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(0, -5, 0);
-	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_GROUND], true);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(0, -5, 0);
+		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Scale(1000, 1000, 1000);
+		RenderMesh(meshList[GEO_GROUND], true);
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(building[0].x, building[0].y, building[0].z);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING], true);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(building[0].x, building[0].y, building[0].z);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_BUILDING], true);
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(building[1].x, building[1].y, building[1].z);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING2], true);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(building[1].x, building[1].y, building[1].z);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_BUILDING2], true);
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(building[2].x, building[2].y, building[2].z);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING3], true);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(building[2].x, building[2].y, building[2].z);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_BUILDING3], true);
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(building[4].x, building[4].y, building[4].z);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING4], true);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Translate(building[4].x, building[4].y, building[4].z);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_BUILDING4], true);
+		modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	modelStack.Translate(building[3].x, building[3].y, building[3].z);
+		modelStack.PushMatrix();
+		modelStack.Translate(building[3].x, building[3].y, building[3].z);
 
-	modelStack.PushMatrix();
-	modelStack.Rotate(rotateCaro, 0, 1, 0);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_CAROBOTTOM], true);
-	modelStack.PopMatrix();
+		modelStack.PushMatrix();
+		modelStack.Rotate(rotateCaro, 0, 1, 0);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_CAROBOTTOM], true);
+		modelStack.PopMatrix();
 
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_CAROTOP], true);
-	modelStack.PopMatrix();
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_CAROTOP], true);
+		modelStack.PopMatrix();
 
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
-	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
-	if (noMoney)
-		RenderTextOnScreen(meshList[GEO_TEXT], "Not enough money!" , Color(1, 0, 0), 2, 23, 26);
-	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
+		RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+		if (noMoney)
+			RenderTextOnScreen(meshList[GEO_TEXT], "Not enough money!", Color(1, 0, 0), 2, 23, 26);
+		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+	}
+	
 }
 
 void StudioProject::RenderSkybox()

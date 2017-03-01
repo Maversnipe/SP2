@@ -57,6 +57,7 @@ public:
 		GEO_FUEL,
 		GEO_HEALTH,
 		GEO_ROCKS,
+		GEO_LOAD1,
 		NUM_GEOMETRY,
 	};
 

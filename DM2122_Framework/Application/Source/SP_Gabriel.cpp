@@ -29,7 +29,7 @@ void SP_Gabriel::Init()
 	//glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	// Enable Culling
-	glEnable(GL_CULL_FACE);
+//	glEnable(GL_CULL_FACE);
 
 	// Blend
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -196,6 +196,8 @@ void SP_Gabriel::Init()
 
 	meshList[GEO_PROJECTILE] = MeshBuilder::GenerateSphere("projectile", Color(1, 0, 0), 10, 10, 1);
 
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -204,6 +206,8 @@ void SP_Gabriel::Init()
 
 void SP_Gabriel::Update(double dt)
 {
+	if (Application::IsKeyPressed(VK_BACK))
+		changeScene = 1;
 	fps = 1.0f / dt;
 	framesPerSec = "FPS: " + std::to_string(fps);
 	float LSPEED = 10.f;
@@ -503,48 +507,54 @@ void SP_Gabriel::Render()
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	//---------------------------------------------------------------
-	if (renderRef)
-		RenderMesh(meshList[GEO_AXES], false);
-
-	//modelStack.PushMatrix();
-	//modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	//RenderMesh(meshList[GEO_LIGHTBALL], false);
-	//modelStack.PopMatrix();
-
-	RenderSkybox();
-
-
-	/*
-
-	if(isEnemyAlive == true)
+	if (changeScene != 0)
+		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
+	else
 	{
+		if (renderRef)
+			RenderMesh(meshList[GEO_AXES], false);
+
+		//modelStack.PushMatrix();
+		//modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+		//RenderMesh(meshList[GEO_LIGHTBALL], false);
+		//modelStack.PopMatrix();
+
+		RenderSkybox();
+
+
+		/*
+
+		if(isEnemyAlive == true)
+		{
 		for loop to render;
-	}
-
-	*/
-
-	for (int count = 0; count < maxSpawn; count++)
-	{
-		if (isEnemyAlive[count]){
-			modelStack.PushMatrix();
-			modelStack.Translate(enemyUFOdirectionX[count], 0, enemyUFOdirectionZ[count]);
-			RenderMesh(meshList[GEO_UFO], false);
-			modelStack.PopMatrix();
 		}
-	}
 
-	if (isShooting[bulletCount])
-	{
+		*/
+
+		for (int count = 0; count < maxSpawn; count++)
+		{
+			if (isEnemyAlive[count]){
+				modelStack.PushMatrix();
+				modelStack.Translate(enemyUFOdirectionX[count], 0, enemyUFOdirectionZ[count]);
+				RenderMesh(meshList[GEO_UFO], false);
+				modelStack.PopMatrix();
+			}
+		}
+
+		if (isShooting[bulletCount])
+		{
 			modelStack.PushMatrix();
 			modelStack.Translate(projStartX[bulletCount] + projectileDirectionX[bulletCount], 0, projStartZ[bulletCount] + projectileDirectionZ[bulletCount]);
 			modelStack.Scale(0.3, 0.3, 0.3);
 			RenderMesh(meshList[GEO_PROJECTILE], false);
 			modelStack.PopMatrix();
 			//std::cout << " ; " << " ; projStartZ[j] = " << projStartZ[bulletCount] << " ; projectileDirectionZ[j] = " << projectileDirectionZ[bulletCount] << "\n";
-	}
+		}
 
-	RenderMeshOnScreen(meshList[GEO_UFO_ON_SCREEN], 40.5, 15, 25, 25);
-	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 0), 3, 0.5, 0.5);
+		RenderMeshOnScreen(meshList[GEO_UFO_ON_SCREEN], 40.5, 15, 25, 25);
+		RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 0), 3, 0.5, 0.5);
+	}
+	
 }
 
 void SP_Gabriel::RenderMeshOnScreen(Mesh* mesh, float x, float y, int sizex, int sizey)

@@ -169,6 +169,9 @@ void MainMenu::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+	
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
@@ -254,72 +257,79 @@ void MainMenu::Render()
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	//---------------------------------------------------------------
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	modelStack.PopMatrix();
-
-	RenderSkybox();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, -5, 0);
-	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_GROUND], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(-80, 0, -23);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -23);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING2], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(80, 0, -23);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_BUILDING3], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, -2, 200);
-
-	modelStack.PushMatrix();
-	modelStack.Rotate(rotateCaro, 0, 1, 0);
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_CAROBOTTOM], true);
-	modelStack.PopMatrix();
-
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[GEO_CAROTOP], true);
-	modelStack.PopMatrix();
-
-	RenderMeshOnScreen(meshList[GEO_TITLE], 40, 50, 75, 75);//No transform needed
-
-	if (selectScene == 0)
+	if (changeScene != 0)
+		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
+	else
 	{
-		RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 35, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
+		modelStack.PushMatrix();
+		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+		modelStack.PopMatrix();
+
+		RenderSkybox();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, -5, 0);
+		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Scale(1000, 1000, 1000);
+		RenderMesh(meshList[GEO_GROUND], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-80, 0, -23);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_BUILDING], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, 0, -23);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_BUILDING2], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(80, 0, -23);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_BUILDING3], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, -2, 200);
+
+		modelStack.PushMatrix();
+		modelStack.Rotate(rotateCaro, 0, 1, 0);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_CAROBOTTOM], true);
+		modelStack.PopMatrix();
+
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_CAROTOP], true);
+		modelStack.PopMatrix();
+
+		RenderMeshOnScreen(meshList[GEO_TITLE], 40, 50, 75, 75);//No transform needed
+
+		if (selectScene == 0)
+		{
+			RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 35, 30, 30);//No transform needed
+			RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
+			RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
+		}
+
+		if (selectScene == 1)
+		{
+			RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
+			RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 25, 30, 30);//No transform needed
+			RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
+		}
+
+		if (selectScene == 2)
+		{
+			RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
+			RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
+			RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 15, 30, 30);//No transform needed
+		}
 	}
 
-	if (selectScene == 1)
-	{
-		RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 25, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
-	}
-
-	if (selectScene == 2)
-	{
-		RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
-		RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 15, 30, 30);//No transform needed
-	}
+	
 }
 
 void MainMenu::RenderSkybox()

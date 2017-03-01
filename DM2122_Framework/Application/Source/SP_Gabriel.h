@@ -47,6 +47,7 @@ public:
 		GEO_UFO_ON_SCREEN,
 
 		GEO_PROJECTILE,
+		GEO_LOAD1,
 
 		NUM_GEOMETRY,
 	};

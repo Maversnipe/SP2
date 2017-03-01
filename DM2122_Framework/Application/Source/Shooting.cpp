@@ -246,6 +246,10 @@ void Shooting::Init()
 	meshList[GEO_HITNOTIRIGHT]->textureID = LoadTGA("Image//Shooting//hitNotiRight.tga");
 
 	//======================================================================================
+
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+	//================
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
@@ -726,206 +730,214 @@ void Shooting::Render()
 
 
 	//---------------------------------------------------------------
-	RenderMesh(meshList[GEO_AXES], false);
+	if (changeScene != 0)
+		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
 
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	RenderSkybox();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, -5, 0);
-	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
-	RenderMesh(meshList[GEO_FLOOR], true);
-	modelStack.PopMatrix();
-
-//=============================TABLE===================================
-
-	if (!disappearTable)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(0, -3, 0);
-
-		if (!pickUpGun)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(2, 2.45, 0);
-			modelStack.Rotate(-90, 0, 1, 0);
-			modelStack.Rotate(90, 0, 0, 1);
-			RenderMesh(meshList[GEO_GUN], true);
-			modelStack.PopMatrix();
-
-			modelStack.PushMatrix();
-			modelStack.Translate(-2, 2.75, 0);
-			modelStack.Rotate(-45, 0, 1, 0);
-			modelStack.Rotate(80, 0, 0, 1);
-			RenderMesh(meshList[GEO_FLASHLIGHT], true);
-			modelStack.PopMatrix();
-		}
-
-		modelStack.Scale(6, 2, 2);
-		RenderMesh(meshList[GEO_TABLE], true);
-		modelStack.PopMatrix();
-	}
 	
-	//===============================ENEMIES=================================
 
-	if (!enemyTutDead && disappearTable)
+	else
 	{
+		RenderMesh(meshList[GEO_AXES], false);
+
 		modelStack.PushMatrix();
-		modelStack.Translate(enemyTutPos.x, 0, enemyTutPos.z);
-		modelStack.Rotate(enemyTutRotation1, 0, 1, 0);
-		modelStack.Scale(0.25, 0.25, 0.25);
-		RenderMesh(meshList[GEO_ENEMY], true);
+		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+		RenderMesh(meshList[GEO_LIGHTBALL], false);
 		modelStack.PopMatrix();
-	}
 
-	if (tutorialEnd)
-	{
-		for (int i = 0; i < enemySize; i++)
+		RenderSkybox();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, -5, 0);
+		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Scale(1000, 1000, 1000);
+		RenderMesh(meshList[GEO_FLOOR], true);
+		modelStack.PopMatrix();
+
+		//=============================TABLE===================================
+
+		if (!disappearTable)
 		{
-			if (enemyDead[i] == false)
+			modelStack.PushMatrix();
+			modelStack.Translate(0, -3, 0);
+
+			if (!pickUpGun)
 			{
 				modelStack.PushMatrix();
-				modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
-				modelStack.Rotate(enemyRotation1[i], 0, 1, 0);
-				modelStack.Scale(0.25, 0.25, 0.25);
-				RenderMesh(meshList[GEO_ENEMY], true);
+				modelStack.Translate(2, 2.45, 0);
+				modelStack.Rotate(-90, 0, 1, 0);
+				modelStack.Rotate(90, 0, 0, 1);
+				RenderMesh(meshList[GEO_GUN], true);
+				modelStack.PopMatrix();
+
+				modelStack.PushMatrix();
+				modelStack.Translate(-2, 2.75, 0);
+				modelStack.Rotate(-45, 0, 1, 0);
+				modelStack.Rotate(80, 0, 0, 1);
+				RenderMesh(meshList[GEO_FLASHLIGHT], true);
 				modelStack.PopMatrix();
 			}
-		}
-	}
-//============================GUN & FLASHLIGHT===========================
-	if (pickUpGun)
-	{
-		modelStack.PushMatrix();
-		modelStack.LoadMatrix(stamp);
-		RenderMesh(meshList[GEO_GUN2], true);
-		modelStack.PopMatrix();
 
-		modelStack.PushMatrix();
-		modelStack.LoadMatrix(stamp);
-		RenderMesh(meshList[GEO_FLASHLIGHT2], true);
-		modelStack.PopMatrix();
-	}
-//==============================BULLETS===================================
-	for (int i = 0; i < 5; i++)
-	{
-		if (moveLaser[i])
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(bullet[i].pos.x, bullet[i].pos.y, bullet[i].pos.z);
-			modelStack.Rotate(rotateLasHori, 0, 1, 0);
-			modelStack.Rotate(rotateLasVert, 1, 0, 0);
-
-			modelStack.PushMatrix();
-			modelStack.Translate(0.6, -0.4, 0);
-			modelStack.Rotate(5, 0, 1, 0);
-			modelStack.Scale(0.1, 0.1, 0.8);
-			RenderMesh(meshList[GEO_BULLET], false);
-			modelStack.PopMatrix();
-
+			modelStack.Scale(6, 2, 2);
+			RenderMesh(meshList[GEO_TABLE], true);
 			modelStack.PopMatrix();
 		}
 
-	}
-//===============================TREASURE=================================
-	if (enemyTutDead && !treasureAnimation)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[0].x, -3, ObjectPos[0].z);
-		modelStack.Scale(2, 2, 2);
-		RenderMesh(meshList[GEO_CUBE], true);
-		modelStack.PopMatrix();
-	}
-//Rendering rewards
-	if (!playMoney && treasureAnimation)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
-		modelStack.Rotate(rotateTreasure, 0, 1, 0);
-		modelStack.Scale(3, 3, 3);
-		RenderMesh(meshList[GEO_HEALTH], false);
-		modelStack.PopMatrix();
-	}
+		//===============================ENEMIES=================================
 
-	else if (playMoney && treasureAnimation)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
-		modelStack.Rotate(rotateTreasure, 0, 1, 0);
-		modelStack.Scale(3, 3, 3);
-		RenderMesh(meshList[GEO_ROCKS], false);
-		modelStack.PopMatrix();
-	}
-//===============================GUN'S LASER CAPACITY=============================
-	if (reload)
-		RenderTextOnScreen(meshList[GEO_TEXT], "RELOADING...", Color(1, 0, 0), 5, 3, 6.5);
-
-	if (!reload && pickUpGun)
-	switch (bulletCount)
-	{
-	case 0:
-		RenderMeshOnScreen(meshList[GEO_LASER5], 65, 5, 20, 20);
-		break;
-	case 1:
-		RenderMeshOnScreen(meshList[GEO_LASER4], 65, 5, 20, 20);
-		break;
-	case 2:
-		RenderMeshOnScreen(meshList[GEO_LASER3], 65, 5, 20, 20);
-		break;
-	case 3:
-		RenderMeshOnScreen(meshList[GEO_LASER2], 65, 5, 20, 20);
-		break;
-	case 4:
-		RenderMeshOnScreen(meshList[GEO_LASER1], 65, 5, 20, 20);
-		break;
-	}
-
-	else if (reload)
-		RenderMeshOnScreen(meshList[GEO_LASER0], 65, 5, 20, 20);
-	//================================================================================
-	{
-		int moveX = 6;
-		for (int i = 0; i < health; i++, moveX += 5)
-			RenderMeshOnScreen(meshList[GEO_HEALTH], moveX, 57, 4, 4);
-	}
-
-
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
-	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
-	for (int i = 0; i < 4; i++)
-	{
-		switch (Camera.sideNoti[i])
+		if (!enemyTutDead && disappearTable)
 		{
-		case 0:
-			break;
-		case 1:
-			RenderMeshOnScreen(meshList[GEO_HITNOTILEFT], 10, 30, 40, 40); //Left
-			break;
-		case 2:
-			RenderMeshOnScreen(meshList[GEO_HITNOTIRIGHT], 70, 30, 40, 40); //Right
-			break;
-		case 3:
-			RenderMeshOnScreen(meshList[GEO_HITNOTITOP], 40, 52, 40, 40); //Up
-			break;
-		case 4:
-			RenderMeshOnScreen(meshList[GEO_HITNOTIBOTTOM], 40, 10, 40, 40); //Down
-			break;
+			modelStack.PushMatrix();
+			modelStack.Translate(enemyTutPos.x, 0, enemyTutPos.z);
+			modelStack.Rotate(enemyTutRotation1, 0, 1, 0);
+			modelStack.Scale(0.25, 0.25, 0.25);
+			RenderMesh(meshList[GEO_ENEMY], true);
+			modelStack.PopMatrix();
 		}
-	}
-	
-	//================================================================================
-	if (!tutorialStart && !tutorialEnd)
-		RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);
-	//================================================================================
 
-	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+		if (tutorialEnd)
+		{
+			for (int i = 0; i < enemySize; i++)
+			{
+				if (enemyDead[i] == false)
+				{
+					modelStack.PushMatrix();
+					modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
+					modelStack.Rotate(enemyRotation1[i], 0, 1, 0);
+					modelStack.Scale(0.25, 0.25, 0.25);
+					RenderMesh(meshList[GEO_ENEMY], true);
+					modelStack.PopMatrix();
+				}
+			}
+		}
+		//============================GUN & FLASHLIGHT===========================
+		if (pickUpGun)
+		{
+			modelStack.PushMatrix();
+			modelStack.LoadMatrix(stamp);
+			RenderMesh(meshList[GEO_GUN2], true);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.LoadMatrix(stamp);
+			RenderMesh(meshList[GEO_FLASHLIGHT2], true);
+			modelStack.PopMatrix();
+		}
+		//==============================BULLETS===================================
+		for (int i = 0; i < 5; i++)
+		{
+			if (moveLaser[i])
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(bullet[i].pos.x, bullet[i].pos.y, bullet[i].pos.z);
+				modelStack.Rotate(rotateLasHori, 0, 1, 0);
+				modelStack.Rotate(rotateLasVert, 1, 0, 0);
+
+				modelStack.PushMatrix();
+				modelStack.Translate(0.6, -0.4, 0);
+				modelStack.Rotate(5, 0, 1, 0);
+				modelStack.Scale(0.1, 0.1, 0.8);
+				RenderMesh(meshList[GEO_BULLET], false);
+				modelStack.PopMatrix();
+
+				modelStack.PopMatrix();
+			}
+
+		}
+		//===============================TREASURE=================================
+		if (enemyTutDead && !treasureAnimation)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(ObjectPos[0].x, -3, ObjectPos[0].z);
+			modelStack.Scale(2, 2, 2);
+			RenderMesh(meshList[GEO_CUBE], true);
+			modelStack.PopMatrix();
+		}
+		//Rendering rewards
+		if (!playMoney && treasureAnimation)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
+			modelStack.Rotate(rotateTreasure, 0, 1, 0);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_HEALTH], false);
+			modelStack.PopMatrix();
+		}
+
+		else if (playMoney && treasureAnimation)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(ObjectPos[0].x, 0, ObjectPos[0].z);
+			modelStack.Rotate(rotateTreasure, 0, 1, 0);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_ROCKS], false);
+			modelStack.PopMatrix();
+		}
+		//===============================GUN'S LASER CAPACITY=============================
+		if (reload)
+			RenderTextOnScreen(meshList[GEO_TEXT], "RELOADING...", Color(1, 0, 0), 5, 3, 6.5);
+
+		if (!reload && pickUpGun)
+			switch (bulletCount)
+		{
+			case 0:
+				RenderMeshOnScreen(meshList[GEO_LASER5], 65, 5, 20, 20);
+				break;
+			case 1:
+				RenderMeshOnScreen(meshList[GEO_LASER4], 65, 5, 20, 20);
+				break;
+			case 2:
+				RenderMeshOnScreen(meshList[GEO_LASER3], 65, 5, 20, 20);
+				break;
+			case 3:
+				RenderMeshOnScreen(meshList[GEO_LASER2], 65, 5, 20, 20);
+				break;
+			case 4:
+				RenderMeshOnScreen(meshList[GEO_LASER1], 65, 5, 20, 20);
+				break;
+		}
+
+		else if (reload)
+			RenderMeshOnScreen(meshList[GEO_LASER0], 65, 5, 20, 20);
+		//================================================================================
+		{
+			int moveX = 6;
+			for (int i = 0; i < health; i++, moveX += 5)
+				RenderMeshOnScreen(meshList[GEO_HEALTH], moveX, 57, 4, 4);
+		}
+
+
+		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
+		RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+		for (int i = 0; i < 4; i++)
+		{
+			switch (Camera.sideNoti[i])
+			{
+			case 0:
+				break;
+			case 1:
+				RenderMeshOnScreen(meshList[GEO_HITNOTILEFT], 10, 30, 40, 40); //Left
+				break;
+			case 2:
+				RenderMeshOnScreen(meshList[GEO_HITNOTIRIGHT], 70, 30, 40, 40); //Right
+				break;
+			case 3:
+				RenderMeshOnScreen(meshList[GEO_HITNOTITOP], 40, 52, 40, 40); //Up
+				break;
+			case 4:
+				RenderMeshOnScreen(meshList[GEO_HITNOTIBOTTOM], 40, 10, 40, 40); //Down
+				break;
+			}
+		}
+
+		//================================================================================
+		if (!tutorialStart && !tutorialEnd)
+			RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);
+		//================================================================================
+
+		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+	}
 }
 
 void Shooting::RenderSkybox()

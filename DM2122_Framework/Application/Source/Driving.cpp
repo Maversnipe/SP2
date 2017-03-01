@@ -184,6 +184,10 @@ void Driving::Init()
 
 	meshList[GEO_ROCKS] = MeshBuilder::GenerateQuad("rocks", Color(1, 1, 1), 1, 1);
 	meshList[GEO_ROCKS]->textureID = LoadTGA("Image//starRocks.tga");
+	
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+
 
 
 	Mtx44 projection;
@@ -525,86 +529,91 @@ void Driving::Render()
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	//---------------------------------------------------------------
-	RenderMesh(meshList[GEO_AXES], false);
-
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
-
-	RenderSkybox();
-
-	for (int i = 0; i < enemySize; i++)
+	if (changeScene != 0)
+		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
+	else
 	{
-		if (enemyDead[i] == false)
+		RenderMesh(meshList[GEO_AXES], false);
+
+		modelStack.PushMatrix();
+		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+		RenderMesh(meshList[GEO_LIGHTBALL], false);
+		modelStack.PopMatrix();
+
+		RenderSkybox();
+
+		for (int i = 0; i < enemySize; i++)
+		{
+			if (enemyDead[i] == false)
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
+				modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+				//modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
+				modelStack.Scale(0.25, 0.25, 0.25);
+				RenderMesh(meshList[GEO_ENEMY], true);
+				modelStack.PopMatrix();
+			}
+		}
+		for (int i = 0; i < objectSize; i++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
-			modelStack.Rotate(enemyRotation[i], 0, 1, 0);
-			//modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
-			modelStack.Scale(0.25, 0.25, 0.25);
-			RenderMesh(meshList[GEO_ENEMY], true);
+			modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_ROCK], true);
 			modelStack.PopMatrix();
 		}
-	}
-	for (int i = 0; i < objectSize; i++)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
-		modelStack.Scale(1, 1, 1);
-		RenderMesh(meshList[GEO_ROCK], true);
-		modelStack.PopMatrix();
-	}
-	for (int i = 0; i < healthPack; i++)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(HealthPos[i].x, 0, HealthPos[i].z);
-		modelStack.Scale(1, 1, 1);
-		RenderMesh(meshList[GEO_HEALTH], true);
-		modelStack.PopMatrix();
-	}
-	for (int i = 0; i < fuelPack; i++)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(FuelPos[i].x, 0, FuelPos[i].z);
-		modelStack.Scale(1, 1, 1);
-		RenderMesh(meshList[GEO_FUEL], true);
-		modelStack.PopMatrix();
-	}
-	for (int i = 0; i < enemySize; i++)
-	{
-		if (enemyExplosion[i] == true)
+		for (int i = 0; i < healthPack; i++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(ExplosionPos[i].x, 0, ExplosionPos[i].z);
-			modelStack.Rotate(enemyRotation[i], 0, 1, 0);
-			modelStack.Scale(ExplosionRadius[i], ExplosionRadius[i], ExplosionRadius[i]);
-			RenderMesh(meshList[GEO_EXPLOSION], true);
+			modelStack.Translate(HealthPos[i].x, 0, HealthPos[i].z);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_HEALTH], true);
 			modelStack.PopMatrix();
 		}
-	}
-	for (int i = 0; i < rock; i++)
-	{
+		for (int i = 0; i < fuelPack; i++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(FuelPos[i].x, 0, FuelPos[i].z);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_FUEL], true);
+			modelStack.PopMatrix();
+		}
+		for (int i = 0; i < enemySize; i++)
+		{
+			if (enemyExplosion[i] == true)
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(ExplosionPos[i].x, 0, ExplosionPos[i].z);
+				modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+				modelStack.Scale(ExplosionRadius[i], ExplosionRadius[i], ExplosionRadius[i]);
+				RenderMesh(meshList[GEO_EXPLOSION], true);
+				modelStack.PopMatrix();
+			}
+		}
+		for (int i = 0; i < rock; i++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(RockPos[i].x, 0, RockPos[i].z);
+			modelStack.Scale(1, 1, 1);
+			RenderMesh(meshList[GEO_ROCKS], true);
+			modelStack.PopMatrix();
+		}
 		modelStack.PushMatrix();
-		modelStack.Translate(RockPos[i].x, 0, RockPos[i].z);
-		modelStack.Scale(1, 1, 1);
-		RenderMesh(meshList[GEO_ROCKS], true);
+		modelStack.Translate(carVec.x, carVec.y, carVec.z);
+		modelStack.Rotate(rotateAngle, 0, 1, 0);
+		modelStack.Scale(0.25, 0.25, 0.25);
+		RenderMesh(meshList[GEO_CAR], true);
 		modelStack.PopMatrix();
-	}
-	modelStack.PushMatrix();
-	modelStack.Translate(carVec.x, carVec.y, carVec.z);
-	modelStack.Rotate(rotateAngle, 0, 1, 0);
-	modelStack.Scale(0.25, 0.25, 0.25);
-	RenderMesh(meshList[GEO_CAR], true);
-	modelStack.PopMatrix();
-	RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
-	RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((100-(int)car.health) / 20)), 57, ((int)car.health / 10), 2);//No transform needed
-	RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 0, 0), 2, 0.5, 28.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
+		RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((100 - (int)car.health) / 20)), 57, ((int)car.health / 10), 2);//No transform needed
+		RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 0, 0), 2, 0.5, 28.5);
 
-	RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((10000 - (int)car.fuel) / 2000)), 55, ((int)car.fuel / 1000), 2);//No transform needed
-	RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 0, 0), 2, 0.5, 27.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
-	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+		RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((10000 - (int)car.fuel) / 2000)), 55, ((int)car.fuel / 1000), 2);//No transform needed
+		RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 0, 0), 2, 0.5, 27.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
+		RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+	}
 }
 
 void Driving::RenderSkybox()
