@@ -1,12 +1,12 @@
 #include "MainMenu.h"
 #include "GL\glew.h"
-
+#include <GLFW/glfw3.h>
 #include "shader.hpp"
 #include "Application.h"
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
-
+extern GLFWwindow* m_window;
 
 MainMenu::MainMenu()
 {
@@ -176,31 +176,45 @@ void MainMenu::Init()
 
 void MainMenu::Update(double dt)
 {
+	glfwGetWindowSize(m_window, &width, &height);
+	glfwGetCursorPos(m_window, &xpos, &ypos);
 	elapsed_time += dt;
 	rotateCaro += 40 * dt;
-	if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > bounce_time)) // Down
-	{
-		if (selectScene >= 0 && selectScene < 2)
-		{
-			selectScene++;
-		}
-		bounce_time = elapsed_time + 0.2;
-	}
+	//if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > bounce_time)) // Down
+	//{
+	//	if (selectScene >= 0 && selectScene < 2)
+	//	{
+	//		selectScene++;
+	//	}
+	//	bounce_time = elapsed_time + 0.2;
+	//}
 
-	if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > bounce_time))// Up
+	//if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > bounce_time))// Up
+	//{
+	//	if (selectScene > 0 && selectScene < 3)
+	//	{
+	//		selectScene--;
+	//	}
+	//	bounce_time = elapsed_time + 0.2;
+	//}
+	if (xpos > 170 && xpos < 380 && ypos > 230 && ypos < 280)
 	{
-		if (selectScene > 0 && selectScene < 3)
-		{
-			selectScene--;
-		}
-		bounce_time = elapsed_time + 0.2;
+		selectScene = 0;
 	}
-
-	if ((Application::IsKeyPressed(VK_RETURN)) && (selectScene == 0) && (elapsed_time > bounce_time))
+	if (xpos > 170 && xpos < 380 && ypos > 330 && ypos < 380)
+	{
+		selectScene = 1;
+	}
+	if (xpos > 170 && xpos < 380 && ypos > 430 && ypos < 480)
+	{
+		selectScene = 2;
+	}
+	if ((Application::IsKeyPressed(MK_LBUTTON)) && (selectScene == 0) && (xpos > 170 && xpos < 380 && ypos > 230 && ypos < 280))
 	{
 		changeScene = 1;
-		bounce_time = elapsed_time + 0.2;
+		//bounce_time = elapsed_time + 0.2;
 	}
+
 }
 
 void MainMenu::Render()

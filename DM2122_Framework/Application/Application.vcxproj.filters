@@ -169,12 +169,6 @@
     <ClInclude Include="Source\Platforms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\FileReading.h">
       <Filter>Header Files</Filter>
     </ClInclude>

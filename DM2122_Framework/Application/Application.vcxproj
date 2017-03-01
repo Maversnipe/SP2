@@ -116,9 +116,7 @@
     <ClInclude Include="Source\Camera4.h" />
     <ClInclude Include="Source\Car.h" />
     <ClInclude Include="Source\Driving.h" />
-    <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\FileReading.h" />
-    <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Platformer.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />

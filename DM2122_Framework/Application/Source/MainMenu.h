@@ -106,6 +106,9 @@ private:
 
 	Light light[1];
 
+	double xpos, ypos;
+	int width, height;
+
 	void RenderMesh(Mesh *mesh, bool enableLight);
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
