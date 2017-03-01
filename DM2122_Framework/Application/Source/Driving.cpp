@@ -1,5 +1,6 @@
 #include "Driving.h"
 #include "GL\glew.h"
+#include "Money.h"
 
 #include "shader.hpp"
 #include "Application.h"
@@ -12,14 +13,15 @@ using namespace std;
 Driving::Driving()
 {
 	enemySize = 10;
-	objectSize = 30;
+	objectSize = 60;
 	enemyRadius = 0.5;
 	ObjectRadius = 1.0;
-	enemySpeed = 20;
-	healthPack = 5;
-	fuelPack = 5;
+	enemySpeed = 10;
+	healthPack = 10;
+	fuelPack = 10;
 	car.health = 100;
 	car.fuel = 10000.0f;
+	rock = 5;
 }
 
 Driving::~Driving()
@@ -166,7 +168,7 @@ void Driving::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
-	meshList[GEO_ENEMY]->textureID = LoadTGA("Image//enemy.tga");
+	meshList[GEO_ENEMY]->textureID = LoadTGA("OBJ//enemy.tga");
 
 	meshList[GEO_CAR] = MeshBuilder::GenerateOBJ("car", "OBJ//car.obj");
 	meshList[GEO_CAR]->textureID = LoadTGA("Image//car.tga");
@@ -177,8 +179,11 @@ void Driving::Init()
 	meshList[GEO_FUEL] = MeshBuilder::GenerateOBJ("fuel", "OBJ//fuel.obj");
 	meshList[GEO_FUEL]->textureID = LoadTGA("Image//fuel.tga");
 
-	meshList[GEO_HEALTH] = MeshBuilder::GenerateOBJ("health", "OBJ//health.obj");
+	meshList[GEO_HEALTH] = MeshBuilder::GenerateQuad("health", Color(1, 0, 0), 1, 1);
 	meshList[GEO_HEALTH]->textureID = LoadTGA("Image//health.tga");
+
+	meshList[GEO_ROCKS] = MeshBuilder::GenerateQuad("rocks", Color(1, 1, 1), 1, 1);
+	meshList[GEO_ROCKS]->textureID = LoadTGA("Image//starRocks.tga");
 
 
 	Mtx44 projection;
@@ -214,14 +219,18 @@ void Driving::Init()
 		ObjectPos[counter].Set(i, 0, j);
 		Camera4.ObjPos.push_back(ObjectPos[counter]);
 	}
-
-	changeScene = 0;
+	for (int counter = 0; counter < rock; counter++)
+	{
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		RockPos[counter].Set(i, 0, j);
+		Rocktaken[counter] = false;
+	}
 }
 
 void Driving::Update(double dt)
 {
-	if (Application::IsKeyPressed(VK_BACK))
-		changeScene = 1;
+
 	//car.carposition.y = 0;
 	//Camera4.position/*.Set(Camera4.position.x + car.move.x, 5, Camera4.position.z + car.move.z)*/ = car.carposition;
 	carVec.Set(Camera4.position.x/* + (Camera4.view.x * 5)*/, 0, Camera4.position.z/*+(Camera4.view.x * 5)*/);
@@ -334,11 +343,11 @@ void Driving::Update(double dt)
 		}
 		if (enemyExplosion[counter] == true)
 		{
-			if (scaleExplosion[counter] < 3)  //esther was here lookahorse12@gmail.com
+			if (scaleExplosion[counter] < 2)  //esther was here lookahorse12@gmail.com
 			{
 				scaleExplosion[counter] += 0.1;
 				ExplosionRadius[counter] = scaleExplosion[counter];
-				if ((carVec - ExplosionPos[counter]).Length() <= 3 + ExplosionRadius[counter])
+				if ((carVec - ExplosionPos[counter]).Length() <= 2 + ExplosionRadius[counter])
 				{
 					car.health -= 1;
 				}
@@ -402,6 +411,21 @@ void Driving::Update(double dt)
 			float j = RandomNumber(-250, 250);
 			FuelPos[counter].Set(i, 0, j);
 			fuelPacktaken[counter] = false;
+		}
+	}
+	for (int counter = 0; counter < rock; counter++)
+	{
+		if ((carVec - RockPos[counter]).Length() <= 2)
+		{
+			Money::getInstance()->addMoney(5); //Accessing global money
+			Rocktaken[counter] = true;
+		}
+		if (Rocktaken[counter] == true)
+		{
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			RockPos[counter].Set(i, 0, j);
+			Rocktaken[counter] = false;
 		}
 	}
 	//====================================
@@ -492,7 +516,7 @@ void Driving::Render()
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
-		(Camera4.position.x - (Camera4.view.x * 5)), (Camera4.position.y), (Camera4.position.z - (Camera4.view.z * 5)),
+		(Camera4.position.x - (Camera4.view.x  * 5)), (Camera4.position.y), (Camera4.position.z - (Camera4.view.z * 5)),
 		Camera4.target.x, Camera4.target.y, Camera4.target.z,
 		Camera4.up.x, Camera4.up.y, Camera4.up.z);
 	modelStack.LoadIdentity();
@@ -553,10 +577,19 @@ void Driving::Render()
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(ExplosionPos[i].x, 0, ExplosionPos[i].z);
+			modelStack.Rotate(enemyRotation[i], 0, 1, 0);
 			modelStack.Scale(ExplosionRadius[i], ExplosionRadius[i], ExplosionRadius[i]);
 			RenderMesh(meshList[GEO_EXPLOSION], true);
 			modelStack.PopMatrix();
 		}
+	}
+	for (int i = 0; i < rock; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(RockPos[i].x, 0, RockPos[i].z);
+		modelStack.Scale(1, 1, 1);
+		RenderMesh(meshList[GEO_ROCKS], true);
+		modelStack.PopMatrix();
 	}
 	modelStack.PushMatrix();
 	modelStack.Translate(carVec.x, carVec.y, carVec.z);
@@ -570,48 +603,50 @@ void Driving::Render()
 
 	RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((10000 - (int)car.fuel) / 2000)), 55, ((int)car.fuel / 1000), 2);//No transform needed
 	RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 0, 0), 2, 0.5, 27.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
+	RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
 }
 
 void Driving::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 20, 0, 0);
+	modelStack.Translate(-24.95 * 10, 0, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(500, 500, 500);
 	RenderMesh(meshList[GEO_FRONT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Translate(24.95 * 10, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(500, 500, 500);
 	RenderMesh(meshList[GEO_BACK], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -24.95 * 20);
+	modelStack.Translate(0, 0, -24.95 * 10);
 	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(500, 500, 500);
 	RenderMesh(meshList[GEO_LEFT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 24.95 * 20);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Translate(0, 0, 24.95 * 10);
+	modelStack.Scale(500, 500, 500);
 	RenderMesh(meshList[GEO_RIGHT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -4, 0);
+	modelStack.Translate(0, -1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(500, 500, 500);
 	RenderMesh(meshList[GEO_BOTTOM], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 24.945 * 20, 0);
+	modelStack.Translate(0, 24.945 * 10, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(1000, 1000, 1000);
+	modelStack.Scale(500, 500, 500);
 	RenderMesh(meshList[GEO_TOP], true);
 	modelStack.PopMatrix();
 

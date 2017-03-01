@@ -10,7 +10,6 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "Car.h"
-//#include "Object.h"
 
 using std::vector;
 
@@ -57,6 +56,7 @@ public:
 		GEO_ROCK,
 		GEO_FUEL,
 		GEO_HEALTH,
+		GEO_ROCKS,
 		NUM_GEOMETRY,
 	};
 
@@ -130,6 +130,7 @@ private:
 	int healthPack;
 	int fuelPack;
 	int objectSize;
+	int rock;
 	float enemySpeed;
 	float enemyRadius;
 	float ObjectRadius;
@@ -137,16 +138,18 @@ private:
 
 	Vector3 dirVec;
 	Vector3 carVec;
-	Vector3 ObjectPos[100] = {};
+	Vector3 ObjectPos[120] = {};
 	Vector3 HealthPos[100] = {};
 	Vector3 FuelPos[100] = {};
 	Vector3 ExplosionPos[100] = {};
 	Vector3 enemyPos[100] = {};
+	Vector3 RockPos[100] = {};
 	float ExplosionRadius[100];
 	bool enemyDead[100];
 	bool enemyExplosion[100];
 	bool fuelPacktaken[100];
 	bool healthPacktaken[100];
+	bool Rocktaken[100];
 	float RandomNumber(float Min, float Max);
 };
 

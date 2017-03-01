@@ -80,6 +80,12 @@
     <ClCompile Include="Source\FileReading.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SP_Gabriel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CameraAzimuth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -170,6 +176,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\FileReading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CameraAzimuth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SP_Gabriel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

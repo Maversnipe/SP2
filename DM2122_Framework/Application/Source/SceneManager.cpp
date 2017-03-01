@@ -6,6 +6,7 @@
 #include "Money.h"
 #include "Driving.h"
 #include "StudioProject.h"
+#include "SP_Gabriel.h"
 
 SceneManager *SceneManager::sceneManager = NULL;
 
@@ -61,7 +62,7 @@ void SceneManager::Update(float dt)
 		{
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
-			SetNextScene("Shooter");
+			SetNextScene("Shooting");
 			currSceneID = nextSceneID;
 			AddScene(new Shooting(), "Shooting");
 			maps[currSceneID]->Init();
@@ -82,6 +83,15 @@ void SceneManager::Update(float dt)
 			SetNextScene("Driving");
 			currSceneID = nextSceneID;
 			AddScene(new Driving(), "Driving");
+			maps[currSceneID]->Init();
+		}
+		else if (maps[currSceneID]->changeScene == 5)
+		{
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			SetNextScene("Gabriel");
+			currSceneID = nextSceneID;
+			AddScene(new SP_Gabriel(), "Gabriel");
 			maps[currSceneID]->Init();
 		}
 	}
@@ -111,6 +121,18 @@ void SceneManager::Update(float dt)
 	}
 	else if (currSceneID == "Driving")
 	{ // Driving Game Scene
+		if (maps[currSceneID]->changeScene == 1)
+		{
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			SetNextScene("MainScene");
+			currSceneID = nextSceneID;
+			AddScene(new StudioProject(), "MainScene");
+			maps[currSceneID]->Init();
+		}
+	}
+	else if (currSceneID == "Gabriel")
+	{ // Shooting Game Scene
 		if (maps[currSceneID]->changeScene == 1)
 		{
 			maps[currSceneID]->Exit();

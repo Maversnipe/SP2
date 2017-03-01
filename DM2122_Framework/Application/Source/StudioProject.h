@@ -112,7 +112,7 @@ private:
 
 	void RenderSkybox();
 
-	Vector3 building[4] = {};
+	Vector3 building[5] = {};
 	//==Carousell==
 	Vector3 prevPos = {};
 	Vector3 prevTarget = {};

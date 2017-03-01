@@ -35,11 +35,13 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	buildings[1].Set(0, 0, -23);
 	buildings[2].Set(80, 0, -23);
 	buildings[3].Set(0, -2, 200);
+	buildings[4].Set(160, 0, -23);
 
 	buildingAABB[0].SaveCoord(Vector3(buildings[0].x - 20, buildings[0].y - 20, buildings[0].z - 20), Vector3(buildings[0].x + 25, buildings[0].y + 25, buildings[0].z + 25));
 	buildingAABB[1].SaveCoord(Vector3(buildings[1].x - 20, buildings[1].y - 20, buildings[1].z - 20), Vector3(buildings[1].x + 25, buildings[1].y + 25, buildings[1].z + 25));
 	buildingAABB[2].SaveCoord(Vector3(buildings[2].x - 20, buildings[2].y - 20, buildings[2].z - 20), Vector3(buildings[2].x + 25, buildings[2].y + 25, buildings[2].z + 25));
 	buildingAABB[3].SaveCoord(Vector3(buildings[3].x - 18, buildings[3].y - 18, buildings[3].z - 18), Vector3(buildings[3].x + 18, buildings[3].y + 18, buildings[3].z + 18));
+	buildingAABB[4].SaveCoord(Vector3(buildings[4].x - 20, buildings[4].y - 20, buildings[4].z - 20), Vector3(buildings[4].x + 25, buildings[4].y + 25, buildings[4].z + 25));
 }
 
 void Camera3::Update(double dt)
@@ -151,8 +153,8 @@ void Camera3::Update(double dt)
 		{
 			newPos = position - (right * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			buildingNum = 4;
-			for (int i = 0; i < 4; i++)
+			buildingNum = 5;
+			for (int i = 0; i < 5; i++)
 			{
 				if (collideAABBbuilding(charAABB, buildingAABB[i]))
 				{
@@ -166,7 +168,7 @@ void Camera3::Update(double dt)
 					break;
 				}
 			}
-			if (buildingNum < 4)
+			if (buildingNum < 5)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{
@@ -192,8 +194,8 @@ void Camera3::Update(double dt)
 		{
 			newPos = position + (right * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			buildingNum = 4;
-			for (int i = 0; i < 4; i++)
+			buildingNum = 5;
+			for (int i = 0; i < 5; i++)
 			{
 				if (collideAABBbuilding(charAABB, buildingAABB[i]))
 				{
@@ -207,7 +209,7 @@ void Camera3::Update(double dt)
 					break;
 				}
 			}
-			if (buildingNum < 4)
+			if (buildingNum < 5)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{
@@ -233,8 +235,8 @@ void Camera3::Update(double dt)
 		{
 			newPos = position + (view * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			buildingNum = 4;
-			for (int i = 0; i < 4; i++)
+			buildingNum = 5;
+			for (int i = 0; i < 5; i++)
 			{
 				if (collideAABBbuilding(charAABB, buildingAABB[i]))
 				{
@@ -248,7 +250,7 @@ void Camera3::Update(double dt)
 					break;
 				}
 			}
-			if (buildingNum < 4)
+			if (buildingNum < 5)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{
@@ -274,8 +276,8 @@ void Camera3::Update(double dt)
 		{
 			newPos = position - (view * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			buildingNum = 4;
-			for (int i = 0; i < 4; i++)
+			buildingNum = 5;
+			for (int i = 0; i < 5; i++)
 			{
 				if (collideAABBbuilding(charAABB, buildingAABB[i]))
 				{
@@ -289,7 +291,7 @@ void Camera3::Update(double dt)
 					break;
 				}
 			}
-			if (buildingNum < 4)
+			if (buildingNum < 5)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{

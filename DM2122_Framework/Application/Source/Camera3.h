@@ -22,7 +22,7 @@ public:
 
 	bool buildingCollide(Vector3, Vector3);
 
-	Vector3 buildings[4] = {};
+	Vector3 buildings[5] = {};
 	bool collideBuilding = false;
 	Vector3 buildingSlide;
 	int slideAABBbuilding(AABB, AABB);
@@ -40,7 +40,7 @@ public:
 	int X_Or_Z = 0;
 
 	AABB charAABB;
-	AABB buildingAABB[4];
+	AABB buildingAABB[5];
 
 
 private:

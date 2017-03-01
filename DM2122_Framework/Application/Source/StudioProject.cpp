@@ -170,6 +170,7 @@ void StudioProject::Init()
 	building[1].Set(0, 0, -23);
 	building[2].Set(80, 0, -23);
 	building[3].Set(0, -2, 200);
+	building[4].Set(160, -2, -23); 
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -249,7 +250,12 @@ void StudioProject::Update(double dt)
 	{
 		changeScene = 4;
 	}
-
+	if ((camera3.position.x - 2 > building[4].x - 10) && (camera3.position.x + 2 < building[4].x + 15)
+		&& (camera3.position.z - 2 > building[4].z + 25) && (camera3.position.z + 2 < building[4].z + 35)
+		&& (Application::IsKeyPressed('E')))
+	{
+		changeScene = 5;
+	}
 	if (Application::IsKeyPressed('E'))
 	{ // So that it does not sense that user pressed E when entering mini-games
 	}
@@ -399,6 +405,12 @@ void StudioProject::Render()
 	modelStack.Translate(building[2].x, building[2].y, building[2].z);
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[GEO_BUILDING3], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(building[4].x, building[4].y, building[4].z);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[GEO_BUILDING4], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
