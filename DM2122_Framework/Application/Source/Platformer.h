@@ -48,6 +48,7 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 		GEO_GROUND,
+		GEO_LOAD1,
 		NUM_GEOMETRY,
 	};
 

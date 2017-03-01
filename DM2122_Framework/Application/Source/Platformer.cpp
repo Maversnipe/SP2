@@ -151,6 +151,9 @@ void Platformer::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+
 	setPlatforms();
 
 	Mtx44 projection;
@@ -227,20 +230,28 @@ void Platformer::Render()
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 	//---------------------------------------------------------------
-	RenderMesh(meshList[GEO_AXES], false);
 
-	modelStack.PushMatrix();
-	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	RenderMesh(meshList[GEO_LIGHTBALL], false);
-	modelStack.PopMatrix();
+	if (changeScene != 0)
+		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
 
-	RenderSkybox();
+	else
+	{
+		RenderMesh(meshList[GEO_AXES], false);
 
-	renderPlatforms();
+		modelStack.PushMatrix();
+		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+		RenderMesh(meshList[GEO_LIGHTBALL], false);
+		modelStack.PopMatrix();
 
-	RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+		RenderSkybox();
+
+		renderPlatforms();
+
+		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+	}
+	
 }
 
 void Platformer::RenderSkybox()
