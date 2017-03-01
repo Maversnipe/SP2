@@ -37,7 +37,7 @@ public:
 		FOUR_BLOCK,
 		FIVE_BLOCK,
 		START_END,
-		TREASURE_BLOCK,
+		TREASURE,
 		GEO_TEXT,
 		GEO_CUBE,
 		GEO_LIGHTBALL,
@@ -120,7 +120,12 @@ private:
 	int mapData[9][40][100];
 	int mapHeight = 20;
 	bool haveSpace = false;
-	std::vector<Platforms> platformID[6];
+	std::vector<Platforms> platformID[7];
+
+	// Treasure
+	bool treasureCollected[4];
+	int numOfTreasureSet = 0;
+	double treasureRotate = 0.0;
 
 	float x = 0.0;
 	float y = 0.0;

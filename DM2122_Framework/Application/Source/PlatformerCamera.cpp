@@ -139,18 +139,23 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 { //======================Character Movement====================
 	Vector3 newPos;
 
+	if (superSpeedAbility)
+		fixedVelocity = 2.1;
+	else
+		fixedVelocity = 0.7;
+
 	if (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
 	{ // If character is moving
-		nextPlatform = noPlatform;
-		currPlatform = noPlatform;
-		if (velocity < 0.7)
-			velocity += (float)(dt * 2);
+		nextPlatform = noPlatform; // If player is not
+		currPlatform = noPlatform;	// on platform
+		if (velocity < fixedVelocity)
+			velocity += (float)(dt * 2); // Acceleration to fixed velocity
 		if (Application::IsKeyPressed('A'))
-		{
+		{ // Going Left
 			newPos = position - (right * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			for (int platType = 0; platType < 6; platType++)
-			{
+			{ // To check which platform the player is on
 				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
 				{
 					if (onPlatform(charAABB, it->platformAABB))
@@ -161,7 +166,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 				}
 			}
 			if ((nextPlatform.type == 0) && (!jump))
-			{
+			{ // If player is not jumping and not on any platform
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
@@ -170,7 +175,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			else
 			{
 				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
-				{
+				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
@@ -185,11 +190,11 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 		}
 
 		if (Application::IsKeyPressed('D'))
-		{
+		{ // Going Right
 			newPos = position + (right * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			for (int platType = 0; platType < 6; platType++)
-			{
+			{ // To check which platform the player is on
 				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
 				{
 					if (onPlatform(charAABB, it->platformAABB))
@@ -200,7 +205,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 				}
 			}
 			if ((nextPlatform.type == 0) && (!jump))
-			{
+			{ // If player is not jumping and not on any platform
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
@@ -208,7 +213,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			else
 			{
 				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
-				{
+				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
@@ -223,11 +228,11 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 		}
 
 		if (Application::IsKeyPressed('W'))
-		{
+		{ // Going Forward
 			newPos = position + (view * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			for (int platType = 0; platType < 6; platType++)
-			{
+			{ // To check which platform the player is on
 				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
 				{
 					if (onPlatform(charAABB, it->platformAABB))
@@ -238,7 +243,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 				}
 			}
 			if ((nextPlatform.type == 0) && (!jump))
-			{
+			{ // If player is not jumping and not on any platform
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
@@ -246,7 +251,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			else
 			{
 				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
-				{
+				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
@@ -261,11 +266,11 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 		}
 
 		if (Application::IsKeyPressed('S'))
-		{
+		{ // Going Backward
 			newPos = position - (view * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			for (int platType = 0; platType < 6; platType++)
-			{
+			{ // To check which platform the player is on
 				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
 				{
 					if (onPlatform(charAABB, it->platformAABB))
@@ -276,7 +281,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 				}
 			}
 			if ((nextPlatform.type == 0) && (!jump))
-			{
+			{ // If player is not jumping and not on any platform
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
@@ -284,7 +289,7 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			else
 			{
 				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
-				{
+				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
@@ -341,7 +346,19 @@ void PlatformerCamera::jumping(double dt)
 		playerOriginalHeight = position.y;
 		fallingVelocity = -30;
 		onGround = false;
-		gravity = 19.6;
+		if (!jumpHigherAbility)
+			gravity = 29.4;
+		else
+			gravity = 19.6;
+	}
+	else if (Application::IsKeyPressed(VK_SPACE) && doubleJumpAbility && jump && !doubleJump)
+	{
+		jump = true;
+		playerOriginalHeight = position.y;
+		fallingVelocity = -30;
+		onGround = false;
+		doubleJump = true;
+		gravity = 29.4;
 	}
 
 	if ((jump) && fallingVelocity < 0)
@@ -350,8 +367,9 @@ void PlatformerCamera::jumping(double dt)
 		target.y -= (float)(fallingVelocity * dt);
 		fallingVelocity += (float)(gravity * dt);
 	}
-	else if (position.y >(playerOriginalHeight) && jump)
+	else if (position.y > (playerOriginalHeight) && jump)
 	{
+		doubleJump = false;
 		jump = false;
 		fallingVelocity = 0;
 		gravity = 29.4;

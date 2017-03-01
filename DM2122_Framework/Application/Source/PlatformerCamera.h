@@ -45,20 +45,23 @@ public:
 	// Character Movement
 		// Moving Direction
 			float velocity = 0;
+			float fixedVelocity = 0;
 			void charMovement(double, std::vector<Platforms> []);
 			
 		// Jumping
 			void jumping(double);
 			bool jump = false;
-			double playerOriginalHeight = 0.0;
+			float playerOriginalHeight = 0.0;
 			bool onGround = true;
 			double gravity = 19.6;
 			float fallingVelocity = 0;
+			bool doubleJump = false; // This to see if player is doing double jump
 
-	// Special Abilities
-	bool doubleJump = false;
-	bool superSpeed = false;
-	bool jumpHigher = false;
+	// Special Abilities (Checking if have special abilities)
+		// Only can have one special ability at a time
+	bool doubleJumpAbility = false;
+	bool superSpeedAbility = false;
+	bool jumpHigherAbility = false;
 
 private:
 	Vector3 view;
