@@ -84,6 +84,14 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 		}
 		if (Application::IsKeyPressed('W'))
 		{
+			if (CAR_SPEED < 50.0f)
+			{
+				CAR_SPEED += 0.4f;
+			}
+			else
+			{
+				CAR_SPEED = 50.0f;
+			}
 			view.y = 0;
 			for (int i = 0; i < ObjPos.size(); i++)
 			{
@@ -100,14 +108,6 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 			}
 			if (collision == false)
 			{
-				if (CAR_SPEED < 50.0f)
-				{
-					CAR_SPEED += 0.4f;
-				}
-				else
-				{
-					CAR_SPEED = 50.0f;
-				}
 				Vector3 newPos = position + (view * dt * CAR_SPEED);
 				if (boundsCheck(newPos) == 3)
 				{

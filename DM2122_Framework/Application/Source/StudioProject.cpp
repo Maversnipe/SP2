@@ -361,7 +361,7 @@ void StudioProject::Init()
 
 	changeScene = 0;
 
-	sfx1->play2D("audio/carAccelerate.mp3", GL_TRUE);
+	//sfx1->play2D("audio/carAccelerate.mp3", GL_TRUE);
 }
 
 void StudioProject::Update(double dt)
