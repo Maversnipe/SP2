@@ -7,6 +7,10 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "IK\irrKlang.h"
+using namespace irrklang;
+#pragma comment(lib, "irrKlang.lib")
+ISoundEngine* sfx1 = createIrrKlangDevice();
 
 StudioProject::StudioProject()
 {
@@ -356,6 +360,8 @@ void StudioProject::Init()
 	projectionStack.LoadMatrix(projection);
 
 	changeScene = 0;
+
+	sfx1->play2D("audio/carAccelerate.mp3", GL_TRUE);
 }
 
 void StudioProject::Update(double dt)
@@ -941,4 +947,6 @@ void StudioProject::Exit()
 	glDeleteBuffers(NUM_GEOMETRY, &m_vertexBuffer[0]);
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+
+	sfx1->stopAllSounds();
 }
