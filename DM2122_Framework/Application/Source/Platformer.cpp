@@ -151,8 +151,8 @@ void Platformer::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
-	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+	meshList[GEO_LOAD1_SCREEN] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1_SCREEN]->textureID = LoadTGA("Image//loading1.tga");
 
 	setPlatforms();
 
@@ -161,6 +161,7 @@ void Platformer::Init()
 	projectionStack.LoadMatrix(projection);
 
 	changeScene = 0;
+	game_state = GAME;
 }
 
 void Platformer::Update(double dt)
@@ -182,15 +183,46 @@ void Platformer::Update(double dt)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	else if (Application::IsKeyPressed('4'))
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	if (Application::IsKeyPressed(VK_BACK))
-		changeScene = 1;
 	
-	camera.Update(dt, platformID);
-	if (treasureRotate < 360)
-		treasureRotate += dt * 90;
-	else
-		treasureRotate = 0;
+	switch (game_state)
+	{
+	case GAME:
+		camera.Update(dt, platformID, treasure);
+		pickUpTreasure();
+
+		if (Application::IsKeyPressed(VK_BACK))
+			game_state = PAUSE;
+
+		// If all treasure is collected
+		if (camera.numPickedUp == numOfTreasureSet)
+			allCollected = true;
+
+		// If all treasure is collected and player is on the end block, game ends
+		if (allCollected)
+		{
+			if ((camera.position - platformID[5].at(1).pos).Length() < 10)
+				game_state = GAME_END;
+		}
+
+		//============Rotate the treasure=======================
+		if (treasureRotate < 360)
+			treasureRotate += dt * 90;
+		else
+			treasureRotate = 0;
+
+		// Notifies player about how many treasure needs to be collected
+		treasureCollected = std::to_string(camera.numPickedUp) + "/" + std::to_string(numOfTreasureSet) + " TREASURE COLLECTED";
+		break;
+	case PAUSE:
+		break;
+	case GAMEOVER:
+		break;
+	case GAME_END:
+		break;
+	case ABILITY_SELECT:
+		break;
+	}
+	
 }
 
 void Platformer::Render()
@@ -232,7 +264,7 @@ void Platformer::Render()
 	//---------------------------------------------------------------
 
 	if (changeScene != 0)
-		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_LOAD1_SCREEN], 40, 20, 80, 80);//No transform needed
 
 	else
 	{
@@ -245,8 +277,9 @@ void Platformer::Render()
 
 		RenderSkybox();
 
-		renderPlatforms();
+		RenderPlatforms();
 
+		RenderTextOnScreen(meshList[GEO_TEXT], treasureCollected, Color(0, 0, 0), 3, 0.5, 19.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
@@ -552,12 +585,12 @@ void Platformer::setPlatforms()
 					{
 						if ((int)RandomNumber(1, 20) == 1 || placeTreasure)
 						{
-							Platforms treasure;
-							treasure.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5 + 10, mapZpos * 50 - 125);
-							treasure.platformAABB.SaveCoord(Vector3((float)treasure.pos.x - 2.5, treasure.pos.y - 2.5, treasure.pos.z - 2.5),
-								Vector3((float)treasure.pos.x + 2.5, treasure.pos.y + 2.5, treasure.pos.z + 2.5));
-							platformID[6].push_back(treasure);
-							treasureCollected[numOfTreasureSet] = false;
+							PlatformerTreasure setTreasure;
+							setTreasure.pickedUp = false;
+							setTreasure.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5 + 5, mapZpos * 50 - 125);
+							setTreasure.treasureAABB.SaveCoord(Vector3((float)setTreasure.pos.x - 2.5, setTreasure.pos.y - 2.5, setTreasure.pos.z - 2.5),
+								Vector3((float)setTreasure.pos.x + 2.5, setTreasure.pos.y + 2.5, setTreasure.pos.z + 2.5));
+							treasure.push_back(setTreasure);
 							numOfTreasureSet++;
 							placeTreasure = false;
 						}
@@ -572,12 +605,12 @@ void Platformer::setPlatforms()
 					{
 						if ((int)RandomNumber(1, 20) == 1 || placeTreasure)
 						{
-							Platforms treasure;
-							treasure.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5 + 10, mapZpos * 50 - 125);
-							treasure.platformAABB.SaveCoord(Vector3((float)treasure.pos.x - 2.5, treasure.pos.y - 2.5, treasure.pos.z - 2.5),
-								Vector3((float)treasure.pos.x + 2.5, treasure.pos.y + 2.5, treasure.pos.z + 2.5));
-							platformID[6].push_back(treasure);
-							treasureCollected[numOfTreasureSet] = false;
+							PlatformerTreasure setTreasure;
+							setTreasure.pickedUp = false;
+							setTreasure.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5 + 5, mapZpos * 50 - 125);
+							setTreasure.treasureAABB.SaveCoord(Vector3((float)setTreasure.pos.x - 2.5, setTreasure.pos.y - 2.5, setTreasure.pos.z - 2.5),
+								Vector3((float)setTreasure.pos.x + 2.5, setTreasure.pos.y + 2.5, setTreasure.pos.z + 2.5));
+							treasure.push_back(setTreasure);
 							numOfTreasureSet++;
 							placeTreasure = false;
 						}
@@ -616,7 +649,7 @@ void Platformer::setPlatforms()
 	platformID[5].push_back(last);
 }	
 
-void Platformer::renderPlatforms()
+void Platformer::RenderPlatforms()
 {
 	for (int width = 0; width < 9; width++)
 	{
@@ -680,18 +713,40 @@ void Platformer::renderPlatforms()
 			}
 		}
 	}
-	for (std::vector<Platforms>::iterator treasureNum = platformID[6].begin(); treasureNum != platformID[6].end(); treasureNum++)
+	for (std::vector<PlatformerTreasure>::iterator treasureNum = treasure.begin(); treasureNum != treasure.end(); treasureNum++)
 	{
-		modelStack.PushMatrix();
-		modelStack.Translate((*treasureNum).pos.x, (*treasureNum).pos.y, (*treasureNum).pos.z);
-		modelStack.Rotate(treasureRotate, 0, 1, 0);
-		modelStack.Scale(5, 5, 5); 
-		RenderMesh(meshList[TREASURE], false);
-		modelStack.PopMatrix();
+		if (treasureNum->pickedUp == false)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate((*treasureNum).pos.x, (*treasureNum).pos.y, (*treasureNum).pos.z);
+			modelStack.Rotate(treasureRotate, 0, 1, 0);
+			modelStack.Scale(5, 5, 5);
+			RenderMesh(meshList[TREASURE], false);
+			modelStack.PopMatrix();
+		}		
 	}
 }
 
 float Platformer::RandomNumber(float min, float max)
 {
 	return ((float(rand()) / float(RAND_MAX)) * (max - min)) + min;
+}
+
+void Platformer::pickUpTreasure()
+{
+	for (std::vector<PlatformerTreasure>::iterator it = treasure.begin(); it != treasure.end(); it++)
+	{
+		if (((it->pos - camera.position).Length() < 5) && (Application::IsKeyPressed('E')) && (it->pickedUp == false) && (elapsed_time > bounce_time))
+		{
+			bounce_time = elapsed_time + 0.5;
+			it->pickedUp = true;
+			camera.numPickedUp++;
+			break;
+		}
+	}
+}
+
+void Platformer::RenderPause()
+{
+
 }

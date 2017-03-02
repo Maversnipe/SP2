@@ -1,8 +1,7 @@
 d:\git_root\sp2\dm2122_framework\application\debug\vc120.pdb
 d:\git_root\sp2\dm2122_framework\application\debug\vc120.idb
-d:\git_root\sp2\dm2122_framework\application\debug\camera2.obj
-d:\git_root\sp2\dm2122_framework\application\debug\camera3.obj
 d:\git_root\sp2\dm2122_framework\application\debug\camera4.obj
+d:\git_root\sp2\dm2122_framework\application\debug\cameraazimuth.obj
 d:\git_root\sp2\dm2122_framework\application\debug\driving.obj
 d:\git_root\sp2\dm2122_framework\application\debug\filereading.obj
 d:\git_root\sp2\dm2122_framework\application\debug\platformer.obj
@@ -18,12 +17,13 @@ d:\git_root\sp2\dm2122_framework\application\debug\scenemanager.obj
 d:\git_root\sp2\dm2122_framework\application\debug\shader.obj
 d:\git_root\sp2\dm2122_framework\application\debug\shooting.obj
 d:\git_root\sp2\dm2122_framework\application\debug\shootingcamera.obj
+d:\git_root\sp2\dm2122_framework\application\debug\sp_gabriel.obj
 d:\git_root\sp2\dm2122_framework\application\debug\studioproject.obj
 d:\git_root\sp2\dm2122_framework\application\debug\utiity.obj
 d:\git_root\sp2\dm2122_framework\application\debug\application.obj
 d:\git_root\sp2\dm2122_framework\application\debug\camera.obj
-d:\git_root\sp2\dm2122_framework\application\debug\cameraazimuth.obj
-d:\git_root\sp2\dm2122_framework\application\debug\sp_gabriel.obj
+d:\git_root\sp2\dm2122_framework\application\debug\camera2.obj
+d:\git_root\sp2\dm2122_framework\application\debug\camera3.obj
 d:\git_root\sp2\dm2122_framework\debug\application.ilk
 d:\git_root\sp2\dm2122_framework\debug\application.exe
 d:\git_root\sp2\dm2122_framework\debug\application.pdb

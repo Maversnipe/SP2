@@ -10,6 +10,7 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "Platforms.h"
+#include "PlatformerTreasure.h"
 
 class Platformer : public Scene
 {
@@ -22,8 +23,6 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void setPlatforms();
-	void renderPlatforms();
 	float RandomNumber(float, float);
 
 	PlatformerCamera camera;
@@ -38,9 +37,19 @@ public:
 		FIVE_BLOCK,
 		START_END,
 		TREASURE,
+
+		PAUSE_SCREEN,
+		PAUSE2_SCREEN,
+		ABILITY_SELECT_MENU,
+		GAMEOVER_SCREEN,
+		GAMEOVER2_SCREEN,
+		GAME_END_SCREEN,
+		GEO_LOAD1_SCREEN,
+
 		GEO_TEXT,
 		GEO_CUBE,
 		GEO_LIGHTBALL,
+
 		GEO_LEFT,
 		GEO_RIGHT,
 		GEO_TOP,
@@ -48,7 +57,7 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 		GEO_GROUND,
-		GEO_LOAD1,
+
 		NUM_GEOMETRY,
 	};
 
@@ -85,10 +94,11 @@ public:
 	{
 		ABILITY_SELECT,
 		GAME,
+		GAME_END,
 		GAMEOVER,
 		PAUSE,
 		COUNT
-	};
+	} game_state;
 
 	unsigned m_parameters[U_TOTAL];
 
@@ -111,22 +121,32 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
 
-	void RenderSkybox();
+	void setPlatforms(); // For setting Platform positions
+	void RenderPlatforms();	// For rendering platforms
 
-	// Time
+	//=====================Render Scenes================================
+	void RenderSkybox();
+		// Pause
+		void RenderPause();
+		int pauseSelect = 0;
+
+	//======================Time======================
 	double elapsed_time = 0.0;
 	double bounce_time = 0.0;
 
-	// Map (Platform location)
+	//======================Map(Platform location)======================
 	int mapData[9][40][100];
 	int mapHeight = 20;
 	bool haveSpace = false;
-	std::vector<Platforms> platformID[7];
+	std::vector<Platforms> platformID[6];
 
-	// Treasure
-	bool treasureCollected[4];
+	//======================Treasure======================
+	void pickUpTreasure();
+	std::vector<PlatformerTreasure> treasure;
 	int numOfTreasureSet = 0;
 	double treasureRotate = 0.0;
+	bool allCollected = false;
+	std::string treasureCollected = "";
 
 	float x = 0.0;
 	float y = 0.0;

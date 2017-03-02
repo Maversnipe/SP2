@@ -27,8 +27,10 @@ void PlatformerCamera::Init(const Vector3& pos, const Vector3& target, const Vec
 	noPlatform.type = 0;
 }
 
-void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
+void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[], std::vector<PlatformerTreasure> treasure)
 {
+	elapsed_time += dt;
+
 	view = (target - position).Normalized();
 	right = view.Cross(up);
 	up = right.Cross(view).Normalized();
@@ -113,18 +115,9 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[])
 		view = rotation * view;
 		target = position + view;
 	}
-	if (Application::IsKeyPressed('N'))
-	{
-		Vector3 direction = target - position;
-		if (direction.Length() > 5)
-		{
-			Vector3 view = (target - position).Normalized();
-			position += view * (float)(30.f * dt);
-		}
-	}
 
-	jumping(dt);
 	charMovement(dt, platformID);
+	jumping(dt);
 
 	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
 	camYaw.SetToRotation(rotateHori, 0, 1, 0);
@@ -146,161 +139,279 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 
 	if (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
 	{ // If character is moving
-		nextPlatform = noPlatform; // If player is not
-		currPlatform = noPlatform;	// on platform
+		currPlatform = noPlatform;	// If player is not on platform
+		Platforms toCollide = noPlatform;
 		if (velocity < fixedVelocity)
 			velocity += (float)(dt * 2); // Acceleration to fixed velocity
+		for (int platType = 0; platType < 6; platType++)
+		{ // To check which platform the player is on
+			for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+			{
+				if (((onPlatform(charAABB, it->platformAABB)) && (charAABB.min.y > it->platformAABB.max.y)))
+				{
+					currPlatform = *it;
+					break;
+				}
+			}
+		}
 		if (Application::IsKeyPressed('A'))
 		{ // Going Left
 			newPos = position - (right * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			for (int platType = 0; platType < 6; platType++)
-			{ // To check which platform the player is on
-				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
-				{
-					if (onPlatform(charAABB, it->platformAABB))
-					{
-						nextPlatform = *it;
-						break;
-					}
-				}
-			}
-			if ((nextPlatform.type == 0) && (!jump))
-			{ // If player is not jumping and not on any platform
+			
+			if (((currPlatform.type == 0) && (!jump)) // If player is not jumping and not on any platform
+				|| ((position.y < (currPlatform.pos.y - 2.5)) && (!jump))) // If player is lower than the platform, player falls
+			{
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
-				onGround = false;
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
+				if (((position.y >(currPlatform.pos.y + 7)) && (!jump)))
 				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
 				}
-				if (position.y < nextPlatform.pos.y + 7)
+				if (position.y < currPlatform.pos.y + 7)
+				{ // Player stops falling when the platform is reached
+					fallingVelocity = 0;
 					onGround = true;
+					landed = true;
+				}
 			}
-			position.x = position.x - (right.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z - (right.z * velocity);
-			target.z = position.z + (view.z * velocity);
+
+			//==============Collision======================
+			for (int platType = 0; platType < 6; platType++)
+			{ // To check which platform the player is on
+				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+				{
+					if (collideAABBobject(charAABB, it->platformAABB))
+					{
+						if (((charAABB.min.x < it->platformAABB.min.x) || (charAABB.max.x > it->platformAABB.max.x))
+							&& (charAABB.min.z > it->platformAABB.min.z) && (charAABB.max.z < it->platformAABB.max.z))
+							X_Or_Z = 1; // For Z Direction
+						else if (((charAABB.min.z < it->platformAABB.min.z) || (charAABB.max.z > it->platformAABB.max.z))
+							&& (charAABB.min.x > it->platformAABB.min.x) && (charAABB.max.x < it->platformAABB.max.x))
+							X_Or_Z = 2; // For X Direction
+						toCollide = *it;
+						break;
+					}
+				}
+			}
+			if (slideAABBobject(charAABB, toCollide.platformAABB) == 1)
+			{ // Move in X Direction
+				position.x = position.x - (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (slideAABBobject(charAABB, toCollide.platformAABB) == 2)
+			{
+				position.z = position.z - (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{ // Move in Z Direction
+				position.x = position.x - (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z - (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
 		}
 
 		if (Application::IsKeyPressed('D'))
 		{ // Going Right
 			newPos = position + (right * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			for (int platType = 0; platType < 6; platType++)
-			{ // To check which platform the player is on
-				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
-				{
-					if (onPlatform(charAABB, it->platformAABB))
-					{
-						nextPlatform = *it;
-						break;
-					}
-				}
-			}
-			if ((nextPlatform.type == 0) && (!jump))
-			{ // If player is not jumping and not on any platform
+			
+			if (((currPlatform.type == 0) && (!jump)) // If player is not jumping and not on any platform
+				|| ((position.y < (currPlatform.pos.y - 2.5)) && (!jump))) // If player is lower than the platform, player falls
+			{
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
+				if (((position.y >(currPlatform.pos.y + 7)) && (!jump)))
 				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
 				}
-				if (position.y < nextPlatform.pos.y + 7)
+				if (position.y < currPlatform.pos.y + 7)
+				{ // Player stops falling when the platform is reached
+					fallingVelocity = 0;
 					onGround = true;
+					landed = true;
+				}
 			}
-			position.x = position.x + (right.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z + (right.z * velocity);
-			target.z = position.z + (view.z * velocity);
+
+			//==============Collision======================
+			for (int platType = 0; platType < 6; platType++)
+			{ // To check which platform the player is on
+				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+				{
+					if (collideAABBobject(charAABB, it->platformAABB))
+					{
+						if (((charAABB.min.x < it->platformAABB.min.x) || (charAABB.max.x > it->platformAABB.max.x))
+							&& (charAABB.min.z > it->platformAABB.min.z) && (charAABB.max.z < it->platformAABB.max.z))
+							X_Or_Z = 1; // For Z Direction
+						else if (((charAABB.min.z < it->platformAABB.min.z) || (charAABB.max.z > it->platformAABB.max.z))
+							&& (charAABB.min.x > it->platformAABB.min.x) && (charAABB.max.x < it->platformAABB.max.x))
+							X_Or_Z = 2; // For X Direction
+						toCollide = *it;
+						break;
+					}
+				}
+			}
+			if (slideAABBobject(charAABB, toCollide.platformAABB) == 1)
+			{ // Move in X Direction
+				position.x = position.x + (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (slideAABBobject(charAABB, toCollide.platformAABB) == 2)
+			{ // Move in Z Direction
+				position.z = position.z + (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{
+				position.x = position.x + (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z + (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
 		}
 
 		if (Application::IsKeyPressed('W'))
 		{ // Going Forward
 			newPos = position + (view * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			for (int platType = 0; platType < 6; platType++)
-			{ // To check which platform the player is on
-				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
-				{
-					if (onPlatform(charAABB, it->platformAABB))
-					{
-						nextPlatform = *it;
-						break;
-					}
-				}
-			}
-			if ((nextPlatform.type == 0) && (!jump))
-			{ // If player is not jumping and not on any platform
+			
+			if (((currPlatform.type == 0) && (!jump)) // If player is not jumping and not on any platform
+				|| ((position.y < (currPlatform.pos.y - 2.5)) && (!jump))) // If player is lower than the platform, player falls
+			{
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
+				if (((position.y >(currPlatform.pos.y + 7)) && (!jump)))
 				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
+					if (position.y < currPlatform.pos.y + 7)
+					{ // Player stops falling when the platform is reached
+						fallingVelocity = 0;
+						onGround = true;
+						landed = true;
+					}
 				}
-				if (position.y < nextPlatform.pos.y + 7)
-					onGround = true;
 			}
-			position.x = position.x + (view.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z + (view.z * velocity);
-			target.z = position.z + (view.z * velocity);
+
+			//==============Collision======================
+			for (int platType = 0; platType < 6; platType++)
+			{ // To check which platform the player is on
+				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+				{
+					if (collideAABBobject(charAABB, it->platformAABB))
+					{
+						if (((charAABB.min.x < it->platformAABB.min.x) || (charAABB.max.x > it->platformAABB.max.x))
+							&& (charAABB.min.z > it->platformAABB.min.z) && (charAABB.max.z < it->platformAABB.max.z))
+							X_Or_Z = 1; // For Z Direction
+						else if (((charAABB.min.z < it->platformAABB.min.z) || (charAABB.max.z > it->platformAABB.max.z))
+							&& (charAABB.min.x > it->platformAABB.min.x) && (charAABB.max.x < it->platformAABB.max.x))
+							X_Or_Z = 2; // For X Direction
+						toCollide = *it;
+						break;
+					}
+				}
+			}
+			if (slideAABBobject(charAABB, toCollide.platformAABB) == 1)
+			{ // Move in X Direction
+				position.x = position.x + (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (slideAABBobject(charAABB, toCollide.platformAABB) == 2)
+			{ // Move in Z Direction
+				position.z = position.z + (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{
+				position.x = position.x + (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z + (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
 		}
 
 		if (Application::IsKeyPressed('S'))
 		{ // Going Backward
 			newPos = position - (view * velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
-			for (int platType = 0; platType < 6; platType++)
-			{ // To check which platform the player is on
-				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
-				{
-					if (onPlatform(charAABB, it->platformAABB))
-					{
-						nextPlatform = *it;
-						break;
-					}
-				}
-			}
-			if ((nextPlatform.type == 0) && (!jump))
-			{ // If player is not jumping and not on any platform
+			
+			if (((currPlatform.type == 0) && (!jump)) // If player is not jumping and not on any platform
+				|| ((position.y < (currPlatform.pos.y - 2.5)) && (!jump))) // If player is lower than the platform, player falls
+			{
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
 			}
 			else
 			{
-				if ((position.y > (nextPlatform.pos.y + 7)) && (!jump))
+				if (((position.y > (currPlatform.pos.y + 7)) && (!jump)))
 				{ // If player is higher than platform, player falls
 					position.y += (float)(fallingVelocity * dt);
 					target.y += (float)(fallingVelocity * dt);
 					fallingVelocity -= (float)(gravity * dt);
 				}
-				if (position.y < nextPlatform.pos.y + 7)
+				if (position.y < currPlatform.pos.y + 7)
+				{ // Player stops falling when the platform is reached
+					fallingVelocity = 0;
 					onGround = true;
+					landed = true;
+				}
 			}
-			position.x = position.x - (view.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z - (view.z * velocity);
-			target.z = position.z + (view.z * velocity);
+
+			//==============Collision======================
+			for (int platType = 0; platType < 6; platType++)
+			{ // To check which platform the player is on
+				for (std::vector<Platforms>::iterator it = platformID[platType].begin(); it < platformID[platType].end(); it++)
+				{
+					if (collideAABBobject(charAABB, it->platformAABB))
+					{
+						if (((charAABB.min.x < it->platformAABB.min.x) || (charAABB.max.x > it->platformAABB.max.x))
+							&& (charAABB.min.z > it->platformAABB.min.z) && (charAABB.max.z < it->platformAABB.max.z))
+							X_Or_Z = 1; // For Z Direction
+						else if (((charAABB.min.z < it->platformAABB.min.z) || (charAABB.max.z > it->platformAABB.max.z))
+							&& (charAABB.min.x > it->platformAABB.min.x) && (charAABB.max.x < it->platformAABB.max.x))
+							X_Or_Z = 2; // For X Direction
+						toCollide = *it;
+						break;
+					}
+				}
+			}
+			if (slideAABBobject(charAABB, toCollide.platformAABB) == 1)
+			{ // Move in X Direction
+				position.x = position.x - (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (slideAABBobject(charAABB, toCollide.platformAABB) == 2)
+			{ // Move in Z Direction
+				position.z = position.z - (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{
+				position.x = position.x - (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z - (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
 		}
 	}
 	else
@@ -318,7 +429,8 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 				}
 			}
 		}
-		if (currPlatform.type == 0 && !jump)
+		if (((currPlatform.type == 0) && (!jump)) // If player is not jumping and not on any platform
+			|| ((position.y < (currPlatform.pos.y - 2.5)) && (!jump))) // If player is lower than the platform, player falls
 		{
 			position.y += (float)(fallingVelocity * dt);
 			target.y += (float)(fallingVelocity * dt);
@@ -326,14 +438,18 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 		}
 		else
 		{
-			if ((position.y > (currPlatform.pos.y + 7)) && (!jump))
-			{
+			if (((position.y > (currPlatform.pos.y + 7)) && (!jump)))
+			{ // If player is higher than platform, player falls
 				position.y += (float)(fallingVelocity * dt);
 				target.y += (float)(fallingVelocity * dt);
 				fallingVelocity -= (float)(gravity * dt);
 			}
 			if (position.y < currPlatform.pos.y + 7)
+			{ // Player stops falling when the platform is reached
+				fallingVelocity = 0;
 				onGround = true;
+				landed = true;
+			}
 		}
 	}
 }
@@ -351,21 +467,41 @@ void PlatformerCamera::jumping(double dt)
 		else
 			gravity = 19.6;
 	}
-	else if (Application::IsKeyPressed(VK_SPACE) && doubleJumpAbility && jump && !doubleJump)
+	else if (Application::IsKeyPressed(VK_SPACE) && doubleJumpAbility && !doubleJump && !jump && !onGround && landed)
 	{
+		landed = false;
 		jump = true;
 		playerOriginalHeight = position.y;
 		fallingVelocity = -30;
-		onGround = false;
 		doubleJump = true;
 		gravity = 29.4;
 	}
 
-	if ((jump) && fallingVelocity < 0)
+	if ((jump) && (fallingVelocity < 0))
 	{
-		position.y -= (float)(fallingVelocity * dt);
-		target.y -= (float)(fallingVelocity * dt);
-		fallingVelocity += (float)(gravity * dt);
+		float newPosY = position.y - (float)(fallingVelocity * dt);
+		if (newPosY < currPlatform.pos.y && currPlatform.type != 0)
+		{
+			if ((newPosY < currPlatform.platformAABB.min.y))
+			{
+				position.y -= (float)(fallingVelocity * dt);
+				target.y -= (float)(fallingVelocity * dt);
+				fallingVelocity += (float)(gravity * dt);
+			}
+			else
+			{
+				jump = false;
+				doubleJump = false;
+				fallingVelocity = 0;
+				gravity = 29.4;
+			}
+		}
+		else
+		{
+			position.y -= (float)(fallingVelocity * dt);
+			target.y -= (float)(fallingVelocity * dt);
+			fallingVelocity += (float)(gravity * dt);
+		}
 	}
 	else if (position.y > (playerOriginalHeight) && jump)
 	{
@@ -379,6 +515,27 @@ void PlatformerCamera::jumping(double dt)
 bool PlatformerCamera::onPlatform(AABB character, AABB platform)
 {
 	return((character.min.x < platform.max.x) && (character.max.x > platform.min.x)
-		&& (character.min.z < platform.max.z) && (character.max.z > platform.min.z)
-		&& (character.min.y > platform.max.y));
+		&& (character.min.z < platform.max.z) && (character.max.z > platform.min.z));
+}
+
+bool PlatformerCamera::collideAABBobject(AABB charAABB, AABB objectAABB)
+{
+	return((charAABB.max.x > objectAABB.min.x) && (charAABB.min.x < objectAABB.max.x)
+		&& (charAABB.max.y > objectAABB.min.y) && (charAABB.min.y < objectAABB.max.y)
+		&& (charAABB.max.z > objectAABB.min.z) && (charAABB.min.z < objectAABB.max.z));
+}
+
+int PlatformerCamera::slideAABBobject(AABB charAABB, AABB objectAABB)
+{
+	if ((charAABB.max.z < objectAABB.max.z || charAABB.min.z < objectAABB.max.z) 
+		&& (charAABB.max.y > objectAABB.min.y) && (charAABB.min.y < objectAABB.max.y)
+		&& (X_Or_Z == 2))
+		return 1; // Slide in X Direction
+	else if ((charAABB.max.x < objectAABB.max.x || charAABB.min.x < objectAABB.max.x) 
+		&& (charAABB.max.y > objectAABB.min.y) && (charAABB.min.y < objectAABB.max.y)
+		&& (X_Or_Z == 1))
+		return 2; // Slide in Z Direction
+	else
+		return 0;
+
 }

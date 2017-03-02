@@ -5,6 +5,7 @@
 #include "AABB.h"
 #include <vector>
 #include "Platforms.h"
+#include "PlatformerTreasure.h"
 
 class PlatformerCamera : public Camera
 {
@@ -26,7 +27,7 @@ public:
 	PlatformerCamera();
 	~PlatformerCamera();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, std::vector<Platforms> []);
+	virtual void Update(double dt, std::vector<Platforms> [], std::vector<PlatformerTreasure>);
 
 	float mouseY = 0;
 	float mouseX = 0;
@@ -39,10 +40,16 @@ public:
 	bool onPlatform(AABB, AABB);
 	AABB charAABB;
 	Platforms currPlatform;
-	Platforms nextPlatform;
 	Platforms noPlatform;
+	
+	//============================TIME==========================
+	double elapsed_time = 0.0;
+	double bounce_time = 0.0;
 
-	// Character Movement
+	//==========================Treasure==========================
+	int numPickedUp = 0;
+
+	//======================Character Movement======================
 		// Moving Direction
 			float velocity = 0;
 			float fixedVelocity = 0;
@@ -53,15 +60,22 @@ public:
 			bool jump = false;
 			float playerOriginalHeight = 0.0;
 			bool onGround = true;
-			double gravity = 19.6;
+			float gravity = 19.6;
 			float fallingVelocity = 0;
 			bool doubleJump = false; // This to see if player is doing double jump
+			bool landed = true;
 
-	// Special Abilities (Checking if have special abilities)
+	//======================Special Abilities======================
+		//(Checking if have special abilities)
 		// Only can have one special ability at a time
-	bool doubleJumpAbility = false;
-	bool superSpeedAbility = false;
-	bool jumpHigherAbility = false;
+		bool doubleJumpAbility = true;
+		bool superSpeedAbility = false;
+		bool jumpHigherAbility = false;
+
+	//=====================COLLISION===================================
+		int slideAABBobject(AABB, AABB);
+		bool collideAABBobject(AABB, AABB);
+		int X_Or_Z = 0;
 
 private:
 	Vector3 view;

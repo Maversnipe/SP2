@@ -130,6 +130,7 @@
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\Money.h" />
     <ClInclude Include="Source\PlatformerCamera.h" />
+    <ClInclude Include="Source\PlatformerTreasure.h" />
     <ClInclude Include="Source\Platforms.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneManager.h" />
