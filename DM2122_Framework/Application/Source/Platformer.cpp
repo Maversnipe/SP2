@@ -220,6 +220,9 @@ void Platformer::Update(double dt)
 
 		if (Application::IsKeyPressed(VK_BACK))
 			game_state = PAUSE;
+		
+		if (camera.position.y < -150)
+			game_state = GAMEOVER;
 
 		// If all treasure is collected
 		if (camera.numPickedUp == numOfTreasureSet)
@@ -240,7 +243,6 @@ void Platformer::Update(double dt)
 
 		// Notifies player about how many treasure needs to be collected
 		treasureCollected = std::to_string(camera.numPickedUp) + "/" + std::to_string(numOfTreasureSet) + " TREASURE COLLECTED";
-		Render();
 		break;
 
 	case PAUSE:
@@ -316,7 +318,7 @@ void Platformer::Render()
 	//---------------------------------------------------------------
 
 	if (changeScene != 0)
-		RenderMeshOnScreen(meshList[GEO_LOAD1_SCREEN], 40, 20, 80, 80);//No transform needed
+		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
 	else if (playLoading)
 	{
 		if ((load_time >= 0) && (load_time <= 2))
@@ -326,7 +328,6 @@ void Platformer::Render()
 		else if ((load_time >= 3.5) && (load_time <= 5))
 			RenderMeshOnScreen(meshList[GEO_LOAD4], 40, 20, 80, 80);//No transform needed
 	}
-
 	else
 	{
 		RenderMesh(meshList[GEO_AXES], false);
@@ -341,9 +342,9 @@ void Platformer::Render()
 		RenderPlatforms();
 
 		RenderTextOnScreen(meshList[GEO_TEXT], treasureCollected, Color(0, 0, 0), 3, 0.5, 19.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 1.5, 2.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 1.5, 1.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 1.5, 0.5);
 		
 		if (game_state == PAUSE)
 			RenderPause();
@@ -492,7 +493,7 @@ void Platformer::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int siz
 
 void Platformer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	float spacingX = 1.0f;
+	float spacingX = 0.f;
 	float spacingY = 0.f;
 	int count = 0;
 

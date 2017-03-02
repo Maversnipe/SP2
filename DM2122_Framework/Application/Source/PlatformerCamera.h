@@ -37,6 +37,7 @@ public:
 	float rotateHori = 0;
 
 	// Platform Stuff
+	int boundsCheck(Vector3);
 	bool onPlatform(AABB, AABB);
 	AABB charAABB;
 	Platforms currPlatform;
