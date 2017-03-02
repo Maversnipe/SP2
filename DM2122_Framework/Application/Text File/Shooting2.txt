@@ -1,0 +1,4 @@
+      Careful!@
+An enemy is coming!@
+Press the left mouse@
+to shoot laser.
