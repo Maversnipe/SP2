@@ -154,16 +154,11 @@ void Platformer::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
-<<<<<<< HEAD
-	meshList[GEO_LOAD1_SCREEN] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LOAD1_SCREEN]->textureID = LoadTGA("Image//loading1.tga");
-=======
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
 	
 	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
->>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd
 
 	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
