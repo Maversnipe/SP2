@@ -262,22 +262,21 @@ void MainMenu::Update(double dt)
 	//	}
 	//	bounce_time = elapsed_time + 0.2;
 	//}
-	if (xpos > 170 && xpos < 380 && ypos > 230 && ypos < 280)
+	if (xpos >  170.0f * (width / 800.0f) && xpos < (350.0f * (width / 800.0f)) && ypos > 230.0f * (height / 600.0f) && ypos <  280.0f * (height / 600.0f))
 	{
 		selectScene = 0;
 	}
-	if (xpos > 170 && xpos < 380 && ypos > 330 && ypos < 380)
+	if (xpos >  170.0f * (width / 800.0f) && xpos < (350.0f * (width / 800.0f)) && ypos > 330.0f * (height / 600.0f) && ypos <  380.0f * (height / 600.0f))
 	{
 		selectScene = 1;
 	}
-	if (xpos > 170 && xpos < 380 && ypos > 430 && ypos < 480)
+	if (xpos >  170.0f * (width / 800.0f) && xpos <(350.0f * (width / 800.0f)) && ypos > 430.0f * (height / 600.0f) && ypos <  480.0f * (height / 600.0f))
 	{
 		selectScene = 2;
 	}
-	if ((Application::IsKeyPressed(MK_LBUTTON)) && (selectScene == 0) && (xpos > 170 && xpos < 380 && ypos > 230 && ypos < 280))
+	if ((Application::IsKeyPressed(MK_LBUTTON)) && (selectScene == 0) && (xpos >  170.0f * (width / 800.0f) && xpos < (350.0f * (width / 800.0f)) && ypos > 230.0f * (height / 600.0f) && ypos <  280.0f * (height / 600.0f)))
 	{
 		changeScene = 1;
-		//bounce_time = elapsed_time + 0.2;
 	}
 
 }

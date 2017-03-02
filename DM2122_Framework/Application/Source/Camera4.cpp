@@ -109,21 +109,7 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 					CAR_SPEED = 50.0f;
 				}
 				Vector3 newPos = position + (view * dt * CAR_SPEED);
-				if (boundsCheck(newPos) == 1)
-				{
-					position.x = position.x + (view.x * dt * CAR_SPEED);
-					target.x = position.x + (view.x);
-					position.y = position.y + (view.y * dt * CAR_SPEED);
-					target.y = position.y + (view.y);
-				}
-				else if (boundsCheck(newPos) == 2)
-				{
-					position.z = position.z + (view.z * dt * CAR_SPEED);
-					target.z = position.z + (view.z);
-					position.y = position.y + (view.y * dt * CAR_SPEED);
-					target.y = position.y + (view.y);
-				}
-				else if (boundsCheck(newPos) == 3)
+				if (boundsCheck(newPos) == 3)
 				{
 					position = position + (view*dt * CAR_SPEED);
 					target = position + view;
@@ -131,8 +117,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				else
 				{
 					position = position;
+					CAR_SPEED = 0;
 				}
-				fuel = fuel - 1;
+				fuel = fuel - 5;
 			}
 		}
 		if (Application::IsKeyPressed('S'))
@@ -162,21 +149,7 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 			if (collision == false)
 			{
 				Vector3 newPos = position + (view * dt * CAR_SPEED);
-				if (boundsCheck(newPos) == 1)
-				{
-					position.x = position.x + (view.x * dt * CAR_SPEED);
-					target.x = position.x + (view.x);
-					position.y = position.y + (view.y * dt * CAR_SPEED);
-					target.y = position.y + (view.y);
-				}
-				else if (boundsCheck(newPos) == 2)
-				{
-					position.z = position.z + (view.z * dt * CAR_SPEED);
-					target.z = position.z + (view.z);
-					position.y = position.y + (view.y * dt * CAR_SPEED);
-					target.y = position.y + (view.y);
-				}
-				else if (boundsCheck(newPos) == 3)
+				if (boundsCheck(newPos) == 3)
 				{
 					position = position + (view*dt * CAR_SPEED);
 					target = position + view;
@@ -184,8 +157,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				else
 				{
 					position = position;
+					CAR_SPEED = 0;
 				}
-				fuel = fuel - 1;
+				fuel = fuel - 5;
 			}
 		}
 		if (Application::IsKeyPressed(VK_SPACE))
@@ -213,21 +187,7 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				if (collision == false)
 				{
 					Vector3 newPos = position + (view * dt * CAR_SPEED);
-					if (boundsCheck(newPos) == 1)
-					{
-						position.x = position.x + (view.x * dt * CAR_SPEED);
-						target.x = position.x + (view.x);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 2)
-					{
-						position.z = position.z + (view.z * dt * CAR_SPEED);
-						target.z = position.z + (view.z);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 3)
+					if (boundsCheck(newPos) == 3)
 					{
 						position = position + (view*dt * CAR_SPEED);
 						target = position + view;
@@ -235,8 +195,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 					else
 					{
 						position = position;
+						CAR_SPEED = 0;
 					}
-					fuel = fuel - 1;
+					fuel = fuel - 5;
 				}
 			}
 			else if (CAR_SPEED < 0)
@@ -258,21 +219,7 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				if (collision == false)
 				{
 					Vector3 newPos = position + (view * dt * CAR_SPEED);
-					if (boundsCheck(newPos) == 1)
-					{
-						position.x = position.x + (view.x * dt * CAR_SPEED);
-						target.x = position.x + (view.x);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 2)
-					{
-						position.z = position.z + (view.z * dt * CAR_SPEED);
-						target.z = position.z + (view.z);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 3)
+					if (boundsCheck(newPos) == 3)
 					{
 						position = position + (view*dt * CAR_SPEED);
 						target = position + view;
@@ -280,8 +227,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 					else
 					{
 						position = position;
+						CAR_SPEED = 0;
 					}
-					fuel = fuel - 1;
+					fuel = fuel - 5;
 				}
 			}
 		}
@@ -310,21 +258,7 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				if (collision == false)
 				{
 					Vector3 newPos = position + (view * dt * CAR_SPEED);
-					if (boundsCheck(newPos) == 1)
-					{
-						position.x = position.x + (view.x * dt * CAR_SPEED);
-						target.x = position.x + (view.x);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 2)
-					{
-						position.z = position.z + (view.z * dt * CAR_SPEED);
-						target.z = position.z + (view.z);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 3)
+					if (boundsCheck(newPos) == 3)
 					{
 						position = position + (view*dt * CAR_SPEED);
 						target = position + view;
@@ -332,6 +266,7 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 					else
 					{
 						position = position;
+						CAR_SPEED = 0;
 					}
 				}
 			}
@@ -354,21 +289,7 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				if (collision == false)
 				{
 					Vector3 newPos = position + (view * dt * CAR_SPEED);
-					if (boundsCheck(newPos) == 1)
-					{
-						position.x = position.x + (view.x * dt * CAR_SPEED);
-						target.x = position.x + (view.x);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 2)
-					{
-						position.z = position.z + (view.z * dt * CAR_SPEED);
-						target.z = position.z + (view.z);
-						position.y = position.y + (view.y * dt * CAR_SPEED);
-						target.y = position.y + (view.y);
-					}
-					else if (boundsCheck(newPos) == 3)
+					if (boundsCheck(newPos) == 3)
 					{
 						position = position + (view*dt * CAR_SPEED);
 						target = position + view;
@@ -376,8 +297,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 					else
 					{
 						position = position;
+						CAR_SPEED = 0;
 					}
-					fuel = fuel - 1;
+					fuel = fuel - 5;
 				}
 			}
 		}
@@ -386,18 +308,6 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 	if (fuel < 0)
 	{
 		fuel = 0;
-	}
-	if (CAR_SPEED < 0)
-	{
-		carView = view *dt* (30 + (-CAR_SPEED));
-	}
-	else if (CAR_SPEED > 0)
-	{
-		carView = view*dt*(30 + CAR_SPEED);
-	}
-	else if (CAR_SPEED == 0)
-	{
-		carView = view*dt* 30;
 	}
 }
 

@@ -22,6 +22,7 @@ Driving::Driving()
 	car.health = 100;
 	car.fuel = 10000.0f;
 	rock = 5;
+	game_state = GAME_START;
 }
 
 Driving::~Driving()
@@ -187,8 +188,26 @@ void Driving::Init()
 	meshList[GEO_ROCKS] = MeshBuilder::GenerateQuad("rocks", Color(1, 1, 1), 1, 1);
 	meshList[GEO_ROCKS]->textureID = LoadTGA("Image//starRocks.tga");
 	
-	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load1", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+
+	meshList[GEO_PAUSE] = MeshBuilder::GenerateQuad("pause", Color(1, 1, 1), 1, 1);
+	meshList[GEO_PAUSE]->textureID = LoadTGA("Image//Driving//carPause.tga");
+
+	meshList[GEO_PAUSE1] = MeshBuilder::GenerateQuad("pause1", Color(1, 1, 1), 1, 1);
+	meshList[GEO_PAUSE1]->textureID = LoadTGA("Image//Driving//carPauseResume.tga");
+
+	meshList[GEO_PAUSE2] = MeshBuilder::GenerateQuad("pause2", Color(1, 1, 1), 1, 1);
+	meshList[GEO_PAUSE2]->textureID = LoadTGA("Image//Driving//carPauseInstruction.tga");
+
+	meshList[GEO_PAUSE3] = MeshBuilder::GenerateQuad("pause3", Color(1, 1, 1), 1, 1);
+	meshList[GEO_PAUSE3]->textureID = LoadTGA("Image//Driving//carPauseQuit.tga");
+
+	meshList[GEO_INSTRUCTION] = MeshBuilder::GenerateQuad("instruction", Color(1, 1, 1), 1, 1);
+	meshList[GEO_INSTRUCTION]->textureID = LoadTGA("Image//Driving//instructionMenu.tga");
+
+	meshList[GEO_INSTRUCTION1] = MeshBuilder::GenerateQuad("instruction1", Color(1, 1, 1), 1, 1);
+	meshList[GEO_INSTRUCTION1]->textureID = LoadTGA("Image//Driving//loading1.tga");
 
 
 
@@ -233,19 +252,15 @@ void Driving::Init()
 		Rocktaken[counter] = false;
 	}
 }
-
-void Driving::Update(double dt)
+void Driving::gameUpdate(double dt)
 {
-
-	//car.carposition.y = 0;
-	//Camera4.position/*.Set(Camera4.position.x + car.move.x, 5, Camera4.position.z + car.move.z)*/ = car.carposition;
-	carVec.Set(Camera4.position.x/* + (Camera4.view.x * 5)*/, 0, Camera4.position.z/*+(Camera4.view.x * 5)*/);
+	carVec.Set(Camera4.position.x, 0, Camera4.position.z);
 	//==========Enemy movements==========
 	for (int counter = 0; counter < enemySize; counter++)
 	{
 		if (enemyDead[counter] == false && enemyExplosion[counter] == false)
 		{
-			if ((carVec - enemyPos[counter]).Length() > 1 /*&& (Camera4.position - enemyPos[counter]).Length() < 30*/)
+			if ((carVec - enemyPos[counter]).Length() > 1)
 			{
 				int test = 0;
 				int test2 = 0;
@@ -349,7 +364,7 @@ void Driving::Update(double dt)
 		}
 		if (enemyExplosion[counter] == true)
 		{
-			if (scaleExplosion[counter] < 2)  //esther was here lookahorse12@gmail.com
+			if (scaleExplosion[counter] < 2)
 			{
 				scaleExplosion[counter] += 0.1;
 				ExplosionRadius[counter] = scaleExplosion[counter];
@@ -493,6 +508,36 @@ void Driving::Update(double dt)
 	}
 	cout << car.health << "            " << car.fuel << "            " << Camera4.CAR_SPEED << endl;
 }
+void Driving::gamePause(double dt)
+{
+	glfwGetWindowSize(Application::m_window, &width, &height);
+	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
+	pause_state = 0;
+	cout << xpos << "           " << ypos << endl;
+}
+void Driving::Update(double dt)
+{
+	if (Application::IsKeyPressed(VK_BACK))
+	{
+		if (game_state == GAME_START)
+		{
+			game_state = GAME_PAUSE;
+		}
+		else if (game_state == GAME_PAUSE)
+		{
+			game_state = GAME_START;
+		}
+	}
+	switch (game_state)
+	{
+	case GAME_START:
+		gameUpdate(dt);
+		break;
+	case GAME_PAUSE:
+		gamePause(dt);
+		break;
+	}
+}
 
 void Driving::Render()
 {
@@ -535,92 +580,115 @@ void Driving::Render()
 		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
 	else
 	{
-		RenderMesh(meshList[GEO_AXES], false);
-
-		modelStack.PushMatrix();
-		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-		RenderMesh(meshList[GEO_LIGHTBALL], false);
-		modelStack.PopMatrix();
-
-		RenderSkybox();
-
-		for (int i = 0; i < enemySize; i++)
+		if (game_state == GAME_START)
 		{
-			if (enemyDead[i] == false)
+			RenderMesh(meshList[GEO_AXES], false);
+
+			modelStack.PushMatrix();
+			modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+			RenderMesh(meshList[GEO_LIGHTBALL], false);
+			modelStack.PopMatrix();
+
+			RenderSkybox();
+
+			for (int i = 0; i < enemySize; i++)
+			{
+				if (enemyDead[i] == false)
+				{
+					modelStack.PushMatrix();
+					modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
+					modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+					//modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
+					modelStack.Scale(0.25, 0.25, 0.25);
+					RenderMesh(meshList[GEO_ENEMY], true);
+					modelStack.PopMatrix();
+				}
+			}
+			for (int i = 0; i < objectSize; i++)
 			{
 				modelStack.PushMatrix();
-				modelStack.Translate(enemyPos[i].x, 0, enemyPos[i].z);
-				modelStack.Rotate(enemyRotation[i], 0, 1, 0);
-				//modelStack.Rotate(enemyRotation2[i], 1, 0, 0);
-				modelStack.Scale(0.25, 0.25, 0.25);
-				RenderMesh(meshList[GEO_ENEMY], true);
+				modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
+				modelStack.Scale(1, 1, 1);
+				RenderMesh(meshList[GEO_ROCK], true);
 				modelStack.PopMatrix();
 			}
-		}
-		for (int i = 0; i < objectSize; i++)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(ObjectPos[i].x, 0, ObjectPos[i].z);
-			modelStack.Scale(1, 1, 1);
-			RenderMesh(meshList[GEO_ROCK], true);
-			modelStack.PopMatrix();
-		}
-		for (int i = 0; i < healthPack; i++)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(HealthPos[i].x, 0, HealthPos[i].z);
-			modelStack.Scale(1, 1, 1);
-			RenderMesh(meshList[GEO_HEALTH], true);
-			modelStack.PopMatrix();
-		}
-		for (int i = 0; i < fuelPack; i++)
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(FuelPos[i].x, 0, FuelPos[i].z);
-			modelStack.Scale(1, 1, 1);
-			RenderMesh(meshList[GEO_FUEL], true);
-			modelStack.PopMatrix();
-		}
-		for (int i = 0; i < enemySize; i++)
-		{
-			if (enemyExplosion[i] == true)
+			for (int i = 0; i < healthPack; i++)
 			{
 				modelStack.PushMatrix();
-				modelStack.Translate(ExplosionPos[i].x, 0, ExplosionPos[i].z);
-				modelStack.Rotate(enemyRotation[i], 0, 1, 0);
-				modelStack.Scale(ExplosionRadius[i], ExplosionRadius[i], ExplosionRadius[i]);
-				RenderMesh(meshList[GEO_EXPLOSION], true);
+				modelStack.Translate(HealthPos[i].x, 0, HealthPos[i].z);
+				modelStack.Scale(1, 1, 1);
+				RenderMesh(meshList[GEO_HEALTH], true);
 				modelStack.PopMatrix();
 			}
-		}
-		for (int i = 0; i < rock; i++)
-		{
+			for (int i = 0; i < fuelPack; i++)
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(FuelPos[i].x, 0, FuelPos[i].z);
+				modelStack.Scale(1, 1, 1);
+				RenderMesh(meshList[GEO_FUEL], true);
+				modelStack.PopMatrix();
+			}
+			for (int i = 0; i < enemySize; i++)
+			{
+				if (enemyExplosion[i] == true)
+				{
+					modelStack.PushMatrix();
+					modelStack.Translate(ExplosionPos[i].x, 0, ExplosionPos[i].z);
+					modelStack.Rotate(enemyRotation[i], 0, 1, 0);
+					modelStack.Scale(ExplosionRadius[i], ExplosionRadius[i], ExplosionRadius[i]);
+					RenderMesh(meshList[GEO_EXPLOSION], true);
+					modelStack.PopMatrix();
+				}
+			}
+			for (int i = 0; i < rock; i++)
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(RockPos[i].x, 0, RockPos[i].z);
+				modelStack.Scale(1, 1, 1);
+				RenderMesh(meshList[GEO_ROCKS], true);
+				modelStack.PopMatrix();
+			}
 			modelStack.PushMatrix();
-			modelStack.Translate(RockPos[i].x, 0, RockPos[i].z);
-			modelStack.Scale(1, 1, 1);
-			RenderMesh(meshList[GEO_ROCKS], true);
+			modelStack.Translate(carVec.x, carVec.y, carVec.z);
+			modelStack.Rotate(rotateAngle, 0, 1, 0);
+			modelStack.Scale(0.25, 0.25, 0.25);
+			RenderMesh(meshList[GEO_CAR], true);
 			modelStack.PopMatrix();
-		}
-		modelStack.PushMatrix();
-		modelStack.Translate(carVec.x, carVec.y, carVec.z);
-		modelStack.Rotate(rotateAngle, 0, 1, 0);
-		modelStack.Scale(0.25, 0.25, 0.25);
-		RenderMesh(meshList[GEO_CAR], true);
-		modelStack.PopMatrix();
-		RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
-		for (int i = 0; i <= car.health; i++)
-		{
-			RenderMeshOnScreen(meshList[GEO_HEALTHBAR], 14 + (i/10), 57, 1, 2);//No transform needed
-		}
-		RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 1, 1), 2, 0.5, 28.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
+			for (int i = 0; i <= car.health; i++)
+			{
+				RenderMeshOnScreen(meshList[GEO_HEALTHBAR], 14 + (i / 10), 57, 1, 2);//No transform needed
+			}
+			RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 1, 1), 2, 0.5, 28.5);
 
-		for (int i = 0; i < (car.fuel+1000)/100; i++)
-		{
-			RenderMeshOnScreen(meshList[GEO_FUELBAR], 14 + (i / 10), 54, 1, 2);//No transform needed
+			for (int i = 0; i < (car.fuel + 1000) / 100; i++)
+			{
+				RenderMeshOnScreen(meshList[GEO_FUELBAR], 14 + (i / 10), 54, 1, 2);//No transform needed
+			}
+			RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 1, 1), 2, 0.5, 27);
+			RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
+			RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+			
 		}
-		RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 1, 1), 2, 0.5, 27);
-		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
-		RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
+		else if (game_state == GAME_PAUSE)
+		{
+			if (pause_state == 0)
+			{
+				RenderMeshOnScreen(meshList[GEO_PAUSE], 40, 30, 80, 60);
+			}
+			else if (pause_state == 1)
+			{
+				RenderMeshOnScreen(meshList[GEO_PAUSE1], 40, 30, 80, 60);
+			}
+			else if (pause_state == 2)
+			{
+				RenderMeshOnScreen(meshList[GEO_PAUSE2], 40, 30, 80, 60);
+			}
+			else if (pause_state == 3)
+			{
+				RenderMeshOnScreen(meshList[GEO_PAUSE3], 40, 30, 80, 60);
+			}
+		}
 	}
 }
 
