@@ -103,12 +103,13 @@ public:
 	int spawnTimer;
 	float valX_Z, val;
 	float prevValX;
-	bool isPlayerAlive, isEnemyAlive[10];
+	float deathBarrier;
+	bool isPlayerAlive, isEnemyAlive[1000];
 	bool renderRef;
-	bool isShooting[10];
-	float projectileDirectionX[10], projectileDirectionZ[10];
-	float projStartX[10];
-	float projStartZ[10];
+	bool isShooting[1000];
+	float projectileDirectionX[1000], projectileDirectionZ[1000];
+	float projStartX[1000];
+	float projStartZ[1000];
 	int bulletCount;
 	int maxBullets;
 	float bulletCD;		// bullet cooldown
