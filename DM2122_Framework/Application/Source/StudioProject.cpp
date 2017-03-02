@@ -7,7 +7,7 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
-#include "irrKlang.h"
+#include "IK\irrKlang.h"
 using namespace irrklang;
 #pragma comment(lib, "irrKlang.lib")
 ISoundEngine* sfx1 = createIrrKlangDevice();
