@@ -177,6 +177,7 @@ private:
 	void RenderSkybox();
 
 	Vector3 building[5] = {};
+	std::string buildingName[4];
 	//==Carousell==
 	Vector3 prevPos = {};
 	Vector3 prevTarget = {};

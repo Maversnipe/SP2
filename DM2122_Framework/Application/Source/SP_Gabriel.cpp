@@ -159,9 +159,6 @@ void SP_Gabriel::Init()
 	// Initialise Camera
 	camera3.Init(Vector3(0, 7, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 
-	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
-
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//SP_Gabriel_Space_Skybox//front.tga");
 
@@ -183,7 +180,6 @@ void SP_Gabriel::Init()
 	meshList[GEO_UFO_TEST] = MeshBuilder::GenerateQuad("UFO on test", Color(1, 1, 1), 1, 1);
 	meshList[GEO_UFO_TEST]->textureID = LoadTGA("Image//UFO_test.tga");
 
-	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1, 1, 1);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightSphere", Color(1, 1, 1), 18, 36, 1);
 
 	meshList[GEO_UFO] = MeshBuilder::GenerateOBJ("Player UFO", "OBJ//UFO.obj");
@@ -227,9 +223,6 @@ void SP_Gabriel::Update(double dt)
 			playLoading = false;
 	}
 
-
-	if (Application::IsKeyPressed(VK_BACK))
-		changeScene = 1;
 	fps = 1.0f / dt;
 	framesPerSec = "FPS: " + std::to_string(fps);
 	float LSPEED = 10.f;
@@ -414,17 +407,6 @@ void SP_Gabriel::Update(double dt)
 					
 			}
 		}
-	}
-
-
-
-	if (Application::IsKeyPressed('G'))
-	{
-		renderRef = true;
-	}
-	else if (Application::IsKeyPressed('H'))
-	{
-		renderRef = false;
 	}
 
 	camera3.Update(dt * 3);

@@ -355,6 +355,12 @@ void StudioProject::Init()
 	building[3].Set(0, -2, 200);
 	building[4].Set(160, -2, -23); 
 
+	// Building Names
+	buildingName[0] = "Shooter";
+	buildingName[1] = "Platformer";
+	buildingName[2] = "Driving";
+	buildingName[3] = "Space Invaders";
+
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
@@ -681,6 +687,12 @@ void StudioProject::Render()
 
 		modelStack.PushMatrix();
 		modelStack.Translate(building[0].x, building[0].y, building[0].z);
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(0, 10, -30);
+			RenderText(meshList[GEO_TEXT], buildingName[0], Color(1, 0, 0));
+			modelStack.PopMatrix();
+		}
 		modelStack.Scale(5, 5, 5);
 		RenderMesh(meshList[GEO_BUILDING], true);
 		modelStack.PopMatrix();
