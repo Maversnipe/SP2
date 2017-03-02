@@ -1030,7 +1030,7 @@ void Shooting::Render()
 		if (tutorialStart && !tutorialEnd)
 		{
 			if (!display1)
-				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(2), Color(0, 1, 1), 3, 0, 6.5);
+				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(2), Color(0, 1, 1), 2, 6, 27);
 			else if (!display2 && pickUpGun)
 				RenderTextOnScreen(meshList[GEO_TEXT], "Careful! An enemy is coming! Press the left mouse to shoot laser." , Color(0, 1, 1), 3, 0, 6.5);
 			else if (!display3 && enemyTutDead)
@@ -1190,6 +1190,10 @@ void Shooting::RenderMeshOnScreen(Mesh* mesh, int x, int y, int
 
 void Shooting::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
+	float spacingX = 1.0f;
+	float spacingY = 0.f;
+	int count = 0;
+
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
@@ -1216,11 +1220,21 @@ void Shooting::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		if (text[i] == '@')
+		{
+			spacingX += 1.0f * count;
+			spacingY -= 1.0f;
+			text[i] = ' ';
+			count = 0;
+		}
+
+		else
+		characterSpacing.SetToTranslation(i * 1.0f - spacingX, spacingY, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
+		count++;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);

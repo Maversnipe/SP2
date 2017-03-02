@@ -738,6 +738,10 @@ void SP_Gabriel::RenderText(Mesh* mesh, std::string text, Color color)
 
 void SP_Gabriel::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
+	float spacingX = 1.0f;
+	float spacingY = 0.f;
+	int count = 0;
+
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
@@ -764,11 +768,21 @@ void SP_Gabriel::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		if (text[i] == '@')
+		{
+			spacingX += 1.0f * count;
+			spacingY -= 1.0f;
+			text[i] = ' ';
+			count = 0;
+		}
+
+		else
+			characterSpacing.SetToTranslation(i * 1.0f - spacingX, spacingY, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
+		count++;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
