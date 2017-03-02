@@ -188,10 +188,27 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//==================================
 		else
 		{
-			position.x = position.x - (right.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z - (right.z * velocity);
-			target.z = position.z + (view.z * velocity);
+			if (boundsCheck(newPos) == 1)
+			{
+				position.x = position.x - (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (boundsCheck(newPos) == 2)
+			{
+				position.z = position.z - (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else if (boundsCheck(newPos) == 3)
+			{
+				position.x = position.x - (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z - (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{
+				position = position;
+			}
 		}
 	}
 	if (Application::IsKeyPressed('D'))
@@ -240,10 +257,27 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//==================================
 		else
 		{
-			position.x = position.x + (right.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z + (right.z * velocity);
-			target.z = position.z + (view.z * velocity);
+			if (boundsCheck(newPos) == 1)
+			{
+				position.x = position.x + (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (boundsCheck(newPos) == 2)
+			{
+				position.z = position.z + (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else if (boundsCheck(newPos) == 3)
+			{
+				position.x = position.x + (right.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z + (right.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{
+				position = position;
+			}
 		}
 	}
 	if (Application::IsKeyPressed('W'))
@@ -292,10 +326,27 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//==================================
 		else
 		{
-			position.x = position.x + (view.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z + (view.z * velocity);
-			target.z = position.z + (view.z * velocity);
+			if (boundsCheck(newPos) == 1)
+			{
+				position.x = position.x + (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (boundsCheck(newPos) == 2)
+			{
+				position.z = position.z + (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else if (boundsCheck(newPos) == 3)
+			{
+				position.x = position.x + (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z + (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{
+				position = position;
+			}
 		}
 	}
 	if (Application::IsKeyPressed('S'))
@@ -344,27 +395,29 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//==================================
 		else
 		{
-			position.x = position.x - (view.x * velocity);
-			target.x = position.x + (view.x * velocity);
-			position.z = position.z - (view.z * velocity);
-			target.z = position.z + (view.z * velocity);
+			if (boundsCheck(newPos) == 1)
+			{
+				position.x = position.x - (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+			}
+			else if (boundsCheck(newPos) == 2)
+			{
+				position.z = position.z - (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else if (boundsCheck(newPos) == 3)
+			{
+				position.x = position.x - (view.x * velocity);
+				target.x = position.x + (view.x * velocity);
+				position.z = position.z - (view.z * velocity);
+				target.z = position.z + (view.z * velocity);
+			}
+			else
+			{
+				position = position;
+			}
 		}
 	}
-
-	//if (enemyPos.size() != 0)
-	//{
-	//	for (int i = 0; i < enemyPos.size(); i++)
-	//	{
-	//		hitNoti(enemyPos[i]);
-	//	}
-	//}
-	//else
-	//{
-	//	for (int i = 0; i < 4; i++)
-	//	{
-	//		sideNoti[i] = 0;
-	//	}
-	//}
 
 	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
 	camYaw.SetToRotation(rotateHori, 0, 1, 0);
@@ -381,16 +434,6 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 	*horizontal = horizontalAngle;
 	verticalAngle = Math::DegreeToRadian(verticalAngle);
 	horizontalAngle = Math::DegreeToRadian(horizontalAngle);
-
-	if (Application::IsKeyPressed('M'))
-	{
-		Vector3 view = (target - position).Normalized();
-		position -= view * (float)(30.f * dt);
-	}
-	if (Application::IsKeyPressed('L'))
-	{
-		Reset();
-	}
 }
 
 int ShootingCamera::slideAABBobject(AABB charAABB, AABB buildingAABB)
@@ -438,4 +481,22 @@ void ShootingCamera::hitNoti(Vector3 enemy)
 	if (collideEnemies(newPosS, enemy))
 		sideNoti[3] = 4;
 
+}
+
+int ShootingCamera::boundsCheck(Vector3 NewPos)
+{
+	if ((NewPos.x <= 490) && (NewPos.x >= -490) && ((NewPos.z > 490) || NewPos.z < -490))
+	{
+		return 1;
+	}
+	else if ((NewPos.z <= 490) && (NewPos.z >= -490) && ((NewPos.x > 490) || NewPos.x < -490))
+	{
+		return 2;
+	}
+	else if ((NewPos.x <= 490) && (NewPos.x >= -490) && (NewPos.z <= 490) && (NewPos.z >= -490))
+	{
+		return 3;
+	}
+	else
+		return 0;
 }

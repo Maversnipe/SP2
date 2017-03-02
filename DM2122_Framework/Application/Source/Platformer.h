@@ -40,6 +40,7 @@ public:
 
 		PAUSE_SCREEN,
 		PAUSE2_SCREEN,
+		PAUSE3_SCREEN,
 		ABILITY_SELECT_MENU,
 		GAMEOVER_SCREEN,
 		GAMEOVER2_SCREEN,
@@ -57,14 +58,11 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 		GEO_GROUND,
-<<<<<<< HEAD
 
-=======
 		GEO_LOAD1,
 		GEO_LOAD2,
 		GEO_LOAD3,
 		GEO_LOAD4,
->>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd
 		NUM_GEOMETRY,
 	};
 
@@ -135,7 +133,9 @@ private:
 	void RenderSkybox();
 		// Pause
 		void RenderPause();
-		int pauseSelect = 0;
+		int pauseSelect = 1;
+		bool quitGame = false;
+		double pause_bounce_time = 0.0;
 
 	//======================Time======================
 	double elapsed_time = 0.0;

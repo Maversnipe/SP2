@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 d:\git_root\sp2\dm2122_framework\common\debug\vc120.pdb
 d:\git_root\sp2\dm2122_framework\common\debug\vc120.idb
 d:\git_root\sp2\dm2122_framework\common\debug\matrixstack.obj
@@ -12,18 +11,3 @@ d:\git_root\sp2\dm2122_framework\common\debug\common.tlog\cl.write.1.tlog
 d:\git_root\sp2\dm2122_framework\common\debug\common.tlog\lib-link.read.1.tlog
 d:\git_root\sp2\dm2122_framework\common\debug\common.tlog\lib-link.write.1.tlog
 d:\git_root\sp2\dm2122_framework\common\debug\common.tlog\lib.command.1.tlog
-=======
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\vc120.pdb
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\vc120.idb
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\matrixstack.obj
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\mtx44.obj
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\timer.obj
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\vector3.obj
-c:\users\jean\documents\sp2\dm2122_framework\debug\common.lib
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\common.tlog\cl.command.1.tlog
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\common.tlog\cl.read.1.tlog
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\common.tlog\cl.write.1.tlog
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\common.tlog\lib-link.read.1.tlog
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\common.tlog\lib-link.write.1.tlog
-c:\users\jean\documents\sp2\dm2122_framework\common\debug\common.tlog\lib.command.1.tlog
->>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd

@@ -26,6 +26,7 @@ public:
 	virtual void Update(double dt, float*,int&);
 	virtual void Reset();
 
+	int boundsCheck(Vector3);
 	bool collision = false;
 	float mouseY = 0;
 	float mouseX = 0;

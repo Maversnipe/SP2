@@ -154,22 +154,27 @@ void Platformer::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
-<<<<<<< HEAD
-	meshList[GEO_LOAD1_SCREEN] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LOAD1_SCREEN]->textureID = LoadTGA("Image//loading1.tga");
-=======
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
 	
 	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
->>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd
 
 	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
 
 	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
+
+	meshList[PAUSE_SCREEN] = MeshBuilder::GenerateQuad("pause", Color(1, 1, 1), 1, 1);
+	meshList[PAUSE_SCREEN]->textureID = LoadTGA("Image//pause.tga");
+
+	meshList[PAUSE2_SCREEN] = MeshBuilder::GenerateQuad("pauseResume", Color(1, 1, 1), 1, 1);
+	meshList[PAUSE2_SCREEN]->textureID = LoadTGA("Image//pauseResume.tga");
+
+	meshList[PAUSE3_SCREEN] = MeshBuilder::GenerateQuad("pauseQuit", Color(1, 1, 1), 1, 1);
+	meshList[PAUSE3_SCREEN]->textureID = LoadTGA("Image//pauseQuit.tga");
+
 	setPlatforms();
 
 	Mtx44 projection;
@@ -235,8 +240,32 @@ void Platformer::Update(double dt)
 
 		// Notifies player about how many treasure needs to be collected
 		treasureCollected = std::to_string(camera.numPickedUp) + "/" + std::to_string(numOfTreasureSet) + " TREASURE COLLECTED";
+		Render();
 		break;
+
 	case PAUSE:
+		if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > pause_bounce_time)) // Down
+		{
+			if (pauseSelect == 1)
+			{
+				pauseSelect++;
+			}
+			pause_bounce_time = elapsed_time + 0.2;
+		}
+		if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > pause_bounce_time))// Up
+		{
+			if (pauseSelect == 2)
+			{
+				pauseSelect--;
+			}
+			pause_bounce_time = elapsed_time + 0.2;
+		}
+		if (pauseSelect == 1 && (Application::IsKeyPressed(VK_RETURN)))
+			game_state = GAME;
+		else if (pauseSelect == 2 && (Application::IsKeyPressed(VK_RETURN)))
+		{
+			changeScene = 1;
+		}
 		break;
 	case GAMEOVER:
 		break;
@@ -288,8 +317,6 @@ void Platformer::Render()
 
 	if (changeScene != 0)
 		RenderMeshOnScreen(meshList[GEO_LOAD1_SCREEN], 40, 20, 80, 80);//No transform needed
-
-
 	else if (playLoading)
 	{
 		if ((load_time >= 0) && (load_time <= 2))
@@ -317,6 +344,9 @@ void Platformer::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+		
+		if (game_state == PAUSE)
+			RenderPause();
 	}
 	
 }
@@ -796,5 +826,16 @@ void Platformer::pickUpTreasure()
 
 void Platformer::RenderPause()
 {
-
+	if (pauseSelect == 0)
+	{
+		RenderMeshOnScreen(meshList[PAUSE_SCREEN], 40, 20, 80, 80);
+	}
+	if (pauseSelect == 1)
+	{
+		RenderMeshOnScreen(meshList[PAUSE2_SCREEN], 40, 20, 80, 80);
+	}		
+	if (pauseSelect == 2)
+	{
+		RenderMeshOnScreen(meshList[PAUSE3_SCREEN], 40, 20, 80, 80);
+	}
 }
