@@ -16,13 +16,14 @@ public:
 	Vector3 defaultUp;
 	Vector3 view;
 	Vector3 right;
+	Vector3 carView;
 	std::vector <Vector3> ObjPos;
 	//Car car;
 
 	Camera4();
 	~Camera4();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, float*,float&);
+	virtual void Update(double dt, float*,int&);
 	virtual void Reset();
 
 	bool collision = false;

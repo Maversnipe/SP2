@@ -129,6 +129,8 @@ void Driving::Init()
 	}
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 0, 0), 1, 1);
+	meshList[GEO_HEALTHBAR] = MeshBuilder::GenerateQuad("healthbar", Color(1, 0, 0), 1, 1);
+	meshList[GEO_FUELBAR] = MeshBuilder::GenerateQuad("fuelbar", Color(0, 0, 0), 1, 1);
 	//meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
@@ -188,14 +190,7 @@ void Driving::Init()
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
 
-	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
 
-	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
-
-	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
-	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -241,12 +236,6 @@ void Driving::Init()
 
 void Driving::Update(double dt)
 {
-	if (playLoading)
-	{
-		load_time += dt;
-		if (load_time >= 5)
-			playLoading = false;
-	}
 
 	//car.carposition.y = 0;
 	//Camera4.position/*.Set(Camera4.position.x + car.move.x, 5, Camera4.position.z + car.move.z)*/ = car.carposition;
@@ -502,7 +491,7 @@ void Driving::Update(double dt)
 	{
 		changeScene = 3;
 	}
-	cout << car.health << "            " << car.fuel << endl;
+	cout << car.health << "            " << car.fuel << "            " << Camera4.CAR_SPEED << endl;
 }
 
 void Driving::Render()
@@ -533,7 +522,7 @@ void Driving::Render()
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
-		(Camera4.position.x - (Camera4.view.x  * 5)), (Camera4.position.y), (Camera4.position.z - (Camera4.view.z * 5)),
+		(Camera4.position.x - (Camera4.view.x * 5)), (Camera4.position.y), (Camera4.position.z - (Camera4.view.z * 5)),
 		Camera4.target.x, Camera4.target.y, Camera4.target.z,
 		Camera4.up.x, Camera4.up.y, Camera4.up.z);
 	modelStack.LoadIdentity();
@@ -544,18 +533,6 @@ void Driving::Render()
 	//---------------------------------------------------------------
 	if (changeScene != 0)
 		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
-	
-
-	else if (playLoading)
-	{
-		if ((load_time >= 0) && (load_time <= 2))
-			RenderMeshOnScreen(meshList[GEO_LOAD2], 40, 20, 80, 80);//No transform needed
-		else if ((load_time >= 2) && (load_time <= 3.5))
-			RenderMeshOnScreen(meshList[GEO_LOAD3], 40, 20, 80, 80);//No transform needed
-		else if ((load_time >= 3.5) && (load_time <= 5))
-			RenderMeshOnScreen(meshList[GEO_LOAD4], 40, 20, 80, 80);//No transform needed
-	}
-
 	else
 	{
 		RenderMesh(meshList[GEO_AXES], false);
@@ -631,11 +608,17 @@ void Driving::Render()
 		RenderMesh(meshList[GEO_CAR], true);
 		modelStack.PopMatrix();
 		RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
-		RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((100 - (int)car.health) / 20)), 57, ((int)car.health / 10), 2);//No transform needed
-		RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 0, 0), 2, 0.5, 28.5);
+		for (int i = 0; i <= car.health; i++)
+		{
+			RenderMeshOnScreen(meshList[GEO_HEALTHBAR], 14 + (i/10), 57, 1, 2);//No transform needed
+		}
+		RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 1, 1), 2, 0.5, 28.5);
 
-		RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((10000 - (int)car.fuel) / 2000)), 55, ((int)car.fuel / 1000), 2);//No transform needed
-		RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 0, 0), 2, 0.5, 27.5);
+		for (int i = 0; i < (car.fuel+1000)/100; i++)
+		{
+			RenderMeshOnScreen(meshList[GEO_FUELBAR], 14 + (i / 10), 54, 1, 2);//No transform needed
+		}
+		RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 1, 1), 2, 0.5, 27);
 		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
 		RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
 	}
@@ -783,10 +766,6 @@ void Driving::RenderMeshOnScreen(Mesh* mesh, int x, int y, int
 
 void Driving::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	float spacingX = 1.0f;
-	float spacingY = 0.f;
-	int count = 0;
-
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
@@ -813,21 +792,11 @@ void Driving::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		if (text[i] == '@')
-		{
-			spacingX += 1.0f * count;
-			spacingY -= 1.0f;
-			text[i] = ' ';
-			count = 0;
-		}
-
-		else
-			characterSpacing.SetToTranslation(i * 1.0f - spacingX, spacingY, 0); //1.0f is the spacing of each character, you may change this value
+		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
-		count++;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);

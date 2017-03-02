@@ -26,7 +26,7 @@ void Camera4::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	defaultUp.Set(0, 1, 0);
 }
 
-void Camera4::Update(double dt, float* rotate,float& fuel)
+void Camera4::Update(double dt, float* rotate,int& fuel)
 {
 	view = (target - position).Normalized();
 	right = view.Cross(up);
@@ -84,14 +84,8 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 		}
 		if (Application::IsKeyPressed('W'))
 		{
-			if (CAR_SPEED < 75.0f)
-			{
-				CAR_SPEED += 0.4f;
-			}
-			else
-			{
-				CAR_SPEED = 75.0f;
-			}
+
+
 			view.y = 0;
 			for (int i = 0; i < ObjPos.size(); i++)
 			{
@@ -108,6 +102,14 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 			}
 			if (collision == false)
 			{
+				if (CAR_SPEED < 50.0f)
+				{
+					CAR_SPEED += 0.4f;
+				}
+				else
+				{
+					CAR_SPEED = 50.0f;
+				}
 				position = position + (view*dt * CAR_SPEED);
 				target = position + view;
 				fuel = fuel - 1;
@@ -115,13 +117,13 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 		}
 		if (Application::IsKeyPressed('S'))
 		{
-			if (CAR_SPEED > -50.0f)
+			if (CAR_SPEED > -30.0f)
 			{
-				CAR_SPEED -= 0.8f;
+				CAR_SPEED -= 0.2f;
 			}
 			else
 			{
-				CAR_SPEED = -50.0f;
+				CAR_SPEED = -30.0f;
 			}
 			view.y = 0;
 			for (int i = 0; i < ObjPos.size(); i++)
@@ -144,14 +146,71 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 				fuel = fuel - 1;
 			}
 		}
-		if (Application::IsKeyPressed('S') != true && Application::IsKeyPressed('W') != true)
+		if (Application::IsKeyPressed(VK_SPACE))
 		{
-			if (CAR_SPEED > 0)
+			if (CAR_SPEED > -1 && CAR_SPEED < 1 && CAR_SPEED != 0)
+			{
+				CAR_SPEED -= 0.01;
+			}
+			else if (CAR_SPEED > 0)
+			{
+				CAR_SPEED -= 1.0f;
+				for (int i = 0; i < ObjPos.size(); i++)
+				{
+					if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+					{
+						collision = false;
+					}
+					else
+					{
+						collision = true;
+						CAR_SPEED = 0;
+						break;
+					}
+				}
+				if (collision == false)
+				{
+					position = position + (view*dt * CAR_SPEED);
+					target = position + view;
+					fuel = fuel - 1;
+				}
+			}
+			else if (CAR_SPEED < 0)
+			{
+				CAR_SPEED += 1.0;
+				for (int i = 0; i < ObjPos.size(); i++)
+				{
+					if (((position - (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+					{
+						collision = false;
+					}
+					else
+					{
+						collision = true;
+						CAR_SPEED = 0;
+						break;
+					}
+				}
+				if (collision == false)
+				{
+					position = position + (view*dt * CAR_SPEED);
+					target = position + view;
+					fuel = fuel - 1;
+				}
+			}
+		}
+		if (Application::IsKeyPressed('S') != true && Application::IsKeyPressed('W') != true && Application::IsKeyPressed(VK_SPACE) != true)
+		{
+			if (CAR_SPEED > -0.1 && CAR_SPEED < 0.1)
+			{
+				CAR_SPEED = 0;
+			}
+			else if (CAR_SPEED > 0)
 			{
 				CAR_SPEED -= 0.2f;
 				for (int i = 0; i < ObjPos.size(); i++)
 				{
-					if (((position + view) - ObjPos[i]).Length()>1.5)
+					if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}
@@ -174,7 +233,7 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 				CAR_SPEED += 0.2f;
 				for (int i = 0; i < ObjPos.size(); i++)
 				{
-					if (((position - view) - ObjPos[i]).Length()>1.5)
+					if (((position - (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}
@@ -199,7 +258,18 @@ void Camera4::Update(double dt, float* rotate,float& fuel)
 	{
 		fuel = 0;
 	}
-	
+	if (CAR_SPEED < 0)
+	{
+		carView = view *dt* (30 + (-CAR_SPEED));
+	}
+	else if (CAR_SPEED > 0)
+	{
+		carView = view*dt*(30 + CAR_SPEED);
+	}
+	else if (CAR_SPEED == 0)
+	{
+		carView = view*dt* 30;
+	}
 }
 
 void Camera4::Reset()
