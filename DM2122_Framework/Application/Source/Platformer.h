@@ -165,7 +165,7 @@ private:
 	std::string treasureCollected = "";
 
 	//===Loading screen===
-	float load_time = 0;
+	double load_time = 0;
 	bool playLoading = true;
 
 	float x = 0.0;

@@ -369,7 +369,7 @@ void Platformer::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], treasureCollected, Color(1, 0, 0), 3, 0.5, 19.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 1.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 1.5, 1.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 1.5, 0.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 1.5, 0.5);k
 		
 		if (game_state == PAUSE)
 			RenderPause();
@@ -513,8 +513,8 @@ void Platformer::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int siz
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
-	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Translate((float)x, (float)y, 0);
+	modelStack.Scale((float)sizex, (float)sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
@@ -611,9 +611,9 @@ void Platformer::setPlatforms()
 		mapData[4][mapHeight][startPoint] = 7;
 	Platforms first;
 	first.type = 4;
-	first.pos.Set(-480, mapHeight * 5, 0);
-	first.platformAABB.SaveCoord(Vector3(first.pos.x - 10, (float)first.pos.y - 2.5, first.pos.z - 10),
-		Vector3(first.pos.x + 10, (float)first.pos.y + 2.5, first.pos.z + 10));
+	first.pos.Set(-480.f, (float)(mapHeight * 5), 0.f);
+	first.platformAABB.SaveCoord(Vector3(first.pos.x - 10, first.pos.y - (float)2.5, first.pos.z - 10),
+		Vector3(first.pos.x + 10, first.pos.y + (float)2.5, first.pos.z + 10));
 	platformID[5].push_back(first);
 	
 	bool placeTreasure = false;
@@ -673,21 +673,21 @@ void Platformer::setPlatforms()
 				switch (platformType)
 				{
 				case 1:
-					platformCreated.pos.Set(((((float)mapPos) + 0.5) * 10) - 500, mapHeight * 5, mapZpos * 50 - 125);
-					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
-						Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
+					platformCreated.pos.Set(((((float)(mapPos)+(float)0.5) * 10) - 500), (float)(mapHeight * 5), (float)(mapZpos * 50 - 125));
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, platformCreated.pos.y - (float)2.5, platformCreated.pos.z - 10),
+						Vector3(platformCreated.pos.x + 5.f, platformCreated.pos.y + (float)2.5, platformCreated.pos.z + 10.f));
 					platformID[0].push_back(platformCreated);
 					break;
 				case 2:
-					platformCreated.pos.Set(((((float)mapPos - 1) + 1) * 10) - 500, mapHeight * 5, mapZpos * 50 - 125);
-					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 10),
-						Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 10));
+					platformCreated.pos.Set((((float)((mapPos - 1) + 1) * 10) - 500), (float)(mapHeight * 5), (float)(mapZpos * 50 - 125));
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, platformCreated.pos.y - (float)2.5, platformCreated.pos.z - 10),
+						Vector3(platformCreated.pos.x + 5.f, platformCreated.pos.y + (float)2.5, platformCreated.pos.z + 10.f));
 					platformID[1].push_back(platformCreated);
 					break;
 				case 3:
-					platformCreated.pos.Set(((((float)mapPos - 2) + 1.5) * 10) - 500, mapHeight * 5, mapZpos * 50 - 125);
-					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 15),
-						Vector3(platformCreated.pos.x + 5, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 15));
+					platformCreated.pos.Set((((float)((mapPos - 2) + 1.5f) * 10) - 500), (float)(mapHeight * 5), (float)(mapZpos * 50 - 125));
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 5, platformCreated.pos.y - (float)2.5, platformCreated.pos.z - 15),
+						Vector3(platformCreated.pos.x + 5, platformCreated.pos.y + (float)2.5, platformCreated.pos.z + 15));
 					platformID[2].push_back(platformCreated);
 					break;
 				case 4:
@@ -697,17 +697,17 @@ void Platformer::setPlatforms()
 						{
 							PlatformerTreasure setTreasure;
 							setTreasure.pickedUp = false;
-							setTreasure.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5 + 5, mapZpos * 50 - 125);
-							setTreasure.treasureAABB.SaveCoord(Vector3((float)setTreasure.pos.x - 2.5, setTreasure.pos.y - 2.5, setTreasure.pos.z - 2.5),
-								Vector3((float)setTreasure.pos.x + 2.5, setTreasure.pos.y + 2.5, setTreasure.pos.z + 2.5));
+							setTreasure.pos.Set((((float)((mapPos - 4) + 2.5f) * 10) - 500), (float)(mapHeight * 5 + 5), (float)(mapZpos * 50 - 125));
+							setTreasure.treasureAABB.SaveCoord(Vector3(setTreasure.pos.x - (float)2.5, setTreasure.pos.y - 2.5f, setTreasure.pos.z - 2.5f),
+								Vector3((float)setTreasure.pos.x + 2.5f, setTreasure.pos.y + (float)2.5, setTreasure.pos.z + 2.5f));
 							treasure.push_back(setTreasure);
 							numOfTreasureSet++;
 							placeTreasure = false;
 						}
 					}
-					platformCreated.pos.Set(((((float)mapPos - 3) + 2) * 10) - 500, mapHeight * 5, mapZpos * 50 - 125);
-					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 10, (float)platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
-						Vector3(platformCreated.pos.x + 10, (float)platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
+					platformCreated.pos.Set(((((float)(mapPos - 3) + 2) * 10) - 500), (float)(mapHeight * 5), (float)(mapZpos * 50 - 125));
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 10.f, (float)platformCreated.pos.y - 2.5f, platformCreated.pos.z - 20.f),
+						Vector3(platformCreated.pos.x + 10.f, (float)platformCreated.pos.y + 2.5f, platformCreated.pos.z + 20.f));
 					platformID[3].push_back(platformCreated);
 					break;
 				case 5:
@@ -717,17 +717,17 @@ void Platformer::setPlatforms()
 						{
 							PlatformerTreasure setTreasure;
 							setTreasure.pickedUp = false;
-							setTreasure.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5 + 5, mapZpos * 50 - 125);
-							setTreasure.treasureAABB.SaveCoord(Vector3((float)setTreasure.pos.x - 2.5, setTreasure.pos.y - 2.5, setTreasure.pos.z - 2.5),
-								Vector3((float)setTreasure.pos.x + 2.5, setTreasure.pos.y + 2.5, setTreasure.pos.z + 2.5));
+							setTreasure.pos.Set(((((float)(mapPos - 4) + 2.5f) * 10) - 500), (float)(mapHeight * 5 + 5), (float)(mapZpos * 50 - 125));
+							setTreasure.treasureAABB.SaveCoord(Vector3(setTreasure.pos.x - 2.5f, setTreasure.pos.y - 2.5f, setTreasure.pos.z - 2.5f),
+								Vector3(setTreasure.pos.x + 2.5f, setTreasure.pos.y + 2.5f, setTreasure.pos.z + 2.5f));
 							treasure.push_back(setTreasure);
 							numOfTreasureSet++;
 							placeTreasure = false;
 						}
 					}
-					platformCreated.pos.Set(((((float)mapPos - 4) + 2.5) * 10) - 500, mapHeight * 5, mapZpos * 50 - 125);
-					platformCreated.platformAABB.SaveCoord(Vector3((float)platformCreated.pos.x - 12.5, platformCreated.pos.y - 2.5, platformCreated.pos.z - 20),
-						Vector3((float)platformCreated.pos.x + 12.5, platformCreated.pos.y + 2.5, platformCreated.pos.z + 20));
+					platformCreated.pos.Set(((((float)mapPos - 4) + 2.5f) * 10) - 500, mapHeight * 5, mapZpos * 50 - 125);
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 12.5f, platformCreated.pos.y - 2.5f, platformCreated.pos.z - 20),
+						Vector3(platformCreated.pos.x + 12.5f, platformCreated.pos.y + 2.5f, platformCreated.pos.z + 20));
 					platformID[4].push_back(platformCreated);
 					break;
 				}
@@ -754,8 +754,8 @@ void Platformer::setPlatforms()
 	Platforms last;
 	last.type = 4;
 	last.pos.Set(480, mapHeight * 5, 0);
-	last.platformAABB.SaveCoord(Vector3(last.pos.x - 10, (float)last.pos.y - 2.5, last.pos.z - 10),
-		Vector3(last.pos.x + 10, (float)last.pos.y + 2.5, last.pos.z + 10));
+	last.platformAABB.SaveCoord(Vector3(last.pos.x - 10, (float)last.pos.y - 2.5f, last.pos.z - 10),
+		Vector3(last.pos.x + 10, (float)last.pos.y + 2.5f, last.pos.z + 10));
 	platformID[5].push_back(last);
 }	
 
@@ -771,7 +771,7 @@ void Platformer::RenderPlatforms()
 				{
 				case 1:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 0.5) * 10) - 500, height * 5, width * 50 - 125);
+					modelStack.Translate(((((float)length) + 0.5f) * 10) - 500, height * 5, width * 50 - 125);
 					modelStack.Scale(10, 5, 10);
 					RenderMesh(meshList[ONE_BLOCK], false);
 					modelStack.PopMatrix();
@@ -787,7 +787,7 @@ void Platformer::RenderPlatforms()
 					break;
 				case 3:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 1.5) * 10) - 500, height * 5, width * 50 - 125);
+					modelStack.Translate(((((float)length) + 1.5f) * 10) - 500, height * 5, width * 50 - 125);
 					modelStack.Rotate(90, 0, 1, 0);
 					modelStack.Scale(10, 5, 5);
 					RenderMesh(meshList[THREE_BLOCK], false);
@@ -805,7 +805,7 @@ void Platformer::RenderPlatforms()
 					break;
 				case 5:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 2.5) * 10) - 500, height * 5, width * 50 - 125);
+					modelStack.Translate(((((float)length) + 2.5f) * 10) - 500, height * 5, width * 50 - 125);
 					modelStack.Scale(5, 5, 10);
 					RenderMesh(meshList[FIVE_BLOCK], false);
 					modelStack.PopMatrix();
@@ -829,7 +829,7 @@ void Platformer::RenderPlatforms()
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate((*treasureNum).pos.x, (*treasureNum).pos.y, (*treasureNum).pos.z);
-			modelStack.Rotate(treasureRotate, 0, 1, 0);
+			modelStack.Rotate((float)treasureRotate, 0, 1, 0);
 			modelStack.Scale(5, 5, 5);
 			RenderMesh(meshList[TREASURE], false);
 			modelStack.PopMatrix();
