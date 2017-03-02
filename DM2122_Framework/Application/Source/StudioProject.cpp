@@ -157,6 +157,9 @@ void StudioProject::Init()
 
 	meshList[GEO_CAROBOTTOM] = MeshBuilder::GenerateOBJ("carobottom", "OBJ//MainScene//CaroBase.obj");
 	meshList[GEO_CAROBOTTOM]->textureID = LoadTGA("Image//MainScene//Caro.tga");
+
+	meshList[GEO_FENCE] = MeshBuilder::GenerateOBJ("fence", "OBJ//MainScene//fence.obj");
+	meshList[GEO_FENCE]->textureID = LoadTGA("Image//MainScene//fence.tga");
 	//=======================================ROCK===========================================
 	meshList[GEO_ROCKS] = MeshBuilder::GenerateQuad("rock", Color(1, 1, 1), 1, 1);
 	meshList[GEO_ROCKS]->textureID = LoadTGA("Image//starRocks.tga");
@@ -398,6 +401,34 @@ void StudioProject::Render()
 		modelStack.Scale(1000, 1000, 1000);
 		RenderMesh(meshList[GEO_GROUND], true);
 		modelStack.PopMatrix();
+		//===FENCE===
+		modelStack.PushMatrix();
+		modelStack.Translate(-480, -2, 0);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_FENCE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(480, -2, 0);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_FENCE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, -2, -480);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_FENCE], true);
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		modelStack.Translate(0, -2, 480);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Scale(5, 5, 5);
+		RenderMesh(meshList[GEO_FENCE], true);
+		modelStack.PopMatrix();
+
+		//===BUILDINGS===
 
 		modelStack.PushMatrix();
 		modelStack.Translate(building[0].x, building[0].y, building[0].z);
@@ -423,6 +454,7 @@ void StudioProject::Render()
 		RenderMesh(meshList[GEO_BUILDING4], true);
 		modelStack.PopMatrix();
 
+		//====CAROUSELL====
 		modelStack.PushMatrix();
 		modelStack.Translate(building[3].x, building[3].y, building[3].z);
 

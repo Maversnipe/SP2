@@ -49,6 +49,7 @@ public:
 		GEO_GROUND,
 		GEO_ROCKS,
 		GEO_LOAD1,
+		GEO_FENCE,
 		NUM_GEOMETRY,
 	};
 
@@ -127,6 +128,8 @@ private:
 	float flash_money_time = 0.0;
 	bool noMoney = false;
 	bool displayMoney = false;
+	float load_time = 0; 
+	bool load = false;
 
 	float x = 0.0;
 	float y = 0.0;
