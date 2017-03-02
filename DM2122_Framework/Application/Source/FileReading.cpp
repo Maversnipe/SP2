@@ -66,6 +66,15 @@ void FileReading::readFiles()
 				words[i].push_back('\n');
 			}
 		}
+		else if (i == 4)
+		{
+			std::ifstream file("Text File//Abilities.txt");
+			while (std::getline(file, text))
+			{
+				words[i] += text;
+				words[i].push_back('\n');
+			}
+		}
 
 	}
 
