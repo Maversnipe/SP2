@@ -235,7 +235,7 @@ void Shooting::Init()
 	meshList[PAUSE3_SCREEN]->textureID = LoadTGA("Image//pauseQuit.tga");
 
 	meshList[GAME_OVER] = MeshBuilder::GenerateQuad("gameover", Color(1, 1, 1), 1, 1);
-	meshList[GAME_OVER]->textureID = LoadTGA("Image//GameOver.tga");
+	meshList[GAME_OVER]->textureID = LoadTGA("Image//GameOver1.tga");
 
 	meshList[GAME_OVER2] = MeshBuilder::GenerateQuad("gameover1", Color(1, 1, 1), 1, 1);
 	meshList[GAME_OVER2]->textureID = LoadTGA("Image//GameOver2.tga");

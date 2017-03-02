@@ -521,10 +521,7 @@ void PlatformerCamera::jumping(double dt)
 		playerOriginalHeight = position.y;
 		fallingVelocity = -30;
 		onGround = false;
-		if (!jumpHigherAbility)
-			gravity = 29.4;
-		else
-			gravity = 19.6;
+		gravity = 29.4;
 	}
 	else if (Application::IsKeyPressed(VK_SPACE) && doubleJumpAbility && !doubleJump && !jump && !onGround && landed)
 	{

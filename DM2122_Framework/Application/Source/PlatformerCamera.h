@@ -69,9 +69,8 @@ public:
 	//======================Special Abilities======================
 		//(Checking if have special abilities)
 		// Only can have one special ability at a time
-		bool doubleJumpAbility = true;
+		bool doubleJumpAbility = false;
 		bool superSpeedAbility = false;
-		bool jumpHigherAbility = false;
 
 	//=====================COLLISION===================================
 		int slideAABBobject(AABB, AABB);

@@ -8,6 +8,7 @@
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "FileReading.h"
+#include "Money.h"
 
 Platformer::Platformer()
 {
@@ -177,7 +178,7 @@ void Platformer::Init()
 	meshList[PAUSE3_SCREEN]->textureID = LoadTGA("Image//pauseQuit.tga");
 
 	meshList[GAME_OVER] = MeshBuilder::GenerateQuad("gameover", Color(1, 1, 1), 1, 1);
-	meshList[GAME_OVER]->textureID = LoadTGA("Image//GameOver.tga");
+	meshList[GAME_OVER]->textureID = LoadTGA("Image//GameOver1.tga");
 
 	meshList[GAME_OVER2] = MeshBuilder::GenerateQuad("gameover1", Color(1, 1, 1), 1, 1);
 	meshList[GAME_OVER2]->textureID = LoadTGA("Image//GameOver2.tga");
@@ -192,7 +193,7 @@ void Platformer::Init()
 	projectionStack.LoadMatrix(projection);
 
 	changeScene = 0;
-	game_state = GAME;
+	game_state = ABILITY_SELECT;
 }
 
 void Platformer::Update(double dt)
@@ -205,22 +206,6 @@ void Platformer::Update(double dt)
 	}
 
 	elapsed_time += dt;
-
-	x = camera.position.x;
-	y = camera.position.y;
-	z = camera.position.z;
-	X = "X: " + std::to_string(x);
-	Y = "Y: " + std::to_string(y);
-	Z = "Z: " + std::to_string(z);
-
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	else if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
 	switch (game_state)
 	{
@@ -242,7 +227,7 @@ void Platformer::Update(double dt)
 		if (allCollected)
 		{
 			if ((camera.position - platformID[5].at(1).pos).Length() < 10)
-				game_state = GAME_END;
+				game_state = GAMEOVER;
 		}
 
 		//============Rotate the treasure=======================
@@ -301,9 +286,21 @@ void Platformer::Update(double dt)
 		else if (gameoverSelect == 2 && (Application::IsKeyPressed(VK_RETURN)))
 			changeScene = 1;
 		break;
-	case GAME_END:
-		break;
 	case ABILITY_SELECT:
+		if (Application::IsKeyPressed('1'))
+		{
+			camera.doubleJumpAbility = true;
+			Money::getInstance()->deductMoney(5);
+			game_state = GAME;
+		}
+		else if (Application::IsKeyPressed('2'))
+		{
+			camera.superSpeedAbility = true;
+			Money::getInstance()->deductMoney(5);
+			game_state = GAME;
+		}
+		else if (Application::IsKeyPressed('0'))
+			game_state = GAME;
 		break;
 	}
 	
@@ -360,18 +357,16 @@ void Platformer::Render()
 	}
 	else
 	{
-		RenderMesh(meshList[GEO_AXES], false);
-
 		modelStack.PushMatrix();
 		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
 		RenderMesh(meshList[GEO_LIGHTBALL], false);
 		modelStack.PopMatrix();
 
 		RenderSkybox();
-
+		if (game_state == GAME)
 		RenderPlatforms();
 
-		RenderTextOnScreen(meshList[GEO_TEXT], treasureCollected, Color(0, 0, 0), 3, 0.5, 19.5);
+		RenderTextOnScreen(meshList[GEO_TEXT], treasureCollected, Color(1, 0, 0), 3, 0.5, 19.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 1.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 1.5, 1.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 1.5, 0.5);
@@ -381,6 +376,9 @@ void Platformer::Render()
 
 		if (game_state == GAMEOVER)
 			RenderGameover();
+
+		if (game_state == ABILITY_SELECT)
+			RenderAbilitySelect();
 	}
 	
 }
@@ -894,6 +892,6 @@ void Platformer::RenderAbilitySelect()
 {
 	if (abilitySelect == 0)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(4), Color(0, 1, 1), 2, 6, 27);
+		RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(4), Color(0, 0, 0), 3, 4, 10);
 	}
 }
