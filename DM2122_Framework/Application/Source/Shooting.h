@@ -104,6 +104,7 @@ public:
 
 	enum SHOOTING_GAMESTATE
 	{
+		GAME_SELECT,
 		TUTORIAL,
 		GAME_START,
 		GAME_PAUSE,
@@ -148,6 +149,7 @@ private:
 	std::string framesPerSec = "";
 
 	//======Gamestates functions=====
+	void UpdateSelect(double);
 	void UpdateTutorial(double);
 	void UpdateGame(double);
 	void UpdateBullet(double);
@@ -221,6 +223,9 @@ private:
 	std::string X = "";
 	std::string Y = "";
 	std::string Z = "";
+
+	double xpos, ypos;
+	int width, height;
 };
 
 

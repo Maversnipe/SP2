@@ -60,6 +60,12 @@ public:
 		GEO_HEALTH,
 		GEO_ROCKS,
 		GEO_LOAD1,
+		GEO_PAUSE,
+		GEO_PAUSE1,
+		GEO_PAUSE2,
+		GEO_PAUSE3,
+		GEO_INSTRUCTION,
+		GEO_INSTRUCTION1,
 		NUM_GEOMETRY,
 	};
 
@@ -92,7 +98,13 @@ public:
 		U_TOTAL,
 
 	};
-
+	enum DRIVING_GAMESTATE
+	{
+		GAME_START,
+		GAME_PAUSE,
+		GAME_INSTRUCTION,
+		COUNT,
+	}game_state;
 
 
 	unsigned m_parameters[U_TOTAL];
@@ -125,6 +137,9 @@ private:
 	bool lightSwitch = false;
 
 	void RenderSkybox();
+	void gameUpdate(double);
+	void gamePause(double);
+	void gameInstruction(double);
 
 	float fps = 0.0;
 	std::string framesPerSec = "";
@@ -138,6 +153,9 @@ private:
 	float enemyRadius;
 	float ObjectRadius;
 	float enemyRotation[100] = {};
+	double xpos, ypos;
+	int width, height;
+	int pause_state = 0;
 
 	Vector3 dirVec;
 	Vector3 carVec;

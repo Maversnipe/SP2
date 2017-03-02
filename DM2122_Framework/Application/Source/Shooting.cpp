@@ -22,7 +22,7 @@ Shooting::~Shooting()
 
 void Shooting::Init()
 {
-
+	game_state = GAME_SELECT;
 	// Init VBO here
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f); // Set background color to dark blue
 
@@ -339,7 +339,6 @@ void Shooting::UpdateTutorial(double dt)
 				game_state = GAME_START; //Changing game state
 			}
 		}
-
 	}
 
 	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
@@ -636,9 +635,39 @@ void Shooting::UpdateTreasure(double dt)
 		playMoney = false; //Determining animation played will be health
 	}
 }
-
+void Shooting::UpdateSelect(double dt)
+{
+	glfwGetWindowSize(Application::m_window, &width, &height);
+	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
+	ShowCursor(true);
+	cout << xpos << "           " << ypos << endl;
+	if ((Application::IsKeyPressed(MK_LBUTTON))&& (xpos >  135.0f * (width / 800.0f) && xpos < (215.0f * (width / 800.0f)) && ypos > 420.0f * (height / 600.0f) && ypos <  440.0f * (height / 600.0f)))
+	{
+		tutorialStart = true;
+		game_state = TUTORIAL;
+		ShowCursor(false);
+	}
+	if ((Application::IsKeyPressed(MK_LBUTTON)) && (xpos >  585.0f * (width / 800.0f) && xpos < (635.0f * (width / 800.0f)) && ypos > 420.0f * (height / 600.0f) && ypos <  440.0f * (height / 600.0f)))
+	{
+		tutorialEnd = true;
+		pickUpGun = true;
+		openTreasure = true;
+		enemyTutDead = true;
+		srand(time(NULL));
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		ObjectPos[0].Set(i, -3, j);
+		game_state = GAME_START;
+		ShowCursor(false);
+	}
+}
 void Shooting::Update(double dt)
 {
+	if (game_state != GAME_SELECT)
+	{
+		Camera.Update(dt, &horizontalRotation, &verticalRotation);
+		elapsed_time += dt;
+	}
 //===============For loading screen===============
 	if (playLoading)
 	{
@@ -650,9 +679,9 @@ void Shooting::Update(double dt)
 	if (Application::IsKeyPressed(VK_BACK))
 		changeScene = 1;
 //===Pausing game to show tutorial option at the start====
-	if (tutorialEnd || tutorialStart) 
+	/*if (tutorialEnd || tutorialStart) 
 		Camera.Update(dt, &horizontalRotation, &verticalRotation);
-	elapsed_time += dt;
+	elapsed_time += dt;*/
 
 //============Playing tutorial option=================
 	if (!tutorialStart && !tutorialEnd)
@@ -681,10 +710,15 @@ void Shooting::Update(double dt)
 	switch (game_state)
 	{
 	case TUTORIAL:
+		ShowCursor(false);
 		UpdateTutorial(dt);
 		break;
 	case GAME_START:
+		ShowCursor(false);
 		UpdateGame(dt);
+		break;
+	case GAME_SELECT:
+		UpdateSelect(dt);
 		break;
 	}
 
@@ -999,8 +1033,13 @@ void Shooting::Render()
 		}
 
 		//===============================Tutorial==================================
-		if (!tutorialStart && !tutorialEnd)
-			RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);
+		if (game_state == GAME_SELECT)
+		{
+			if (!tutorialStart && !tutorialEnd)
+				RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], "YES", Color(1, 0, 0), 3, 5, 5.5);
+			RenderTextOnScreen(meshList[GEO_TEXT], "NO", Color(1, 0, 0), 3, 20, 5.5);
+		}
 		if (tutorialStart && !tutorialEnd)
 		{
 			if (!display1)
@@ -1017,6 +1056,8 @@ void Shooting::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
+
+		RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 3, 13.5, 10);
 	}
 }
 
@@ -1165,7 +1206,7 @@ void Shooting::RenderMeshOnScreen(Mesh* mesh, int x, int y, int
 
 void Shooting::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	float spacingX = 1.0f;
+	float spacingX = 0.0f;
 	float spacingY = 0.f;
 	int count = 0;
 

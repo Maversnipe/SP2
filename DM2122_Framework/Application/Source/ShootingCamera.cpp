@@ -13,6 +13,7 @@ ShootingCamera::ShootingCamera()
 	int mid_y = height / 2;
 
 	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
+	ShowCursor(false);
 }
 
 ShootingCamera::~ShootingCamera()
@@ -35,6 +36,7 @@ void ShootingCamera::Init(const Vector3& pos, const Vector3& target, const Vecto
 
 void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 {
+	ShowCursor(false);
 	if (!switchTreasure)
 		objectAABB.SaveCoord(Vector3(object.x - 10, 0, object.z - 3), Vector3(object.x + 10, 0, object.z + 3));
 	else
