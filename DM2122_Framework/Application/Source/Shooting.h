@@ -109,15 +109,14 @@ public:
 		GAME_PAUSE,
 		GAME_OVER,
 		COUNT,
-	};
+	}game_state;
 
 	unsigned m_parameters[U_TOTAL];
 
 	float rotateAngle;
 	float translateX;
 	float scaleAll;
-	bool dead = false;
-	int money = 0;
+
 
 	float horizontalRotation;
 	float verticalRotation;
@@ -140,6 +139,7 @@ private:
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int sizey);
 
+
 	bool lightSwitch = false;
 
 	void RenderSkybox();
@@ -147,7 +147,11 @@ private:
 	float fps = 0.0;
 	std::string framesPerSec = "";
 
-
+	//======Gamestates functions=====
+	void UpdateTutorial(double);
+	void UpdateGame(double);
+	void UpdateBullet(double);
+	void UpdateTreasure(double);
 	//============Enemies============
 	int enemySize = 70;
 	int objectSize;
@@ -197,14 +201,19 @@ private:
 	int health = 3;
 	float rotateTreasure = 0.f;
 	float bounce_time_treasure = 0.f;
+	float bounce_time_taken_treasure = 0.f;
 	bool treasureAnimation = false;
 	bool playMoney = false;
+	bool makeNewTreasure = false;
 	bool treasureTaken = false;
 	//===============================
 	float RandomNumber(float min, float max);
-	//===Loading screen===
+	//========Loading screen=========
 	float load_time = 0;
 	bool playLoading = true;
+	//========================
+	bool dead = false;
+	int money = 0;
 
 	float x = 0.0;
 	float y = 0.0;

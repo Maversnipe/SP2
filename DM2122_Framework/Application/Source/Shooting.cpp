@@ -250,42 +250,9 @@ void Shooting::Init()
 	changeScene = 0;
 }
 
-void Shooting::Update(double dt)
+void Shooting::UpdateTutorial(double dt)
 {
-	if (playLoading)
-	{
-		load_time += dt;
-		if (load_time >= 5)
-			playLoading = false;
-	}
-
-	if (Application::IsKeyPressed(VK_BACK))
-		changeScene = 1;
-	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
-		Camera.Update(dt, &horizontalRotation, &verticalRotation);
-	elapsed_time += dt;
-	//========Playing tutorial option========
-	if (!tutorialStart && !tutorialEnd)
-	{
-		if (Application::IsKeyPressed('9'))
-		{
-			tutorialStart = true;
-		}
-
-		else if (Application::IsKeyPressed('0'))
-		{
-			tutorialEnd = true;
-			pickUpGun = true;
-			disappearTable = true; 
-			openTreasure = true;
-			enemyTutDead = true;
-			srand(time(NULL));
-			float i = RandomNumber(-250, 250);
-			float j = RandomNumber(-250, 250);
-			ObjectPos[0].Set(i, -3, j);
-		}
-	}
-	//==========Tutorial Enemy movement========
+//==========================Tutorial Enemy movement=================
 	if (disappearTable)
 	{
 		if (!enemyTutDead)
@@ -302,14 +269,101 @@ void Shooting::Update(double dt)
 				{
 					enemyTutPos += dirVec * dt*enemySpeed;
 				}
-					
+
 			}
 		}
-		
+
 		else
 			enemyTutPos = enemyTutPos;
 	}
-	//==========Enemy movements==========
+//==============TUTORIAL CONDITIONS TO DISPALY TEXTS=======================
+	if (!tutorialEnd && tutorialStart)
+	{
+		if (!display1)
+		{
+			bounce_time_text_display += dt;
+			//Two conditions to trigger next text display
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0; //Resetting timer for next text display
+				display1 = true;
+			}
+			else if (pickUpGun)
+			{
+				bounce_time_text_display = 0; //Resetting timer for next text display
+				display1 = true;
+			}
+		}
+
+		else if (!display2 && pickUpGun)
+		{
+			bounce_time_text_display += dt;
+			//Two conditions to trigger next text display
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0; //Resetting timer for next text display
+				display2 = true;
+			}
+			else if (enemyTutDead)
+			{
+				bounce_time_text_display = 0; //Resetting timer for next text display
+				display2 = true;
+			}
+		}
+
+		else if (!display3 && enemyTutDead)
+		{
+			bounce_time_text_display += dt;
+			//Two conditions to trigger next text display
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0; //Resetting timer for next text display
+				display3 = true;
+			}
+			else if (openTreasure)
+			{
+				bounce_time_text_display = 0; //Resetting timer for next text display
+				display3 = true;
+			}
+		}
+
+		else if (openTreasure && !display4)
+		{
+			bounce_time_text_display += dt;
+			//Ending text display
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display4 = true;
+				tutorialEnd = true;
+				game_state = GAME_START; //Changing game state
+			}
+		}
+
+	}
+
+	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
+	{
+		pickUpGun = true;
+	}
+
+//==========================MECHANIC FOR TUTORIAL ENEMY=======================
+	if (disappearTable && !enemyTutDead)
+	{
+		Camera.hitNoti(enemyTutPos); //Notifying player of getting hit
+		Camera.enemyPos.push_back(enemyTutPos); //Putting data of nearby enemies for bullet checking
+
+		//When player gets hit
+		if ((Camera.position - enemyTutPos).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
+		{
+			health -= 1;
+			bounce_time_enemy_hit = elapsed_time + 1; //Makes sure enemy cannot attack player so fast
+		}
+	}
+}
+
+void Shooting::UpdateGame(double dt)
+{
 	if (tutorialEnd)
 	{
 		for (int counter = 0; counter < enemySize; counter++)
@@ -387,16 +441,270 @@ void Shooting::Update(double dt)
 			}
 			else if (enemyDead[counter] == true)
 			{
-			//Generating new enemy
-			enemyPos[counter] = {};
-			float i = RandomNumber(-250, 250);
-			float j = RandomNumber(-250, 250);
-			enemyPos[counter].Set(i, 0, j);
-			enemyDead[counter] = false;
+				//Generating new enemy
+				enemyPos[counter] = {};
+				float i = RandomNumber(-250, 250);
+				float j = RandomNumber(-250, 250);
+				enemyPos[counter].Set(i, 0, j);
+				enemyDead[counter] = false;
 			}
 		}
 	}
-	//====================================
+	//==================CHECKING FOR ENEMIES NEAR CHARCTER============
+	if (tutorialEnd)
+	{
+		enemyMarking.clear(); 	//Clearing all data to save space, and update any dead enemies that turn into new enemies
+		Camera.enemyPos.clear(); //Clearing all data to save space, and update any dead enemies that turn into new enemies
+		for (int i = 0; i < enemySize; i++)
+		{
+			if ((Camera.position - enemyPos[i]).Length() < 50)
+			{
+				enemyMarking.push_back(i); //To keep track of enemies within charater's and bullet's radius
+			}
+		}
+		//=========================DECREASING HEALTH======================
+		for (int i = 0; i < 4; i++)
+		{
+			Camera.sideNoti[i] = 0;
+		}
+		for (int i = 0; i < enemyMarking.size(); i++)
+		{
+			//Setting enemy positions 
+			Camera.enemyPos.push_back(enemyPos[enemyMarking.at(i)]); 
+			Camera.hitNoti(Camera.enemyPos[i]);
+
+			//Enemy hits the player 
+			if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
+			{
+				health -= 1;
+				bounce_time_enemy_hit = elapsed_time + 1; //Ensuring that player does not get hit so fast with multiple attacks
+			}
+		}
+	}
+}
+
+void Shooting::UpdateBullet(double dt)
+{
+//==============================When left buton is clicked===============================
+	if (Application::IsKeyPressed(VK_LBUTTON) && pickUpGun && (!reload) && elapsed_time > bounce_time)
+	{
+		bullet[bulletCount].pos = Camera.position;
+		original[bulletCount].pos = bullet[bulletCount].pos;
+
+		bullet[bulletCount].vel = (Camera.target - Camera.position).Normalized() * 3;
+		rotateLasHori = horizontalRotation;
+		rotateLasVert = verticalRotation;
+
+		moveLaser[bulletCount] = true;
+		bulletCount++;
+		bounce_time = elapsed_time + 0.2;
+	}
+//============================Reading bullet's positions==================================
+	for (int i = 0; i < 5; i++)
+	{
+		//Making the bullet disappear after a certain distance
+		if ((original[i].pos - bullet[i].pos).Length() > 45)
+			moveLaser[i] = false;
+
+		else if (moveLaser[i])
+		{
+			//Movement of bullet
+			bullet[i].pos += bullet[i].vel;
+			//Checking for collision between enemies within radius and bullet 
+			if (tutorialEnd)
+			{
+				//Checking bullet's positions with enemies nearby
+				for (int counter = 0; counter < enemyMarking.size(); counter++)
+				{
+					//When bullet collides with enemies
+					if ((enemyPos[enemyMarking.at(counter)] - bullet[i].pos).Length() < 1)
+					{
+						enemyDead[enemyMarking.at(counter)] = true;
+						moveLaser[i] = false;
+					}
+				}
+			}
+			//For tracking bullet when in tutorial mode
+			else if (!enemyTutDead)
+			{
+				if ((enemyTutPos - bullet[i].pos).Length() < 2)
+				{
+					enemyTutDead = true;
+					moveLaser[i] = false;
+					Camera.enemyPos.clear();
+					for (int i = 0; i < 4; i++)
+					{
+						Camera.sideNoti[i] = 0;
+					}
+				}
+			}
+		}
+	}
+
+//=====================================Reloading gun=======================================
+	if (bulletCount >= 5 || (Application::IsKeyPressed('R')) && (bulletCount > 0))
+	{
+		bulletCount = 0;
+		reload = true;
+		bounce_time = elapsed_time + 2.5;
+	}
+//=========================Duration for "Reloading" text on screen ========================
+	if (elapsed_time > bounce_time && reload) 
+	{
+		reload = false;
+	}
+}
+
+void Shooting::UpdateTreasure(double dt)
+{
+//=============================================Treasure animation================================
+	if (treasureAnimation)
+	{
+		rotateTreasure += 200.f * dt;
+		if (rotateTreasure > 360.f)
+		{
+			treasureAnimation = false;
+			treasureTaken = false;
+		}
+	}
+
+	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
+	{
+		//Tutorial treasure
+		if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
+			openTreasure = true;
+
+		//Resetting animation
+		rotateTreasure = 0.f;
+		treasureAnimation = true;
+
+		//Making new treasure 
+		makeNewTreasure = true;
+	}
+//==========Spawning new treasure chest after animation from previous treasure is played========
+	if (!treasureAnimation && makeNewTreasure)
+	{
+		//Randomising next treasure only after previous treasure reward is taken 
+		float i = RandomNumber(-250, 250);
+		float j = RandomNumber(-250, 250);
+		ObjectPos[0].Set(i, 0, j);
+
+		makeNewTreasure = false;
+	}
+
+//========================================Opening treasure=========================================
+	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E') && !treasureTaken)
+	{
+		//Tutorial treasure
+		if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
+			openTreasure = true;
+		{
+			srand(time(NULL));
+			//Player getting rewards
+			if ((int)RandomNumber(0, 10) >= 5)
+			{
+				getMoney = true;
+				getHealth = false;
+			}
+			else
+			{
+				getMoney = false;
+				if (health < 5) //Limiting health 
+					getHealth = true;
+			}
+		}
+	
+		//treausure animations
+		rotateTreasure = 0.f;
+		treasureAnimation = true;
+		makeNewTreasure = true;
+		treasureTaken = true; //Making sure player cannot take multiple treasures at once
+	}
+
+//================================Player getting rewards=============================
+	if (getMoney)
+	{
+		amtMoney = (int)RandomNumber(0, 5);
+		Money::getInstance()->addMoney(amtMoney); //Accessing global money
+		getMoney = false;
+		playMoney = true; //Determining animation played will be money
+	}
+	else if (getHealth)
+	{
+		health += 1;
+		getHealth = false;
+		playMoney = false; //Determining animation played will be health
+	}
+}
+
+void Shooting::Update(double dt)
+{
+//===============For loading screen===============
+	if (playLoading)
+	{
+		load_time += dt;
+		if (load_time >= 5)
+			playLoading = false;
+	}
+
+	if (Application::IsKeyPressed(VK_BACK))
+		changeScene = 1;
+//===Pausing game to show tutorial option at the start====
+	if (tutorialEnd || tutorialStart) 
+		Camera.Update(dt, &horizontalRotation, &verticalRotation);
+	elapsed_time += dt;
+
+//============Playing tutorial option=================
+	if (!tutorialStart && !tutorialEnd)
+	{
+		if (Application::IsKeyPressed('9'))
+		{
+			tutorialStart = true;
+			game_state = TUTORIAL;
+		}
+
+		else if (Application::IsKeyPressed('0'))
+		{
+			tutorialEnd = true;
+			pickUpGun = true;
+			openTreasure = true;
+			enemyTutDead = true;
+			srand(time(NULL));
+			float i = RandomNumber(-250, 250);
+			float j = RandomNumber(-250, 250);
+			ObjectPos[0].Set(i, -3, j);
+			game_state = GAME_START;
+		}
+	}
+
+//====================SWITCHING GAME STATES================
+	switch (game_state)
+	{
+	case TUTORIAL:
+		UpdateTutorial(dt);
+		break;
+	case GAME_START:
+		UpdateGame(dt);
+		break;
+	}
+
+	UpdateBullet(dt);
+	UpdateTreasure(dt);
+//=========================CHANGING LIGHT=======================
+	if (pickUpGun)
+	{
+		disappearTable = true;
+		Camera.switchTreasure = true;
+		light[0].power = 4;
+		light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
+		light[0].position.Set(Camera.target.x, Camera.target.y, Camera.target.z);
+	}
+//============UPDATING AABB FROM TABLE TO TREASURE===============
+	if (!Camera.switchTreasure)
+		Camera.object.Set(0, 0, 0);
+	else
+		Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
+//==============================================================
 
 	fps = 1.0f / dt;
 	framesPerSec = "FPS: " + std::to_string(fps);
@@ -446,286 +754,6 @@ void Shooting::Update(double dt)
 		light[0].type = Light::LIGHT_SPOT;
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	}
-
-//===========================TUTORIAL==========================
-	if (!tutorialEnd && tutorialStart)
-	{
-		if (!display1)
-		{
-			bounce_time_text_display += dt;
-			if (bounce_time_text_display >= 5)
-			{
-				bounce_time_text_display = 0;
-				display1 = true;
-			}
-			else if (pickUpGun)
-			{
-				bounce_time_text_display = 0;
-				display1 = true;
-			}
-		}
-
-		else if (!display2 && pickUpGun)
-		{
-			bounce_time_text_display += dt;
-			if (bounce_time_text_display >= 5)
-			{
-				bounce_time_text_display = 0;
-				display2 = true;
-			}
-			else if (enemyTutDead)
-			{
-				bounce_time_text_display = 0;
-				display2 = true;
-			}
-		}
-
-		else if (!display3 && enemyTutDead)
-		{
-			bounce_time_text_display += dt;
-			if (bounce_time_text_display >= 5)
-			{
-				bounce_time_text_display = 0;
-				display3 = true;
-			}
-			 else if (openTreasure)
-			{
-				bounce_time_text_display = 0;
-				display3 = true;
-			}
-		}
-
-		else if (openTreasure && !display4)
-		{
-			bounce_time_text_display += dt;
-			if (bounce_time_text_display >= 5)
-			{
-				bounce_time_text_display = 0;
-				display4 = true;
-				tutorialEnd = true;
-			}
-		}
-
-	}
-
-	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
-	{
-		pickUpGun = true;
-	}
-
-
-	if (pickUpGun)
-	{
-		disappearTable = true;
-		Camera.switchTreasure = true;
-		light[0].power = 4;
-
-		light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
-		light[0].position.Set(Camera.target.x, Camera.target.y, Camera.target.z);
-
-
-	}
-//============UPDATING AABB FROM TABLE TO TREASURE===============
-	if (!Camera.switchTreasure)
-		Camera.object.Set(0, 0, 0);
-	else
-		Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
-
-//==================CHECKING FOR ENEMIES NEAR CHARCTER============
-	if (tutorialEnd)
-	{
-		enemyMarking.clear(); 	//Clearing all data to save space, and update any dead enemies that turn into new enemies
-		Camera.enemyPos.clear(); //Clearing all data to save space, and update any dead enemies that turn into new enemies
-		for (int i = 0; i < enemySize; i++)
-		{
-			if ((Camera.position - enemyPos[i]).Length() < 50)
-			{
-				enemyMarking.push_back(i); //To keep track of enemies within charater's and bullet's radius
-			}
-		}
-//=========================DECREASING HEALTH======================
-		for (int i = 0; i < 4; i++)
-		{
-			Camera.sideNoti[i] = 0;
-		}
-		for (int i = 0; i < enemyMarking.size(); i++)
-		{
-
-			Camera.enemyPos.push_back(enemyPos[enemyMarking.at(i)]); //Setting enemy positions 
-			Camera.hitNoti(Camera.enemyPos[i]);
-
-			//Enemy hits the player 
-			if ((Camera.position - enemyPos[enemyMarking.at(i)]).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
-			{
-				health -= 1;
-				bounce_time_enemy_hit = elapsed_time + 1; //Ensuring that player does not get hit so fast with multiple attacks
-			}
-		}
-	}
-	//Mechanic for tutorial enemy
-	else if (disappearTable && !enemyTutDead)
-	{
-		Camera.hitNoti(enemyTutPos);
-		Camera.enemyPos.push_back(enemyTutPos);
-		if ((Camera.position - enemyTutPos).Length() < 3 && elapsed_time > bounce_time_enemy_hit)
-		{
-			health -= 1;
-			bounce_time_enemy_hit = elapsed_time + 1; 
-		}
-	}
-//=======================BULLET MOVEMENTS===================
-	if (Application::IsKeyPressed(VK_LBUTTON) && pickUpGun && (!reload) && elapsed_time > bounce_time)
-	{
-		bullet[bulletCount].pos = Camera.position;
-		original[bulletCount].pos = bullet[bulletCount].pos;
-
-		bullet[bulletCount].vel = (Camera.target - Camera.position).Normalized() * 3;
-		rotateLasHori = horizontalRotation;
-		rotateLasVert = verticalRotation;
-
-		moveLaser[bulletCount] = true;
-		bulletCount++;
-		bounce_time = elapsed_time + 0.2;
-	}
-
-	for (int i = 0; i < 5; i++)
-	{
-		if ((original[i].pos - bullet[i].pos).Length() > 50)
-			moveLaser[i] = false;
-
-		else if (moveLaser[i])
-		{
-			bullet[i].pos += bullet[i].vel;
-			//Checking for collision between enemies within radius and bullet 
-			if (tutorialEnd)
-			{
-				for (int counter = 0; counter < enemyMarking.size(); counter++)
-				{
-					if ((enemyPos[enemyMarking.at(counter)] - bullet[i].pos).Length() < 1)
-					{
-						enemyDead[enemyMarking.at(counter)] = true;
-						moveLaser[i] = false;
-					}
-				}
-			}
-			else if (!enemyTutDead)
-			{
-				if ((enemyTutPos - bullet[i].pos).Length() < 2)
-				{
-					enemyTutDead = true;
-					moveLaser[i] = false;
-					Camera.enemyPos.clear();
-					for (int i = 0; i < 4; i++)
-					{
-						Camera.sideNoti[i] = 0;
-					}
-				}
-			}
-		}
-
-	}
-	// Reloading gun
-	if (bulletCount >= 5 || (Application::IsKeyPressed('R')) && (bulletCount > 0)) 
-	{
-		bulletCount = 0;
-		reload = true;
-		bounce_time = elapsed_time + 2.5;
-	}
-	if (elapsed_time > bounce_time && reload) //Duration for "Reloading" text on screen 
-	{
-		reload = false;
-	}
-//====================FINDNIG TREASURE=======================
-	//Treasure animation	
-	if (treasureAnimation)
-	{
-		rotateTreasure += 200.f * dt;
-		if (rotateTreasure > 360.f)
-			treasureAnimation = false;
-	}
-	//Spawning new treasure chest after animation from previous treasure is played
-	if (((ObjectPos[0] - Camera.position).Length() < 6) && Application::IsKeyPressed('E'))
-	{
-		if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
-			openTreasure = true;
-
-		rotateTreasure = 0.f;
-		treasureAnimation = true;
-
-		treasureTaken = true;
-	}
-	if (!treasureAnimation && treasureTaken)
-	{
-		//For randomising treasure
-		float i = RandomNumber(-250, 250);
-		float j = RandomNumber(-250, 250);
-		ObjectPos[0].Set(i, 0, j);
-
-		if ((int)RandomNumber(0, 10) >= 6)
-		{
-			getMoney = true;
-			getHealth = false;
-		}
-		else
-		{
-			getMoney = false;
-			if (health < 5) //Limiting health 
-				getHealth = true;
-		}
-
-		treasureTaken = false;
-	}
-	//Player getting rewards
-	//Opening treasure
-	if (((ObjectPos[0] - Camera.position).Length() < 9) && Application::IsKeyPressed('E') && elapsed_time > bounce_time_treasure)
-		{
-			if ((ObjectPos[0].x == 0) && (ObjectPos[0].z == -40) && !tutorialEnd)
-				openTreasure = true;
-
-			srand(time(NULL));
-			//Randomising rewards only after treasure is opened
-			if ((int)RandomNumber(0, 10) >= 5)
-			{
-				getMoney = true;
-				getHealth = false;
-			}
-			else
-			{
-				getMoney = false;
-				if (health < 5) //Limiting health 
-					getHealth = true;
-			}
-			//treausure animations
-			rotateTreasure = 0.f;
-			treasureAnimation = true;
-			treasureTaken = true;
-			bounce_time_treasure += elapsed_time + 0.2; //Making sure player cannot take multiple treasures at once
-		}
-		//Randomising next treasure only after previous treasure reward is taken 
-		if (!treasureAnimation && treasureTaken)
-		{
-			//For randomising treasure
-			float i = RandomNumber(-250, 250);
-			float j = RandomNumber(-250, 250);
-			ObjectPos[0].Set(i, 0, j);
-			treasureTaken = false;
-		}
-    //Player getting rewards
-	if (getMoney)
-	{
-		amtMoney = (int)RandomNumber(0, 10);
-		Money::getInstance()->addMoney(amtMoney); //Accessing global money
-		getMoney = false;
-		playMoney = true; //Determining animation played will be money
-	}
-	else if (getHealth)
-	{
-		health += 1;
-		getHealth = false;
-		playMoney = false; //Determining animation played will be health
-	}
-
-//===========================================================
 
 	stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 }
