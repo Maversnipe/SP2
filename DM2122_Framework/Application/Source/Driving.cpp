@@ -207,7 +207,7 @@ void Driving::Init()
 	meshList[GEO_INSTRUCTION]->textureID = LoadTGA("Image//Driving//instructionMenu.tga");
 
 	meshList[GEO_INSTRUCTION1] = MeshBuilder::GenerateQuad("instruction1", Color(1, 1, 1), 1, 1);
-	meshList[GEO_INSTRUCTION1]->textureID = LoadTGA("Image//Driving//loading1.tga");
+	meshList[GEO_INSTRUCTION1]->textureID = LoadTGA("Image//Driving//instructionBack.tga");
 
 
 
@@ -254,6 +254,7 @@ void Driving::Init()
 }
 void Driving::gameUpdate(double dt)
 {
+	ShowCursor(false);
 	carVec.Set(Camera4.position.x, 0, Camera4.position.z);
 	//==========Enemy movements==========
 	for (int counter = 0; counter < enemySize; counter++)
@@ -504,16 +505,68 @@ void Driving::gameUpdate(double dt)
 	}
 	if (car.health == 0)
 	{
-		changeScene = 3;
+		changeScene = 1;
 	}
-	cout << car.health << "            " << car.fuel << "            " << Camera4.CAR_SPEED << endl;
+}
+void Driving::gameInstruction(double dt)
+{
+	glfwGetWindowSize(Application::m_window, &width, &height);
+	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
+	pause_state = 0;
+	ShowCursor(true);
+	cout << xpos << "           " << ypos << endl;
+	if (xpos >  355.0f * (width / 800.0f) && xpos < (460.0f * (width / 800.0f)) && ypos > 455.0f * (height / 600.0f) && ypos <  490.0f * (height / 600.0f))
+	{
+		instruction_state = 2;
+	}
+	else
+	{
+		instruction_state = 1;
+	}
+	if (Application::IsKeyPressed(MK_LBUTTON) && instruction_state == 2)
+	{
+		game_state = GAME_PAUSE;
+		pause_state = 0;
+	}
+
 }
 void Driving::gamePause(double dt)
 {
 	glfwGetWindowSize(Application::m_window, &width, &height);
 	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
 	pause_state = 0;
+	ShowCursor(true);
 	cout << xpos << "           " << ypos << endl;
+	if (xpos >  295.0f * (width / 800.0f) && xpos < (510.0f * (width / 800.0f)) && ypos > 210.0f * (height / 600.0f) && ypos <  250.0f * (height / 600.0f) )
+	{
+		pause_state = 1;
+	}
+	if (xpos >  230.0f * (width / 800.0f) && xpos < (580.0f * (width / 800.0f)) && ypos > 320.0f * (height / 600.0f) && ypos <  360.0f * (height / 600.0f))
+	{
+		pause_state = 2;
+	}
+	if (xpos >  340.0f * (width / 800.0f) && xpos <(460.0f * (width / 800.0f)) && ypos > 400.0f * (height / 600.0f) && ypos <  445.0f * (height / 600.0f))
+	{
+		pause_state = 3;
+	}
+	if (Application::IsKeyPressed(MK_LBUTTON) && pause_state == 1)
+	{
+		game_state = GAME_START;
+		ShowCursor(false);
+		pause_state = 0;
+	}
+	if (Application::IsKeyPressed(MK_LBUTTON) && pause_state == 2 )
+	{
+		game_state = GAME_INSTRUCTION;
+		instruction_state = 1;
+	}
+	if (Application::IsKeyPressed(MK_LBUTTON) && pause_state == 3)
+	{
+		pause_state = 0;
+		game_state = GAME_START;
+		ShowCursor(false);
+		changeScene = 1;
+	}
 }
 void Driving::Update(double dt)
 {
@@ -522,19 +575,27 @@ void Driving::Update(double dt)
 		if (game_state == GAME_START)
 		{
 			game_state = GAME_PAUSE;
+			ShowCursor(true);
 		}
 		else if (game_state == GAME_PAUSE)
 		{
 			game_state = GAME_START;
+			ShowCursor(false);
 		}
 	}
 	switch (game_state)
 	{
 	case GAME_START:
+		ShowCursor(false);
 		gameUpdate(dt);
 		break;
 	case GAME_PAUSE:
+		ShowCursor(true);
 		gamePause(dt);
+		break;
+	case GAME_INSTRUCTION:
+		ShowCursor(true);
+		gameInstruction(dt);
 		break;
 	}
 }
@@ -687,6 +748,17 @@ void Driving::Render()
 			else if (pause_state == 3)
 			{
 				RenderMeshOnScreen(meshList[GEO_PAUSE3], 40, 30, 80, 60);
+			}
+		}
+		else if (game_state == GAME_INSTRUCTION)
+		{
+			if (instruction_state == 1)
+			{
+				RenderMeshOnScreen(meshList[GEO_INSTRUCTION], 40, 30, 80, 60);
+			}
+			else if (instruction_state == 2)
+			{
+				RenderMeshOnScreen(meshList[GEO_INSTRUCTION1], 40, 30, 80, 60);
 			}
 		}
 	}
