@@ -40,6 +40,7 @@ public:
 
 		PAUSE_SCREEN,
 		PAUSE2_SCREEN,
+		PAUSE3_SCREEN,
 		ABILITY_SELECT_MENU,
 		GAMEOVER_SCREEN,
 		GAMEOVER2_SCREEN,
@@ -132,7 +133,9 @@ private:
 	void RenderSkybox();
 		// Pause
 		void RenderPause();
-		int pauseSelect = 0;
+		int pauseSelect = 1;
+		bool quitGame = false;
+		double pause_bounce_time = 0.0;
 
 	//======================Time======================
 	double elapsed_time = 0.0;

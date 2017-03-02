@@ -29,6 +29,7 @@ public:
 
 	AABB charAABB;
 	AABB objectAABB;
+	int boundsCheck(Vector3);
 
 	bool switchTreasure = false;
 //===========Enemy sphere collision================

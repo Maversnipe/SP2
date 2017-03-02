@@ -1,36 +1,63 @@
-<<<<<<< HEAD
-﻿Build started 3/2/2017 4:26:28 PM.
+﻿Build started 3/3/2017 12:07:06 AM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\PlatformerCamera.cpp
-         PlatformerCamera.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ID:\GIT_ROOT\SP2\DM2122_Framework\\irrKlang\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Platformer.cpp
+         Platformer.cpp
      1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.h(63): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(53): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(54): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(136): warning C4305: '=' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(138): warning C4305: '=' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(466): warning C4305: '=' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(468): warning C4305: '=' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(477): warning C4305: '=' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(496): warning C4305: '=' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\platformercamera.cpp(511): warning C4305: '=' : truncation from 'double' to 'float'
-=======
-﻿Build started 2/3/2017 3:34:38 PM.
-     1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\MainMenu.cpp
-         MainMenu.cpp
-     1>c:\program files (x86)\windows kits\8.1\include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : macro redefinition
-                 c:\users\jean\documents\sp2\dm2122_framework\glfw\include\glfw\glfw3.h(92) : see previous definition of 'APIENTRY'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(247): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(248): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(463): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(471): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(564): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\mainmenu.cpp(565): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
->>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(192): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(359): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(366): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(373): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(380): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(386): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(394): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(486): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(487): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(579): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(584): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(585): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(586): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(646): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(646): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(647): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(648): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(652): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(653): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(654): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(658): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(658): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(659): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(660): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(670): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(670): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(671): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(672): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(678): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(679): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(680): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(690): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(690): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(691): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(692): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(698): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(698): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(699): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(700): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(726): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(727): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(728): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(744): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(744): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(751): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(760): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(760): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(769): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(778): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(778): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(786): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(802): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
        Link:
-         D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\glew\lib /LIBPATH:"D:\GIT_ROOT\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\Debug /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\irrKlang\lib glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib irrKlang.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
          Debug\Application.obj
          Debug\Camera.obj
          Debug\Camera2.obj
@@ -55,18 +82,9 @@
          Debug\SP_Gabriel.obj
          Debug\StudioProject.obj
          Debug\Utiity.obj
-<<<<<<< HEAD
          Application.vcxproj -> D:\GIT_ROOT\SP2\DM2122_Framework\Debug\Application.exe
      1>Done Building Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.06
-=======
-         Application.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe
-     1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:01.08
->>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd
+Time Elapsed 00:00:01.24

@@ -439,3 +439,21 @@ void ShootingCamera::hitNoti(Vector3 enemy)
 		sideNoti[3] = 4;
 
 }
+
+int ShootingCamera::boundsCheck(Vector3 NewPos)
+{
+	if ((NewPos.x <= 240) && (NewPos.x >= -240) && ((NewPos.z > 240) || NewPos.z < -240))
+	{
+		return 1;
+	}
+	else if ((NewPos.z <= 240) && (NewPos.z >= -240) && ((NewPos.x > 240) || NewPos.x < -240))
+	{
+		return 2;
+	}
+	else if ((NewPos.x <= 240) && (NewPos.x >= -240) && (NewPos.z <= 240) && (NewPos.z >= -240) && (NewPos.y <= 240) && (NewPos.y >= -10))
+	{
+		return 3;
+	}
+	else
+		return 0;
+}
