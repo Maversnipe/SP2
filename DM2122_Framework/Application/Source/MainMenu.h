@@ -54,6 +54,9 @@ public:
 		GEO_GROUND,
 		GEO_FENCE,
 		GEO_LOAD1,
+
+		GEO_GUIDE1,
+		GEO_GUIDE2,
 		NUM_GEOMETRY,
 	};
 
@@ -147,6 +150,12 @@ public:
 		U_TOTAL,
 
 	};
+	enum MENU_GAMESTATE
+	{
+		MENU,
+		GUIDE,
+		EXIT,
+	}game_state;
 
 	unsigned m_parameters[U_TOTAL];
 
@@ -181,6 +190,10 @@ private:
 	bool lightSwitch = false;
 
 	void RenderSkybox();
+	void ExitUpdate(double);
+	void MenuUpdate(double);
+	void GuideUpdate(double);
+	int guide = 0;
 };
 
 #endif

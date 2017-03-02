@@ -11,6 +11,10 @@
 #include <iostream>
 using namespace std;
 Mtx44 stamp;
+#include "IK\irrKlang.h"
+using namespace irrklang;
+#pragma comment(lib, "irrKlang.lib")
+ISoundEngine* sfx3 = createIrrKlangDevice();
 Shooting::Shooting()
 {
 
@@ -266,6 +270,7 @@ void Shooting::Init()
 
 	// Change Scene Stuff
 	changeScene = 0;
+	sfx3->play2D("audio/shooting.mp3", GL_TRUE);
 }
 
 void Shooting::UpdateTutorial(double dt)
@@ -1337,6 +1342,7 @@ void Shooting::Exit()
 	glDeleteBuffers(NUM_GEOMETRY, &m_vertexBuffer[0]);
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+	sfx3->stopAllSounds();
 }
 
 void Shooting::RenderPause()

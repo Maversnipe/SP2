@@ -6,7 +6,12 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
-
+#include <iostream>
+using namespace std;
+#include "IK\irrKlang.h"
+using namespace irrklang;
+#pragma comment(lib, "irrKlang.lib")
+ISoundEngine* sfx0 = createIrrKlangDevice();
 MainMenu::MainMenu()
 {
 }
@@ -17,6 +22,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::Init()
 {
+	game_state = MENU;
 	// Init VBO here
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f); // Set background color to dark blue
 
@@ -233,35 +239,24 @@ void MainMenu::Init()
 
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+
+	meshList[GEO_GUIDE1] = MeshBuilder::GenerateQuad("guide1", Color(1, 1, 1), 1, 1);
+	meshList[GEO_GUIDE1]->textureID = LoadTGA("Image//guide1.tga");
+
+	meshList[GEO_GUIDE2] = MeshBuilder::GenerateQuad("guide2", Color(1, 1, 1), 1, 1);
+	meshList[GEO_GUIDE2]->textureID = LoadTGA("Image//guide2.tga");
 	
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
+	sfx0->play2D("audio/menu.mp3", GL_TRUE);
 }
-
-void MainMenu::Update(double dt)
+void MainMenu::MenuUpdate(double dt)
 {
 	glfwGetWindowSize(Application::m_window, &width, &height);
 	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
 	elapsed_time += dt;
 	rotateCaro += 40 * dt;
-	//if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > bounce_time)) // Down
-	//{
-	//	if (selectScene >= 0 && selectScene < 2)
-	//	{
-	//		selectScene++;
-	//	}
-	//	bounce_time = elapsed_time + 0.2;
-	//}
-
-	//if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > bounce_time))// Up
-	//{
-	//	if (selectScene > 0 && selectScene < 3)
-	//	{
-	//		selectScene--;
-	//	}
-	//	bounce_time = elapsed_time + 0.2;
-	//}
 	if (xpos >  170.0f * (width / 800.0f) && xpos < (350.0f * (width / 800.0f)) && ypos > 230.0f * (height / 600.0f) && ypos <  280.0f * (height / 600.0f))
 	{
 		selectScene = 0;
@@ -278,7 +273,46 @@ void MainMenu::Update(double dt)
 	{
 		changeScene = 1;
 	}
+	if ((Application::IsKeyPressed(MK_LBUTTON)) && (selectScene == 1))
+	{
+		game_state = GUIDE;
+		guide = 1;
+	}
+	if ((Application::IsKeyPressed(MK_LBUTTON)) && (selectScene == 2))
+	{
+		game_state = EXIT;
+	}
+}
+void MainMenu::GuideUpdate(double dt)
+{
+	glfwGetWindowSize(Application::m_window, &width, &height);
+	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
+	cout << xpos << "      " << ypos << endl;
+	if (xpos >  35.0f * (width / 800.0f) && xpos < (180.0f * (width / 800.0f)) && ypos > 25.0f * (height / 600.0f) && ypos <  60.0f * (height / 600.0f))
+	{
+		guide = 2;
+	}
+	if ((Application::IsKeyPressed(MK_LBUTTON)) && (guide == 2))
+	{
+		game_state = MENU;
+		selectScene = 0;
+	}
+}
+void MainMenu::ExitUpdate(double dt)
+{
 
+}
+void MainMenu::Update(double dt)
+{
+	switch (game_state)
+	{
+	case MENU:
+		MenuUpdate(dt);
+	case GUIDE:
+		GuideUpdate(dt);
+	case EXIT:
+		ExitUpdate(dt);
+	}
 }
 
 void MainMenu::Render()
@@ -399,26 +433,39 @@ void MainMenu::Render()
 		modelStack.PopMatrix();
 
 		RenderMeshOnScreen(meshList[GEO_TITLE], 40, 50, 75, 75);//No transform needed
-
-		if (selectScene == 0)
+		if (game_state == MENU)
 		{
-			RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 35, 30, 30);//No transform needed
-			RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
-			RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
+			if (selectScene == 0)
+			{
+				RenderMeshOnScreen(meshList[GEO_ARROWSTART], 20, 35, 30, 30);//No transform needed
+				RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
+				RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
+			}
+
+			if (selectScene == 1)
+			{
+				RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
+				RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 25, 30, 30);//No transform needed
+				RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
+			}
+
+			if (selectScene == 2)
+			{
+				RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
+				RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
+				RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 15, 30, 30);//No transform needed
+			}
 		}
-
-		if (selectScene == 1)
+		if (game_state == GUIDE)
 		{
-			RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
-			RenderMeshOnScreen(meshList[GEO_ARROWGUIDE], 20, 25, 30, 30);//No transform needed
-			RenderMeshOnScreen(meshList[GEO_EXIT], 20, 15, 30, 30);//No transform needed
-		}
-
-		if (selectScene == 2)
-		{
-			RenderMeshOnScreen(meshList[GEO_START], 20, 35, 30, 30);//No transform needed
-			RenderMeshOnScreen(meshList[GEO_GUIDE], 20, 25, 30, 30);//No transform needed
-			RenderMeshOnScreen(meshList[GEO_ARROWEXIT], 20, 15, 30, 30);//No transform needed
+			if (guide == 1)
+			{
+				RenderMeshOnScreen(meshList[GEO_GUIDE1], 40, 30, 80, 60);
+			}
+			if (guide == 2)
+			{
+				RenderMeshOnScreen(meshList[GEO_GUIDE2], 40, 30, 80, 60);
+			}
 		}
 	}
 
@@ -623,4 +670,5 @@ void MainMenu::Exit()
 	glDeleteBuffers(NUM_GEOMETRY, &m_vertexBuffer[0]);
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+	sfx0->stopAllSounds();
 }
