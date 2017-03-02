@@ -251,8 +251,14 @@ void Shooting::Init()
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
 
-	meshList[GEO_TUTNPC] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
-	meshList[GEO_TUTNPC]->textureID = LoadTGA("Image//enemy.tga");
+	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
+
+	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
+
+	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
 
 	//================
 	Mtx44 projection;
@@ -281,6 +287,13 @@ void Shooting::Init()
 
 void Shooting::Update(double dt)
 {
+	if (playLoading)
+	{
+		load_time += dt;
+		if (load_time >= 5)
+			playLoading = false;
+	}
+
 	if (Application::IsKeyPressed(VK_BACK))
 		changeScene = 1;
 	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
@@ -786,6 +799,7 @@ void Shooting::Render()
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
+
 	else if (light[0].type == Light::LIGHT_SPOT)
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
@@ -805,6 +819,16 @@ void Shooting::Render()
 		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
 
 	
+
+	else if (playLoading)
+	{
+		if ((load_time >= 0) && (load_time <= 2))
+			RenderMeshOnScreen(meshList[GEO_LOAD2], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 2) && (load_time <= 3.5))
+			RenderMeshOnScreen(meshList[GEO_LOAD3], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 3.5) && (load_time <= 5))
+			RenderMeshOnScreen(meshList[GEO_LOAD4], 40, 20, 80, 80);//No transform needed
+	}
 
 	else
 	{

@@ -58,6 +58,9 @@ public:
 		GEO_HEALTH,
 		GEO_ROCKS,
 		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
 		NUM_GEOMETRY,
 	};
 
@@ -152,7 +155,11 @@ private:
 	bool healthPacktaken[100];
 	bool Rocktaken[100];
 	float RandomNumber(float Min, float Max);
+	//===Loading screen===
+	float load_time = 0;
+	bool playLoading = true;
 };
+
 
 
 #endif

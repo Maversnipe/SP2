@@ -49,6 +49,9 @@ public:
 		GEO_BACK,
 		GEO_GROUND,
 		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
 		NUM_GEOMETRY,
 	};
 
@@ -127,6 +130,10 @@ private:
 	bool treasureCollected[4];
 	int numOfTreasureSet = 0;
 	double treasureRotate = 0.0;
+
+	//===Loading screen===
+	float load_time = 0;
+	bool playLoading = true;
 
 	float x = 0.0;
 	float y = 0.0;

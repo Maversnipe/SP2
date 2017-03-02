@@ -199,6 +199,15 @@ void SP_Gabriel::Init()
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
 
+	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
+
+	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
+
+	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
+
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
@@ -206,6 +215,15 @@ void SP_Gabriel::Init()
 
 void SP_Gabriel::Update(double dt)
 {
+
+	if (playLoading)
+	{
+		load_time += dt;
+		if (load_time >= 5)
+			playLoading = false;
+	}
+
+
 	if (Application::IsKeyPressed(VK_BACK))
 		changeScene = 1;
 	fps = 1.0f / dt;
@@ -509,6 +527,17 @@ void SP_Gabriel::Render()
 	//---------------------------------------------------------------
 	if (changeScene != 0)
 		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
+	
+	else if (playLoading)
+	{
+		if ((load_time >= 0) && (load_time <= 2))
+			RenderMeshOnScreen(meshList[GEO_LOAD2], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 2) && (load_time <= 3.5))
+			RenderMeshOnScreen(meshList[GEO_LOAD3], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 3.5) && (load_time <= 5))
+			RenderMeshOnScreen(meshList[GEO_LOAD4], 40, 20, 80, 80);//No transform needed
+	}
+	
 	else
 	{
 		if (renderRef)

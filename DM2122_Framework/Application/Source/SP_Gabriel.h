@@ -48,6 +48,9 @@ public:
 
 		GEO_PROJECTILE,
 		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
 
 		NUM_GEOMETRY,
 	};
@@ -140,6 +143,10 @@ private:
 
 	float fps = 0.0;
 	std::string framesPerSec = "";
+	//Loading screen
+	float load_time = 0;
+	bool playLoading = true;
+
 };
 
 #endif

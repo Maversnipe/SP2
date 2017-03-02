@@ -62,6 +62,10 @@ public:
 		GEO_HITNOTIRIGHT,
 		GEO_HITNOTILEFT,
 		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
+
 		GEO_TUTNPC,
 		NUM_GEOMETRY,
 	};
@@ -210,7 +214,9 @@ private:
 	bool treasureTaken = false;
 	//===============================
 	float RandomNumber(float min, float max);
-
+	//===Loading screen===
+	float load_time = 0;
+	bool playLoading = true;
 
 	float x = 0.0;
 	float y = 0.0;

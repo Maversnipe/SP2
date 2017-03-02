@@ -49,6 +49,9 @@ public:
 		GEO_GROUND,
 		GEO_ROCKS,
 		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
 		GEO_FENCE,
 		NUM_GEOMETRY,
 	};
@@ -129,7 +132,7 @@ private:
 	bool noMoney = false;
 	bool displayMoney = false;
 	float load_time = 0; 
-	bool load = false;
+	bool playLoading = true;
 
 	float x = 0.0;
 	float y = 0.0;
