@@ -7,12 +7,12 @@ extern GLFWwindow* m_window;
 ShootingCamera::ShootingCamera()
 {
 	int width, height;
-	glfwGetWindowSize(m_window, &width, &height);
+	glfwGetWindowSize(Application::m_window, &width, &height);
 
 	int mid_x = width / 2;
 	int mid_y = height / 2;
 
-	glfwSetCursorPos(m_window, mid_x, mid_y);
+	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
 }
 
 ShootingCamera::~ShootingCamera()
@@ -54,13 +54,13 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 
 	double CamSpeed = 5.f;
 	int width, height;
-	glfwGetWindowSize(m_window, &width, &height);
-	glfwGetCursorPos(m_window, &xpos, &ypos);
+	glfwGetWindowSize(Application::m_window, &width, &height);
+	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
 
 	int mid_x = width / 2;
 	int mid_y = height / 2;
 
-	glfwSetCursorPos(m_window, mid_x, mid_y);
+	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
 
 	rotateHori = (mid_x - xpos) * dt * CamSpeed;
 	rotateVert = (mid_y - ypos) * dt * CamSpeed;

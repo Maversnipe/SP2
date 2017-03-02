@@ -22,9 +22,11 @@
 #include "FileReading.h"
 #include "SP_Gabriel.h"
 
-GLFWwindow* m_window;
+
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
+
+GLFWwindow* Application::m_window = 0;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -77,8 +79,8 @@ void Application::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
 
-	//Create a window and create its OpenGL context
 	m_window = glfwCreateWindow(800, 600, "Computer Graphics", NULL, NULL);
+
 
 	//If the window couldn't be created
 	if (!m_window)

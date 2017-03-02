@@ -6,7 +6,6 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
-extern GLFWwindow* m_window;
 
 MainMenu::MainMenu()
 {
@@ -242,8 +241,8 @@ void MainMenu::Init()
 
 void MainMenu::Update(double dt)
 {
-	glfwGetWindowSize(m_window, &width, &height);
-	glfwGetCursorPos(m_window, &xpos, &ypos);
+	glfwGetWindowSize(Application::m_window, &width, &height);
+	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
 	elapsed_time += dt;
 	rotateCaro += 40 * dt;
 	//if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > bounce_time)) // Down

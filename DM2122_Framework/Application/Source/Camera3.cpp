@@ -2,17 +2,19 @@
 #include "Application.h"
 #include <GLFW/glfw3.h>
 #include "Mtx44.h"
-extern GLFWwindow* m_window;
+//extern GLFWwindow* m_window;
+
+
 
 Camera3::Camera3()
 {
 	int width, height;
-	glfwGetWindowSize(m_window, &width, &height);
+	glfwGetWindowSize(Application::m_window, &width, &height);
 
 	int mid_x = width / 2;
 	int mid_y = height / 2;
 
-	glfwSetCursorPos(m_window, mid_x, mid_y);
+	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
 }
 
 Camera3::~Camera3()
@@ -58,13 +60,13 @@ void Camera3::Update(double dt)
 
 	double CamSpeed = 5.f;
 	int width, height;
-	glfwGetWindowSize(m_window, &width, &height);
-	glfwGetCursorPos(m_window, &xpos, &ypos);
+	glfwGetWindowSize(Application::m_window, &width, &height);
+	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
 
 	int mid_x = width / 2;
 	int mid_y = height / 2;
 
-	glfwSetCursorPos(m_window, mid_x, mid_y);
+	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
 
 	rotateHori = (mid_x - xpos) * dt * CamSpeed;
 	rotateVert = (mid_y - ypos) * dt * CamSpeed;

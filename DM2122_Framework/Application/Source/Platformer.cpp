@@ -24,7 +24,8 @@ void Platformer::Init()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
+	glEnable(GL_BLEND);
+
 	// Blend
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -104,9 +105,11 @@ void Platformer::Init()
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
 		meshList[i] = NULL;
-	}
+	}
+
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//enemy.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//enemy.tga");
+
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//enemy.tga");
 
