@@ -76,13 +76,13 @@ Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float 
 	Vertex v;
 
 	// Top
-	v.pos.Set(-0.5f, 0.5f, 0.f); v.texCoord.Set(0, 1); v.color = color; v.normal.Set(0, 1, 0); vertex_buffer_data.push_back(v);
-	v.pos.Set(-0.5f, -0.5f, 0.f); v.texCoord.Set(0, 0); v.color = color; v.normal.Set(0, 1, 0); vertex_buffer_data.push_back(v);
-	v.pos.Set(0.5f, 0.5f, 0.f); v.texCoord.Set(1, 1); v.color = color; v.normal.Set(0, 1, 0); vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f, 0.5f, 0.f); v.texCoord.Set(0, 1); v.color = color; v.normal.Set(0, 0, 1); vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f, -0.5f, 0.f); v.texCoord.Set(0, 0); v.color = color; v.normal.Set(0, 0, 1); vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f, 0.5f, 0.f); v.texCoord.Set(1, 1); v.color = color; v.normal.Set(0, 0, 1); vertex_buffer_data.push_back(v);
 
-	v.pos.Set(0.5f, 0.5f, 0.f); v.texCoord.Set(1, 1); v.color = color; v.normal.Set(0, 1, 0); vertex_buffer_data.push_back(v);
-	v.pos.Set(-0.5f, -0.5f, 0.f); v.texCoord.Set(0, 0); v.color = color; v.normal.Set(0, 1, 0); vertex_buffer_data.push_back(v);
-	v.pos.Set(0.5f, -0.5f, 0.f); v.texCoord.Set(1, 0); v.color = color; v.normal.Set(0, 1, 0); vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f, 0.5f, 0.f); v.texCoord.Set(1, 1); v.color = color; v.normal.Set(0, 0, 1); vertex_buffer_data.push_back(v);
+	v.pos.Set(-0.5f, -0.5f, 0.f); v.texCoord.Set(0, 0); v.color = color; v.normal.Set(0, 0, 1); vertex_buffer_data.push_back(v);
+	v.pos.Set(0.5f, -0.5f, 0.f); v.texCoord.Set(1, 0); v.color = color; v.normal.Set(0, 0, 1); vertex_buffer_data.push_back(v);
 
 	for (unsigned i = 0; i < 6; i++)
 		index_buffer_data.push_back(i);

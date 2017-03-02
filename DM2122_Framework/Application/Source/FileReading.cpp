@@ -20,7 +20,7 @@ FileReading::~FileReading()
 
 std::string FileReading::getWords(int ID)
 {
-	return words[ID][ID];
+	return words[ID];
 }
 void FileReading::readFiles()
 {
@@ -31,29 +31,39 @@ void FileReading::readFiles()
 
 		if (i == 0)
 		{
-			std::ifstream file("Text File//FileReading.txt");
+			std::ifstream file("Text File//Shooting1.txt");
 			while (std::getline(file, text))
 			{
-				words[i][i] += text;
-				words[i][i].push_back('\n');
+				words[i] += text;
+				words[i].push_back('\n');
 			}
 		}
 		else if (i == 1)
 		{
-			std::ifstream file("Text File//FileReading2.txt");
+			std::ifstream file("Text File//Shooting2.txt");
 			while (std::getline(file, text))
 			{
-				words[i][i] += text;
-				words[i][i].push_back('\n');
+				words[i] += text;
+				words[i].push_back('\n');
 			}
 		}
 		else if (i == 2)
 		{
-			std::ifstream file("Text File//Shooting1.txt");
+			std::ifstream file("Text File//Shooting3.txt");
 			while (std::getline(file, text))
 			{
-				words[i][i] += text;
-				words[i][i].push_back('\n');
+				words[i] += text;
+				words[i].push_back('\n');
+			}
+		}
+
+		else if (i == 3)
+		{
+			std::ifstream file("Text File//Shooting4.txt");
+			while (std::getline(file, text))
+			{
+				words[i] += text;
+				words[i].push_back('\n');
 			}
 		}
 
