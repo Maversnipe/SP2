@@ -156,6 +156,7 @@ private:
 	double xpos, ypos;
 	int width, height;
 	int pause_state = 0;
+	int instruction_state = 0;
 
 	Vector3 dirVec;
 	Vector3 carVec;

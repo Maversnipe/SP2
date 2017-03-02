@@ -366,6 +366,7 @@ void StudioProject::Init()
 
 void StudioProject::Update(double dt)
 {
+	ShowCursor(false);
 	elapsed_time += dt;
 
 	x = camera3.position.x;

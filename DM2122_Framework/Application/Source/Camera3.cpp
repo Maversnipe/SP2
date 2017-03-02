@@ -15,6 +15,7 @@ Camera3::Camera3()
 	int mid_y = height / 2;
 
 	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
+	ShowCursor(false);
 }
 
 Camera3::~Camera3()
@@ -48,6 +49,7 @@ void Camera3::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 
 void Camera3::Update(double dt)
 {
+	ShowCursor(false);
 	view = (target - position).Normalized();
 	right = view.Cross(up);
 	up = right.Cross(view).Normalized();
