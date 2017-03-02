@@ -62,6 +62,7 @@ public:
 		GEO_HITNOTIRIGHT,
 		GEO_HITNOTILEFT,
 		GEO_LOAD1,
+		GEO_TUTNPC,
 		NUM_GEOMETRY,
 	};
 
@@ -109,7 +110,14 @@ public:
 
 	};
 
-
+	enum SHOOTING_GAMESTATE
+	{
+		TUTORIAL,
+		GAME_START,
+		GAME_PAUSE,
+		GAME_OVER,
+		COUNT,
+	};
 
 	unsigned m_parameters[U_TOTAL];
 
@@ -183,6 +191,12 @@ private:
 	bool tutorialEnd = false;
 	bool openTreasure = false;
 	bool tutorialStart = false;
+	bool display1 = false;
+	bool display2 = false;
+	bool display3 = false;
+	bool display4 = false;
+	float bounce_time_text_display = 0.f;
+
 	//============Treasure===========
 	Vector3 ObjectPos[1] = {};
 	bool getMoney = false;

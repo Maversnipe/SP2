@@ -7,6 +7,7 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "FileReading.h"
 #include <iostream>
 using namespace std;
 Mtx44 stamp;
@@ -249,6 +250,10 @@ void Shooting::Init()
 
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+
+	meshList[GEO_TUTNPC] = MeshBuilder::GenerateOBJ("enemy", "OBJ//enemy.obj");
+	meshList[GEO_TUTNPC]->textureID = LoadTGA("Image//enemy.tga");
+
 	//================
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -465,8 +470,71 @@ void Shooting::Update(double dt)
 	}
 
 //===========================TUTORIAL==========================
+	if (!tutorialEnd && tutorialStart)
+	{
+		if (!display1)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display1 = true;
+			}
+			else if (pickUpGun)
+			{
+				bounce_time_text_display = 0;
+				display1 = true;
+			}
+		}
+
+		else if (!display2 && pickUpGun)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display2 = true;
+			}
+			else if (enemyTutDead)
+			{
+				bounce_time_text_display = 0;
+				display2 = true;
+			}
+		}
+
+		else if (!display3 && enemyTutDead)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display3 = true;
+			}
+			 else if (openTreasure)
+			{
+				bounce_time_text_display = 0;
+				display3 = true;
+			}
+		}
+
+		else if (openTreasure && !display4)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display4 = true;
+				tutorialEnd = true;
+			}
+		}
+
+	}
+
 	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
+	{
 		pickUpGun = true;
+	}
+
 
 	if (pickUpGun)
 	{
@@ -484,13 +552,14 @@ void Shooting::Update(double dt)
 //		light[1].power = 5;
 //		light[1].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
 //		light[1].position.Set(Camera.position.x, Camera.position.y, Camera.position.z - 15);
+
 	}
 
-	if (enemyTutDead && !tutorialEnd)
+	/*if (enemyTutDead && !tutorialEnd)
 	{
-		if (openTreasure)
+		if (openTreasure && bounce_time_text_display >= 5)
 		tutorialEnd = true;
-	}
+	}*/
 //============UPDATING AABB FROM TABLE TO TREASURE===============
 	if (!Camera.switchTreasure)
 		Camera.object.Set(0, 0, 0);
@@ -575,6 +644,7 @@ void Shooting::Update(double dt)
 				}
 			}
 			else if (!enemyTutDead)
+			{
 				if ((enemyTutPos - bullet[i].pos).Length() < 2)
 				{
 					enemyTutDead = true;
@@ -585,6 +655,7 @@ void Shooting::Update(double dt)
 						Camera.sideNoti[i] = 0;
 					}
 				}
+			}
 		}
 
 	}
@@ -929,10 +1000,21 @@ void Shooting::Render()
 			}
 		}
 
-		//================================================================================
+		//===============================Tutorial==================================
 		if (!tutorialStart && !tutorialEnd)
 			RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);
-		//================================================================================
+		if (tutorialStart && !tutorialEnd)
+		{
+			if (!display1)
+				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(2), Color(0, 1, 1), 3, 0, 6.5);
+			else if (!display2 && pickUpGun)
+				RenderTextOnScreen(meshList[GEO_TEXT], "Careful! An enemy is coming! Press the left mouse to shoot laser." , Color(0, 1, 1), 3, 0, 6.5);
+			else if (!display3 && enemyTutDead)
+				RenderTextOnScreen(meshList[GEO_TEXT], "Nicely done! Go near the yellow box and press 'E' to open the treasure!", Color(0, 1, 1), 3, 0, 6.5);
+			else if (!display4 && openTreasure)
+				RenderTextOnScreen(meshList[GEO_TEXT], "Well done! Collect as many treasure as you can, and avoid enemies! ", Color(0, 1, 1), 3, 0, 6.5);
+		}
+		//================================================================================u
 
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);

@@ -34,8 +34,8 @@ void FileReading::readFiles()
 			std::ifstream file("Text File//FileReading.txt");
 			while (std::getline(file, text))
 			{
-				words[0][0] += text;
-				words[0][0].push_back('\n');
+				words[i][i] += text;
+				words[i][i].push_back('\n');
 			}
 		}
 		else if (i == 1)
@@ -43,8 +43,17 @@ void FileReading::readFiles()
 			std::ifstream file("Text File//FileReading2.txt");
 			while (std::getline(file, text))
 			{
-				words[1][1] += text;
-				words[1][1].push_back('\n');
+				words[i][i] += text;
+				words[i][i].push_back('\n');
+			}
+		}
+		else if (i == 2)
+		{
+			std::ifstream file("Text File//Shooting1.txt");
+			while (std::getline(file, text))
+			{
+				words[i][i] += text;
+				words[i][i].push_back('\n');
 			}
 		}
 
