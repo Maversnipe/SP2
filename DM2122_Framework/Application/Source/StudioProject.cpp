@@ -7,6 +7,10 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "IK\irrKlang.h"
+using namespace irrklang;
+#pragma comment(lib, "irrKlang.lib")
+ISoundEngine* sfx1 = createIrrKlangDevice();
 
 StudioProject::StudioProject()
 {
@@ -356,6 +360,8 @@ void StudioProject::Init()
 	projectionStack.LoadMatrix(projection);
 
 	changeScene = 0;
+
+	sfx1->play2D("audio/carAccelerate.mp3", GL_TRUE);
 }
 
 void StudioProject::Update(double dt)
@@ -622,19 +628,19 @@ void StudioProject::Render()
 	{
 		Vector3 lightDir(light[5].position.x, light[5].position.y, light[5].position.z);
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
-		glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightDirection_cameraspace.x);
+		glUniform3fv(m_parameters[U_LIGHT5_POSITION], 1, &lightDirection_cameraspace.x);
 	}
 	else if (light[5].type == Light::LIGHT_SPOT)
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * light[5].position;
-		glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightPosition_cameraspace.x);
+		glUniform3fv(m_parameters[U_LIGHT5_POSITION], 1, &lightPosition_cameraspace.x);
 		Vector3 spotDirection_cameraspace = viewStack.Top() * light[5].spotDirection;
-		glUniform3fv(m_parameters[U_LIGHT4_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+		glUniform3fv(m_parameters[U_LIGHT5_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
 	}
 	else
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * light[5].position;
-		glUniform3fv(m_parameters[U_LIGHT4_POSITION], 1, &lightPosition_cameraspace.x);
+		glUniform3fv(m_parameters[U_LIGHT5_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
 	Mtx44 MVP;
@@ -656,13 +662,11 @@ void StudioProject::Render()
 	{
 		RenderMesh(meshList[GEO_AXES], false);
 
-
-
 		RenderSkybox();
 
 		modelStack.PushMatrix();
 		modelStack.Translate(0, -5, 0);
-		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(1000, 1000, 1000);
 		RenderMesh(meshList[GEO_GROUND], true);
 		modelStack.PopMatrix();
@@ -748,14 +752,15 @@ void StudioProject::Render()
 void StudioProject::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 20, 0, 0);
+	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Translate(-24.95 * 20, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BACK], false);
@@ -764,12 +769,14 @@ void StudioProject::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -24.95 * 20);
 	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 24.95 * 20);
+	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
@@ -777,7 +784,7 @@ void StudioProject::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();
@@ -785,7 +792,7 @@ void StudioProject::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
@@ -940,4 +947,6 @@ void StudioProject::Exit()
 	glDeleteBuffers(NUM_GEOMETRY, &m_vertexBuffer[0]);
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+
+	sfx1->stopAllSounds();
 }

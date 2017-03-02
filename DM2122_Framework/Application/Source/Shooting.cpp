@@ -91,7 +91,7 @@ void Shooting::Init()
 	light[0].type = Light::LIGHT_SPOT;
 	light[0].position.Set(0, 20, 0);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 3;
+	light[0].power = 5;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -995,14 +995,15 @@ void Shooting::Render()
 void Shooting::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 20, 0, 0);
+	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_FRONT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Translate(-24.95 * 20, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BACK], true);
@@ -1011,12 +1012,14 @@ void Shooting::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -24.95 * 20);
 	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_LEFT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 24.95 * 20);
+	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_RIGHT], true);
 	modelStack.PopMatrix();
@@ -1024,7 +1027,7 @@ void Shooting::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BOTTOM], true);
 	modelStack.PopMatrix();
@@ -1032,12 +1035,10 @@ void Shooting::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_TOP], true);
 	modelStack.PopMatrix();
-
-
 }
 
 void Shooting::RenderMesh(Mesh *mesh, bool enableLight)
