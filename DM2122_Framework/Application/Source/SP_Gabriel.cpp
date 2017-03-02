@@ -87,6 +87,7 @@ void SP_Gabriel::Init()
 	
 	maxSpawn = 10;
 	currentSpawned = 0;
+	deathBarrier = 30;
 	//enemyUFOdirectionX[10] = 0, enemyUFOdirectionY = 0, enemyUFOdirectionZ[10] = 0;
 	for (int count = 0; count < maxSpawn; ++count)
 	{
@@ -107,14 +108,14 @@ void SP_Gabriel::Init()
 	for (int count = 0; count < maxSpawn; ++count)
 		isEnemyAlive[count] = false; // change to false
 	// spawn 
-	spawnTimer = 300;
-	spawnCounter = spawnTimer - 20;
+	spawnTimer = 150;
+	spawnCounter = spawnTimer - 80;
 	forCount = 0;
 
 	renderRef = false;	// remove (used for testing)
 
 	bulletCount = 0;
-	maxBullets = 10;
+	maxBullets = 100;
 	bulletCD = 0;
 	for (int n = 0; n < maxBullets; ++n)
 	{
@@ -182,7 +183,7 @@ void SP_Gabriel::Init()
 	meshList[GEO_UFO_TEST] = MeshBuilder::GenerateQuad("UFO on test", Color(1, 1, 1), 1, 1);
 	meshList[GEO_UFO_TEST]->textureID = LoadTGA("Image//UFO_test.tga");
 
-	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
+	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1, 1, 1);
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightSphere", Color(1, 1, 1), 18, 36, 1);
 
 	meshList[GEO_UFO] = MeshBuilder::GenerateOBJ("Player UFO", "OBJ//UFO.obj");
@@ -199,6 +200,15 @@ void SP_Gabriel::Init()
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
 
+	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
+
+	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
+
+	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
+
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
 	projectionStack.LoadMatrix(projection);
@@ -206,6 +216,15 @@ void SP_Gabriel::Init()
 
 void SP_Gabriel::Update(double dt)
 {
+
+	if (playLoading)
+	{
+		load_time += dt;
+		if (load_time >= 5)
+			playLoading = false;
+	}
+
+
 	if (Application::IsKeyPressed(VK_BACK))
 		changeScene = 1;
 	fps = 1.0f / dt;
@@ -270,7 +289,7 @@ void SP_Gabriel::Update(double dt)
 
 
 		// death barrier / death zone
-		if (enemyUFOdirectionX[count] > 20 || enemyUFOdirectionX[count] < -20 || enemyUFOdirectionZ[count] > 20 || enemyUFOdirectionZ[count] < -20)
+		if (enemyUFOdirectionX[count] > deathBarrier || enemyUFOdirectionX[count] < -deathBarrier || enemyUFOdirectionZ[count] > deathBarrier || enemyUFOdirectionZ[count] < -deathBarrier)
 		{
 			//isPlayerAlive = false;
 			for (int counter = 0; counter < maxSpawn; ++counter)
@@ -278,7 +297,7 @@ void SP_Gabriel::Update(double dt)
 				isEnemyAlive[counter] = false;	// despawn enemy --> also set isPlayerAlive = false;	set all to false if 3 passes death barrier "deathCount++; if deathCount >= 3 == false"
 				isPlayerAlive = false;
 
-				std::cout << isPlayerAlive << " ; " << isEnemyAlive[count] << "\n";
+				//std::cout << isPlayerAlive << " ; " << isEnemyAlive[count] << "\n";
 			}
 
 			// insert all this to ifEnemyUFOisKilled once function is working
@@ -319,8 +338,8 @@ void SP_Gabriel::Update(double dt)
 			// sets coords and movemets to 0,0 
 			for (int counter_ = 0; counter_ < maxSpawn; ++counter_)
 			{
-				enemyUFOdirectionX[counter_] = 0;
-				enemyUFOdirectionZ[counter_] = 0;
+				enemyUFOdirectionX[counter_] = 100;
+				enemyUFOdirectionZ[counter_] = 100;
 			}
 			break;
 		}
@@ -342,9 +361,15 @@ void SP_Gabriel::Update(double dt)
 		if (bulletCD >= 50)
 		{
 			++bulletCount;
-			if (bulletCount > 9)
+			if (bulletCount > maxBullets - 1)
 			{
 				bulletCount = 0;
+
+				projectileDirectionX[bulletCount] = 0;
+				projectileDirectionZ[bulletCount] = 0;
+
+				projStartX[bulletCount] = 0;
+				projStartZ[bulletCount] = 0;
 			}
 			isShooting[bulletCount] = true;
 			// Shoot "projectile" towards enemy
@@ -361,9 +386,24 @@ void SP_Gabriel::Update(double dt)
 
 	if (isShooting[bulletCount])
 	{
-		projectileDirectionX[bulletCount] += (float)(10 * -projStartX[bulletCount] / 15 * dt);
-		projectileDirectionZ[bulletCount] += (float)(10 * -projStartZ[bulletCount] / 15 * dt);
+		projectileDirectionX[bulletCount] += (float)(10 * -projStartX[bulletCount] / 7 * dt);
+		projectileDirectionZ[bulletCount] += (float)(10 * -projStartZ[bulletCount] / 7 * dt);
 	}
+
+	//if (bulletCount > maxBullets)
+	//{
+	//	bulletCount = 0;
+	//	projStartX[bulletCount] = 0;
+	//	projStartZ[bulletCount] = 0;
+	//	projectileDirectionX[bulletCount] = 0;
+	//	projectileDirectionZ[bulletCount] = 0;
+	//}
+	//if (currentSpawned > maxSpawn)
+	//{
+	//	currentSpawned = 0;
+	//	enemyUFOdirectionX[currentSpawned] = 0;
+	//	enemyUFOdirectionZ[currentSpawned] = 0;
+	//}
 	
 	//std::cout << projectileDirectionX[bulletCount] << "\n";
 
@@ -381,24 +421,26 @@ void SP_Gabriel::Update(double dt)
 				
 			float squareRoot = sqrt((coordX * coordX) + (coordZ * coordZ));
 				
-			//std::cout << "Outside: testX = " << bulletX << " ; testZ = " << bulletZ << " ; coordX = " << coordX << " ; coordZ = " << coordZ << "\n";
-			//std::cout << "Outside: " << i << " ; " << enemyUFOdirectionX[i] << " ; projStartZ[j] = " << projStartZ[j] << " ; projectileDirectionZ[j] = " << projectileDirectionZ[j] << " ; sqrt = " << squareRoot << "\n";
-			/*std::cout << "Outside: " << i << " ; " << isEnemyAlive[i] << " ; coordX = " << coordX << " ; coordZ = " << coordZ << " ; sqrt = " << sqrt((coordX * coordX) + (coordZ * coordZ)) << "\n";*/
-				
 			if (squareRoot < totalDistOfBulletAndObject)
 			{
-				isEnemyAlive[i] = false;
+				//isEnemyAlive[i] = false;
+
+				enemyUFOdirectionX[i] = 0;
+				enemyUFOdirectionZ[i] = 0;
+
 				isShooting[j] = false;
+				
+				projectileDirectionX[j] = 0;
+				projectileDirectionZ[j] = 0;
+
 				// reset pos of ufo here
 					
-				std::cout << isEnemyAlive[i] << "\n";
-				//std::cout << "Inside: " << bulletX << " ; " << bulletZ << "\n";
-				//std::cout << "Inside: " << i << " ; " << isEnemyAlive[i] << " ; coordX = " << coordX << " ; coordZ = " << coordZ << " ; sqrt = " << squareRoot << "\n";
-				//std::cout << "enemyUFOdirectionX[i] = " << enemyUFOdirectionX[i] << " ; projectileDirectionX[j] = " << projectileDirectionX[j] << "\n";
-				//std::cout << "enemyUFOdirectionZ[i] = " << enemyUFOdirectionZ[i] << " ; projectileDirectionZ[j] = " << projectileDirectionZ[j] << "\n";
+				//std::cout << isEnemyAlive[i] << "\n";
 			}
 		}
 	}
+
+	std::cout << bulletCount << "\n";
 
 	//for (int count = 0; count < maxSpawn; count++)
 	//{
@@ -509,6 +551,17 @@ void SP_Gabriel::Render()
 	//---------------------------------------------------------------
 	if (changeScene != 0)
 		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
+	
+	else if (playLoading)
+	{
+		if ((load_time >= 0) && (load_time <= 2))
+			RenderMeshOnScreen(meshList[GEO_LOAD2], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 2) && (load_time <= 3.5))
+			RenderMeshOnScreen(meshList[GEO_LOAD3], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 3.5) && (load_time <= 5))
+			RenderMeshOnScreen(meshList[GEO_LOAD4], 40, 20, 80, 80);//No transform needed
+	}
+	
 	else
 	{
 		if (renderRef)
@@ -531,7 +584,7 @@ void SP_Gabriel::Render()
 
 		*/
 
-		for (int count = 0; count < maxSpawn; count++)
+		for (int count = 0; count <= maxSpawn; count++)
 		{
 			if (isEnemyAlive[count]){
 				modelStack.PushMatrix();
@@ -541,14 +594,17 @@ void SP_Gabriel::Render()
 			}
 		}
 
-		if (isShooting[bulletCount])
+		for (int count = 0; count <= bulletCount; count++)
 		{
-			modelStack.PushMatrix();
-			modelStack.Translate(projStartX[bulletCount] + projectileDirectionX[bulletCount], 0, projStartZ[bulletCount] + projectileDirectionZ[bulletCount]);
-			modelStack.Scale(0.3, 0.3, 0.3);
-			RenderMesh(meshList[GEO_PROJECTILE], false);
-			modelStack.PopMatrix();
-			//std::cout << " ; " << " ; projStartZ[j] = " << projStartZ[bulletCount] << " ; projectileDirectionZ[j] = " << projectileDirectionZ[bulletCount] << "\n";
+			if (isShooting[count])
+			{
+				modelStack.PushMatrix();
+				modelStack.Translate(projStartX[count] + projectileDirectionX[count], 0, projStartZ[count] + projectileDirectionZ[count]);
+				modelStack.Scale(0.3, 0.3, 0.3);
+				RenderMesh(meshList[GEO_PROJECTILE], false);
+				modelStack.PopMatrix();
+				//std::cout << " ; " << " ; projStartZ[j] = " << projStartZ[bulletCount] << " ; projectileDirectionZ[j] = " << projectileDirectionZ[bulletCount] << "\n";
+			}
 		}
 
 		RenderMeshOnScreen(meshList[GEO_UFO_ON_SCREEN], 40.5, 15, 25, 25);
@@ -709,6 +765,10 @@ void SP_Gabriel::RenderText(Mesh* mesh, std::string text, Color color)
 
 void SP_Gabriel::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
+	float spacingX = 1.0f;
+	float spacingY = 0.f;
+	int count = 0;
+
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
@@ -735,11 +795,21 @@ void SP_Gabriel::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		if (text[i] == '@')
+		{
+			spacingX += 1.0f * count;
+			spacingY -= 1.0f;
+			text[i] = ' ';
+			count = 0;
+		}
+
+		else
+			characterSpacing.SetToTranslation(i * 1.0f - spacingX, spacingY, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
+		count++;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);

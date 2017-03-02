@@ -6,8 +6,8 @@ class Car
 public:
 	Car(){};
 	~Car(){};
-	float health;
-	float fuel;
+	int health;
+	int fuel;
 private:
 };
 

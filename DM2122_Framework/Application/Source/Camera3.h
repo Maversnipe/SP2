@@ -3,6 +3,7 @@
 
 #include "Camera.h"
 #include "AABB.h"
+#include "Application.h"
 
 class Camera3 : public Camera
 {
@@ -41,6 +42,7 @@ public:
 
 	AABB charAABB;
 	AABB buildingAABB[5];
+	GLFWwindow* m_window;
 
 
 private:

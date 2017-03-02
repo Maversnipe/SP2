@@ -48,6 +48,9 @@ public:
 
 		GEO_PROJECTILE,
 		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
 
 		NUM_GEOMETRY,
 	};
@@ -100,12 +103,13 @@ public:
 	int spawnTimer;
 	float valX_Z, val;
 	float prevValX;
-	bool isPlayerAlive, isEnemyAlive[10];
+	float deathBarrier;
+	bool isPlayerAlive, isEnemyAlive[1000];
 	bool renderRef;
-	bool isShooting[10];
-	float projectileDirectionX[10], projectileDirectionZ[10];
-	float projStartX[10];
-	float projStartZ[10];
+	bool isShooting[1000];
+	float projectileDirectionX[1000], projectileDirectionZ[1000];
+	float projStartX[1000];
+	float projStartZ[1000];
 	int bulletCount;
 	int maxBullets;
 	float bulletCD;		// bullet cooldown
@@ -140,6 +144,10 @@ private:
 
 	float fps = 0.0;
 	std::string framesPerSec = "";
+	//Loading screen
+	float load_time = 0;
+	bool playLoading = true;
+
 };
 
 #endif

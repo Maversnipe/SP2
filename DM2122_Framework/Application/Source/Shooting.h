@@ -62,6 +62,11 @@ public:
 		GEO_HITNOTIRIGHT,
 		GEO_HITNOTILEFT,
 		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
+
+		GEO_TUTNPC,
 		NUM_GEOMETRY,
 	};
 
@@ -87,18 +92,6 @@ public:
 		U_LIGHT0_COSCUTOFF,
 		U_LIGHT0_COSINNER,
 		U_LIGHT0_EXPONENT,
-		//Light two 
-		U_LIGHT1_POSITION,
-		U_LIGHT1_COLOR,
-		U_LIGHT1_POWER,
-		U_LIGHT1_KC,
-		U_LIGHT1_KL,
-		U_LIGHT1_KQ,
-		U_LIGHT1_TYPE,
-		U_LIGHT1_SPOTDIRECTION,
-		U_LIGHT1_COSCUTOFF,
-		U_LIGHT1_COSINNER,
-		U_LIGHT1_EXPONENT,
 		//===
 		U_NUMLIGHTS,
 		U_COLOR_TEXTURE_ENABLED,
@@ -109,7 +102,14 @@ public:
 
 	};
 
-
+	enum SHOOTING_GAMESTATE
+	{
+		TUTORIAL,
+		GAME_START,
+		GAME_PAUSE,
+		GAME_OVER,
+		COUNT,
+	};
 
 	unsigned m_parameters[U_TOTAL];
 
@@ -183,6 +183,12 @@ private:
 	bool tutorialEnd = false;
 	bool openTreasure = false;
 	bool tutorialStart = false;
+	bool display1 = false;
+	bool display2 = false;
+	bool display3 = false;
+	bool display4 = false;
+	float bounce_time_text_display = 0.f;
+
 	//============Treasure===========
 	Vector3 ObjectPos[1] = {};
 	bool getMoney = false;
@@ -196,7 +202,9 @@ private:
 	bool treasureTaken = false;
 	//===============================
 	float RandomNumber(float min, float max);
-
+	//===Loading screen===
+	float load_time = 0;
+	bool playLoading = true;
 
 	float x = 0.0;
 	float y = 0.0;

@@ -57,7 +57,14 @@ public:
 		GEO_FRONT,
 		GEO_BACK,
 		GEO_GROUND,
+<<<<<<< HEAD
 
+=======
+		GEO_LOAD1,
+		GEO_LOAD2,
+		GEO_LOAD3,
+		GEO_LOAD4,
+>>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd
 		NUM_GEOMETRY,
 	};
 
@@ -147,6 +154,10 @@ private:
 	double treasureRotate = 0.0;
 	bool allCollected = false;
 	std::string treasureCollected = "";
+
+	//===Loading screen===
+	float load_time = 0;
+	bool playLoading = true;
 
 	float x = 0.0;
 	float y = 0.0;

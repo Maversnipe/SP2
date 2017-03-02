@@ -129,6 +129,8 @@ void Driving::Init()
 	}
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("reference", Color(1, 0, 0), 1, 1);
+	meshList[GEO_HEALTHBAR] = MeshBuilder::GenerateQuad("healthbar", Color(1, 0, 0), 1, 1);
+	meshList[GEO_FUELBAR] = MeshBuilder::GenerateQuad("fuelbar", Color(0, 0, 0), 1, 1);
 	//meshList[GEO_QUAD]->textureID = LoadTGA("Image//color2.tga");
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
@@ -489,7 +491,7 @@ void Driving::Update(double dt)
 	{
 		changeScene = 3;
 	}
-	cout << car.health << "            " << car.fuel << endl;
+	cout << car.health << "            " << car.fuel << "            " << Camera4.CAR_SPEED << endl;
 }
 
 void Driving::Render()
@@ -520,7 +522,7 @@ void Driving::Render()
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
-		(Camera4.position.x - (Camera4.view.x  * 5)), (Camera4.position.y), (Camera4.position.z - (Camera4.view.z * 5)),
+		(Camera4.position.x - (Camera4.view.x * 5)), (Camera4.position.y), (Camera4.position.z - (Camera4.view.z * 5)),
 		Camera4.target.x, Camera4.target.y, Camera4.target.z,
 		Camera4.up.x, Camera4.up.y, Camera4.up.z);
 	modelStack.LoadIdentity();
@@ -606,11 +608,17 @@ void Driving::Render()
 		RenderMesh(meshList[GEO_CAR], true);
 		modelStack.PopMatrix();
 		RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 1), 3, 0.5, 0.5);
-		RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((100 - (int)car.health) / 20)), 57, ((int)car.health / 10), 2);//No transform needed
-		RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 0, 0), 2, 0.5, 28.5);
+		for (int i = 0; i <= car.health; i++)
+		{
+			RenderMeshOnScreen(meshList[GEO_HEALTHBAR], 14 + (i/10), 57, 1, 2);//No transform needed
+		}
+		RenderTextOnScreen(meshList[GEO_TEXT], "Health: ", Color(1, 1, 1), 2, 0.5, 28.5);
 
-		RenderMeshOnScreen(meshList[GEO_QUAD], (18 - ((10000 - (int)car.fuel) / 2000)), 55, ((int)car.fuel / 1000), 2);//No transform needed
-		RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 0, 0), 2, 0.5, 27.5);
+		for (int i = 0; i < (car.fuel+1000)/100; i++)
+		{
+			RenderMeshOnScreen(meshList[GEO_FUELBAR], 14 + (i / 10), 54, 1, 2);//No transform needed
+		}
+		RenderTextOnScreen(meshList[GEO_TEXT], "Fuel: ", Color(1, 1, 1), 2, 0.5, 27);
 		RenderTextOnScreen(meshList[GEO_TEXT], std::to_string(Money::getInstance()->getMoney()), Color(0, 1, 1), 3, 23, 19);
 		RenderMeshOnScreen(meshList[GEO_ROCKS], 75, 57, 4, 4);
 	}

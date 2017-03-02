@@ -24,7 +24,8 @@ void Platformer::Init()
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
+	glEnable(GL_BLEND);
+
 	// Blend
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -104,9 +105,11 @@ void Platformer::Init()
 	for (int i = 0; i < NUM_GEOMETRY; i++)
 	{
 		meshList[i] = NULL;
-	}
+	}
+
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1, 1);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//enemy.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//enemy.tga");
+
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1, 1);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//enemy.tga");
 
@@ -151,9 +154,22 @@ void Platformer::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//PrestigeElite.tga");
 
+<<<<<<< HEAD
 	meshList[GEO_LOAD1_SCREEN] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1_SCREEN]->textureID = LoadTGA("Image//loading1.tga");
+=======
+	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+	
+	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
+>>>>>>> c09ebc182fc9e5b005e8b29a4bbf34218d6ca4bd
 
+	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
+
+	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
 	setPlatforms();
 
 	Mtx44 projection;
@@ -166,6 +182,13 @@ void Platformer::Init()
 
 void Platformer::Update(double dt)
 {
+	if (playLoading)
+	{
+		load_time += dt;
+		if (load_time >= 5)
+			playLoading = false;
+	}
+
 	elapsed_time += dt;
 
 	x = camera.position.x;
@@ -265,6 +288,17 @@ void Platformer::Render()
 
 	if (changeScene != 0)
 		RenderMeshOnScreen(meshList[GEO_LOAD1_SCREEN], 40, 20, 80, 80);//No transform needed
+
+
+	else if (playLoading)
+	{
+		if ((load_time >= 0) && (load_time <= 2))
+			RenderMeshOnScreen(meshList[GEO_LOAD2], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 2) && (load_time <= 3.5))
+			RenderMeshOnScreen(meshList[GEO_LOAD3], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 3.5) && (load_time <= 5))
+			RenderMeshOnScreen(meshList[GEO_LOAD4], 40, 20, 80, 80);//No transform needed
+	}
 
 	else
 	{
@@ -428,6 +462,10 @@ void Platformer::RenderMeshOnScreen(Mesh* mesh, int x, int y, int sizex, int siz
 
 void Platformer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
+	float spacingX = 1.0f;
+	float spacingY = 0.f;
+	int count = 0;
+
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
@@ -454,11 +492,21 @@ void Platformer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		if (text[i] == '@')
+		{
+			spacingX += 1.0f * count;
+			spacingY -= 1.0f;
+			text[i] = ' ';
+			count = 0;
+		}
+
+		else
+			characterSpacing.SetToTranslation(i * 1.0f - spacingX, spacingY, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
+		count++;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
@@ -466,7 +514,7 @@ void Platformer::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, f
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();
-	 
+
 	glEnable(GL_DEPTH_TEST);
 }
 

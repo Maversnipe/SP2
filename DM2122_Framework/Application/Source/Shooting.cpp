@@ -7,6 +7,7 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "FileReading.h"
 #include <iostream>
 using namespace std;
 Mtx44 stamp;
@@ -70,19 +71,6 @@ void Shooting::Init()
 	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
-
-	//Light 2 
-	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
-	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
-	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
-	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
-	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
-	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");
-	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
-	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[1].spotDirection");
-	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
-	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
-	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
 	//===
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
@@ -101,28 +89,16 @@ void Shooting::Init()
 	scaleAll = 1;
 
 	light[0].type = Light::LIGHT_SPOT;
-	light[0].position.Set(0, 20, 10);
+	light[0].position.Set(0, 20, 0);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 3;
+	light[0].power = 5;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
-	light[0].cosCutoff = cos(Math::DegreeToRadian(45));
-	light[0].cosInner = cos(Math::DegreeToRadian(30));
+	light[0].cosCutoff = cos(Math::DegreeToRadian(15));
+	light[0].cosInner = cos(Math::DegreeToRadian(10));
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);	
-
-	light[1].type = Light::LIGHT_SPOT;
-	light[1].position.Set(0, 0, 0);
-	light[1].color.Set(1, 1, 1);
-	light[1].power = 0;
-	light[1].kC = 1.f;
-	light[1].kL = 0.01f;
-	light[1].kQ = 0.001f;
-	light[1].cosCutoff = cos(Math::DegreeToRadian(15));
-	light[1].cosInner = cos(Math::DegreeToRadian(10));
-	light[1].exponent = 3.f;
-	light[1].spotDirection.Set(0.f, 1.f, 0.f);
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
@@ -136,16 +112,6 @@ void Shooting::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
-
-	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
-	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
-	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
-	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
-	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
-	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
-	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
-	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
-	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 
 	// Initialise Camera
 	Camera.Init(Vector3(0, 0, 200), Vector3(0, 0, 0), Vector3(0, 1, 0));
@@ -249,6 +215,16 @@ void Shooting::Init()
 
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
+
+	meshList[GEO_LOAD2] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD2]->textureID = LoadTGA("Image//loading2.tga");
+
+	meshList[GEO_LOAD3] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD3]->textureID = LoadTGA("Image//loading3.tga");
+
+	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
+	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
+
 	//================
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -276,6 +252,13 @@ void Shooting::Init()
 
 void Shooting::Update(double dt)
 {
+	if (playLoading)
+	{
+		load_time += dt;
+		if (load_time >= 5)
+			playLoading = false;
+	}
+
 	if (Application::IsKeyPressed(VK_BACK))
 		changeScene = 1;
 	if (tutorialEnd || tutorialStart) //pausing game to show tutorial option
@@ -465,31 +448,82 @@ void Shooting::Update(double dt)
 	}
 
 //===========================TUTORIAL==========================
+	if (!tutorialEnd && tutorialStart)
+	{
+		if (!display1)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display1 = true;
+			}
+			else if (pickUpGun)
+			{
+				bounce_time_text_display = 0;
+				display1 = true;
+			}
+		}
+
+		else if (!display2 && pickUpGun)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display2 = true;
+			}
+			else if (enemyTutDead)
+			{
+				bounce_time_text_display = 0;
+				display2 = true;
+			}
+		}
+
+		else if (!display3 && enemyTutDead)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display3 = true;
+			}
+			 else if (openTreasure)
+			{
+				bounce_time_text_display = 0;
+				display3 = true;
+			}
+		}
+
+		else if (openTreasure && !display4)
+		{
+			bounce_time_text_display += dt;
+			if (bounce_time_text_display >= 5)
+			{
+				bounce_time_text_display = 0;
+				display4 = true;
+				tutorialEnd = true;
+			}
+		}
+
+	}
+
 	if ((Camera.position.z < 6) && (Application::IsKeyPressed('E')))
+	{
 		pickUpGun = true;
+	}
+
 
 	if (pickUpGun)
 	{
-//		light[0].position.Set(0, 30, -30);
-//		light[0].color.Set(0,1,0);
-//		light[0].power = 5;
-//		light[0].type = Light::LIGHT_POINT;
 		disappearTable = true;
 		Camera.switchTreasure = true;
-		light[0].power = 1;
-		//light[0].cosCutoff = cos(Math::DegreeToRadian(15));
-		//light[0].cosInner = cos(Math::DegreeToRadian(10));
-		light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
-		light[0].position.Set(Camera.position.x, Camera.position.y, Camera.position.z - 30);
-//		light[1].power = 5;
-//		light[1].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
-//		light[1].position.Set(Camera.position.x, Camera.position.y, Camera.position.z - 15);
-	}
+		light[0].power = 4;
 
-	if (enemyTutDead && !tutorialEnd)
-	{
-		if (openTreasure)
-		tutorialEnd = true;
+		light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
+		light[0].position.Set(Camera.target.x, Camera.target.y, Camera.target.z);
+
+
 	}
 //============UPDATING AABB FROM TABLE TO TREASURE===============
 	if (!Camera.switchTreasure)
@@ -575,6 +609,7 @@ void Shooting::Update(double dt)
 				}
 			}
 			else if (!enemyTutDead)
+			{
 				if ((enemyTutPos - bullet[i].pos).Length() < 2)
 				{
 					enemyTutDead = true;
@@ -585,6 +620,7 @@ void Shooting::Update(double dt)
 						Camera.sideNoti[i] = 0;
 					}
 				}
+			}
 		}
 
 	}
@@ -620,7 +656,6 @@ void Shooting::Update(double dt)
 	}
 	if (!treasureAnimation && treasureTaken)
 	{
-		//ObjectPos[1].Set(ObjectPos[0].x, ObjectPos[0].y, ObjectPos[0].z);
 		//For randomising treasure
 		float i = RandomNumber(-250, 250);
 		float j = RandomNumber(-250, 250);
@@ -715,6 +750,7 @@ void Shooting::Render()
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
+
 	else if (light[0].type == Light::LIGHT_SPOT)
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
@@ -735,20 +771,25 @@ void Shooting::Render()
 
 	
 
+	else if (playLoading)
+	{
+		if ((load_time >= 0) && (load_time <= 2))
+			RenderMeshOnScreen(meshList[GEO_LOAD2], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 2) && (load_time <= 3.5))
+			RenderMeshOnScreen(meshList[GEO_LOAD3], 40, 20, 80, 80);//No transform needed
+		else if ((load_time >= 3.5) && (load_time <= 5))
+			RenderMeshOnScreen(meshList[GEO_LOAD4], 40, 20, 80, 80);//No transform needed
+	}
+
 	else
 	{
 		RenderMesh(meshList[GEO_AXES], false);
-
-		modelStack.PushMatrix();
-		modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-		RenderMesh(meshList[GEO_LIGHTBALL], false);
-		modelStack.PopMatrix();
 
 		RenderSkybox();
 
 		modelStack.PushMatrix();
 		modelStack.Translate(0, -5, 0);
-		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(1000, 1000, 1000);
 		RenderMesh(meshList[GEO_FLOOR], true);
 		modelStack.PopMatrix();
@@ -929,10 +970,21 @@ void Shooting::Render()
 			}
 		}
 
-		//================================================================================
+		//===============================Tutorial==================================
 		if (!tutorialStart && !tutorialEnd)
 			RenderTextOnScreen(meshList[GEO_TEXT], "Do you want a tutorial?", Color(1, 0, 0), 3, 3, 6.5);
-		//================================================================================
+		if (tutorialStart && !tutorialEnd)
+		{
+			if (!display1)
+				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(0), Color(0, 1, 1), 2, 6, 27);
+			else if (!display2 && pickUpGun)
+				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(1), Color(0, 1, 1), 2, 7, 27);
+			else if (!display3 && enemyTutDead)
+				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(2), Color(0, 1, 1), 2, 6, 27);
+			else if (!display4 && openTreasure)
+				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(3), Color(0, 1, 1), 2, 6, 27);
+		}
+		//================================================================================u
 
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
@@ -943,14 +995,15 @@ void Shooting::Render()
 void Shooting::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 20, 0, 0);
+	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_FRONT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Translate(-24.95 * 20, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BACK], true);
@@ -959,12 +1012,14 @@ void Shooting::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -24.95 * 20);
 	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_LEFT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 24.95 * 20);
+	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_RIGHT], true);
 	modelStack.PopMatrix();
@@ -972,7 +1027,7 @@ void Shooting::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BOTTOM], true);
 	modelStack.PopMatrix();
@@ -980,12 +1035,10 @@ void Shooting::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
+	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_TOP], true);
 	modelStack.PopMatrix();
-
-
 }
 
 void Shooting::RenderMesh(Mesh *mesh, bool enableLight)
@@ -1084,6 +1137,10 @@ void Shooting::RenderMeshOnScreen(Mesh* mesh, int x, int y, int
 
 void Shooting::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
+	float spacingX = 1.0f;
+	float spacingY = 0.f;
+	int count = 0;
+
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
@@ -1110,11 +1167,21 @@ void Shooting::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, flo
 	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		if (text[i] == '@')
+		{
+			spacingX += 1.0f * count;
+			spacingY -= 1.0f;
+			text[i] = ' ';
+			count = 0;
+		}
+
+		else
+		characterSpacing.SetToTranslation(i * 1.0f - spacingX, spacingY, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
 		mesh->Render((unsigned)text[i] * 6, 6);
+		count++;
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
