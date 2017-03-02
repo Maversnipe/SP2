@@ -14,7 +14,7 @@ public:
 private:
 	FileReading() {}
 	std::string words[24];
-	int totalFiles = 4; //Change this value if you add in more files
+	int totalFiles = 5; //Change this value if you add in more files
 	static FileReading *file;
 
 };

@@ -7,6 +7,7 @@
 #include "MeshBuilder.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "FileReading.h"
 
 Platformer::Platformer()
 {
@@ -893,6 +894,6 @@ void Platformer::RenderAbilitySelect()
 {
 	if (abilitySelect == 0)
 	{
-
+		RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(4), Color(0, 1, 1), 2, 6, 27);
 	}
 }
