@@ -229,7 +229,6 @@ void SP_Gabriel::Update(double dt)
 
 	spawnCounter++;
 	bulletCD++;
-	//std::cout << spawnCounter << "\n";
 
 	if (spawnCounter >= spawnTimer /*&& isPlayerAlive == true*/)		// add is palyer alive check before spawning enemies
 	{
@@ -251,16 +250,12 @@ void SP_Gabriel::Update(double dt)
 				randomDirectionZ[count] = 0;
 
 				randomDirectionX[count] = rand() % 10 - 5;
-					std::cout << count << " X rand()" << randomDirectionX[count] << std::endl;		// for debuging
 				randomDirectionZ[count] = rand() % 10 - 5;
-					std::cout << count << " Z rand()" << randomDirectionZ[count] << std::endl;		// for debuging
 
 				if (randomDirectionX[count] == 0 && randomDirectionZ[count] == 0)
 				{
 					randomDirectionX[count] = rand() % 10 - 5;
-						std::cout << count << " X rand() in 0 " << randomDirectionX[count] << std::endl;
 					randomDirectionZ[count] = rand() % 10 - 5;
-						std::cout << count << " Z rand() in 0 " << randomDirectionZ[count] << std::endl;
 				}
 
 				forCount++;
@@ -274,7 +269,6 @@ void SP_Gabriel::Update(double dt)
 		}
 		spawnCounter = 0;
 		currentSpawned++;
-		//std::cout << spawnCounter << "\n";
 	} 
 
 
@@ -293,7 +287,6 @@ void SP_Gabriel::Update(double dt)
 				isEnemyAlive[counter] = false;	// despawn enemy --> also set isPlayerAlive = false;	set all to false if 3 passes death barrier "deathCount++; if deathCount >= 3 == false"
 				isPlayerAlive = false;
 
-				//std::cout << isPlayerAlive << " ; " << isEnemyAlive[count] << "\n";
 			}
 
 			// insert all this to ifEnemyUFOisKilled once function is working
@@ -504,7 +497,7 @@ void SP_Gabriel::Render()
 				modelStack.Scale(0.3, 0.3, 0.3);
 				RenderMesh(meshList[GEO_PROJECTILE], false);
 				modelStack.PopMatrix();
-				//std::cout << " ; " << " ; projStartZ[j] = " << projStartZ[bulletCount] << " ; projectileDirectionZ[j] = " << projectileDirectionZ[bulletCount] << "\n";
+				
 			}
 		}
 

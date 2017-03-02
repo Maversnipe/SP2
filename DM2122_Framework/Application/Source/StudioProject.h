@@ -185,10 +185,10 @@ private:
 	float theta = 0.f;
 	//=============
 
-	float elapsed_time = 0.0;
-	float bounce_time = 0.0;
-	float bounce_time_money = 0.0;
-	float flash_money_time = 0.0;
+	double elapsed_time = 0.0;
+	double bounce_time = 0.0;
+	double bounce_time_money = 0.0;
+	double flash_money_time = 0.0;
 	bool noMoney = false;
 	bool displayMoney = false;
 	float load_time = 0; 

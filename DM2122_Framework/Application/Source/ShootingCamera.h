@@ -24,7 +24,7 @@ public:
 	Vector3 buildingSlide;
 	int slideAABBobject(AABB, AABB);
 	bool collideAABBobject(AABB, AABB);
-	double velocity = 1;
+	float velocity = 1;
 	int X_Or_Z = 0;
 
 	AABB charAABB;
@@ -44,10 +44,10 @@ public:
 	float mouseY = 0;
 	float mouseX = 0;
 	double xpos, ypos;
-	float verticalAngle = 0.0f;
-	float horizontalAngle = 0.0f;
-	float rotateVert = 0;
-	float rotateHori = 0;
+	double verticalAngle = 0.0f;
+	double horizontalAngle = 0.0f;
+	double rotateVert = 0;
+	double rotateHori = 0;
 
 //private:
 	Vector3 view;
