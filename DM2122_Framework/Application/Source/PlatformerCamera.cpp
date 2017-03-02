@@ -201,20 +201,35 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			}
 			if (slideAABBobject(charAABB, toCollide.platformAABB) == 1)
 			{ // Move in X Direction
-				position.x = position.x - (view.x * velocity);
+				position.x = position.x - (right.x * velocity);
 				target.x = position.x + (view.x * velocity);
 			}
 			else if (slideAABBobject(charAABB, toCollide.platformAABB) == 2)
 			{
-				position.z = position.z - (view.z * velocity);
+				position.z = position.z - (right.z * velocity);
 				target.z = position.z + (view.z * velocity);
 			}
 			else
 			{ // Move in Z Direction
-				position.x = position.x - (right.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z - (right.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x - (right.x * velocity);
+					target.x = position.x + (view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+					position.z = position.z - (right.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+					position.x = position.x - (right.x * velocity);
+					target.x = position.x + (view.x * velocity);
+					position.z = position.z - (right.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
 			}
 		}
 
@@ -276,10 +291,25 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			}
 			else
 			{
-				position.x = position.x + (right.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z + (right.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x + (right.x * velocity);
+					target.x = position.x + (view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+					position.z = position.z + (right.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+					position.x = position.x + (right.x * velocity);
+					target.x = position.x + (view.x * velocity);
+					position.z = position.z + (right.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
 			}
 		}
 
@@ -341,10 +371,25 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			}
 			else
 			{
-				position.x = position.x + (view.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z + (view.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x + (view.x * velocity);
+					target.x = position.x + (view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+					position.z = position.z + (view.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+					position.x = position.x + (view.x * velocity);
+					target.x = position.x + (view.x * velocity);
+					position.z = position.z + (view.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
 			}
 		}
 
@@ -406,10 +451,25 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 			}
 			else
 			{
-				position.x = position.x - (view.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z - (view.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x - (view.x * velocity);
+					target.x = position.x + (view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+					position.z = position.z - (view.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+					position.x = position.x - (view.x * velocity);
+					target.x = position.x + (view.x * velocity);
+					position.z = position.z - (view.z * velocity);
+					target.z = position.z + (view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
 			}
 		}
 	}
@@ -537,4 +597,22 @@ int PlatformerCamera::slideAABBobject(AABB charAABB, AABB objectAABB)
 	else
 		return 0;
 
+}
+
+int PlatformerCamera::boundsCheck(Vector3 newPos)
+{
+	if ((newPos.x <= 515) && (newPos.x >= -515) && ((newPos.z > 515) || newPos.z < -515))
+	{
+		return 1;
+	}
+	else if ((newPos.z <= 515) && (newPos.z >= -515) && ((newPos.x > 515) || newPos.x < -515))
+	{
+		return 2;
+	}
+	else if ((newPos.x <= 515) && (newPos.x >= -515) && (newPos.z <= 515) && (newPos.z >= -515))
+	{
+		return 3;
+	}
+	else
+		return 0;
 }
