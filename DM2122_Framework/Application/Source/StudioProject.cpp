@@ -376,71 +376,50 @@ void StudioProject::Update(double dt)
 	Y = "Y: " + std::to_string(y);
 	Z = "Z: " + std::to_string(z);
 
-	float LSPEED = 10.f;
-	if (Application::IsKeyPressed('I'))
-		light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))
-		light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))
-		light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))
-		light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))
-		light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))
-		light[0].position.y += (float)(LSPEED * dt);
-
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	else if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	if (Application::IsKeyPressed('5'))
-	{
-		light[0].type = Light::LIGHT_POINT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('6'))
-	{
-		light[0].type = Light::LIGHT_DIRECTIONAL;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('7'))
-	{
-		light[0].type = Light::LIGHT_SPOT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
 	rotateCaro += 40 * dt;
 
 	if ((camera3.position.x - 2 > building[0].x - 10) && (camera3.position.x + 2 < building[0].x + 15)
 		&& (camera3.position.z - 2 > building[0].z + 25) && (camera3.position.z + 2 < building[0].z + 35)
 		&& (Application::IsKeyPressed('E')))
 	{
-		changeScene = 2;
+		if (Money::getInstance()->getMoney() >= 5)
+		{
+			Money::getInstance()->deductMoney(5);
+			changeScene = 2;
+		}
+	
 	}
 
 	if ((camera3.position.x - 2 > building[1].x - 10) && (camera3.position.x + 2 < building[1].x + 15)
 		&& (camera3.position.z - 2 > building[1].z + 25) && (camera3.position.z + 2 < building[1].z + 35)
 		&& (Application::IsKeyPressed('E')))
 	{
-		changeScene = 3;
+		if (Money::getInstance()->getMoney() >= 5)
+		{
+			Money::getInstance()->deductMoney(5);
+			changeScene = 3;
+		}
 	}
 
 	if ((camera3.position.x - 2 > building[2].x - 10) && (camera3.position.x + 2 < building[2].x + 15)
 		&& (camera3.position.z - 2 > building[2].z + 25) && (camera3.position.z + 2 < building[2].z + 35)
 		&& (Application::IsKeyPressed('E')))
 	{
-		changeScene = 4;
+		if (Money::getInstance()->getMoney() >= 5)
+		{
+			Money::getInstance()->deductMoney(5);
+			changeScene = 4;
+		}
 	}
 	if ((camera3.position.x - 2 > building[4].x - 10) && (camera3.position.x + 2 < building[4].x + 15)
 		&& (camera3.position.z - 2 > building[4].z + 25) && (camera3.position.z + 2 < building[4].z + 35)
 		&& (Application::IsKeyPressed('E')))
 	{
-		changeScene = 5;
+		if (Money::getInstance()->getMoney() >= 5)
+		{
+			Money::getInstance()->deductMoney(5);
+			changeScene = 5;
+		}
 	}
 	if (Application::IsKeyPressed('E'))
 	{ // So that it does not sense that user pressed E when entering mini-games
