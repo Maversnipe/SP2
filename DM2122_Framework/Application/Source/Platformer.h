@@ -41,6 +41,9 @@ public:
 		PAUSE_SCREEN,
 		PAUSE2_SCREEN,
 		PAUSE3_SCREEN,
+		GAME_OVER,
+		GAME_OVER2,
+		GAME_OVER3,
 		ABILITY_SELECT_MENU,
 		GAMEOVER_SCREEN,
 		GAMEOVER2_SCREEN,
@@ -133,8 +136,15 @@ private:
 		// Pause
 		void RenderPause();
 		int pauseSelect = 1;
-		bool quitGame = false;
 		double pause_bounce_time = 0.0;
+		// Gameover
+		void RenderGameover();
+		double gameover_bounce_time = 0.0;
+		int gameoverSelect = 1;
+		// Ability Select
+		void RenderAbilitySelect();
+		double ability_bounce_time = 0.0;
+		int abilitySelect = 0;
 
 	//======================Time======================
 	double elapsed_time = 0.0;

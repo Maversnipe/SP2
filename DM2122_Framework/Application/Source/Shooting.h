@@ -65,6 +65,12 @@ public:
 		GEO_LOAD2,
 		GEO_LOAD3,
 		GEO_LOAD4,
+		PAUSE_SCREEN,
+		PAUSE2_SCREEN,
+		PAUSE3_SCREEN,
+		GAME_OVER,
+		GAME_OVER2,
+		GAME_OVER3,
 
 		GEO_TUTNPC,
 		NUM_GEOMETRY,
@@ -108,7 +114,7 @@ public:
 		TUTORIAL,
 		GAME_START,
 		GAME_PAUSE,
-		GAME_OVER,
+		GAMEOVER,
 		COUNT,
 	}game_state;
 
@@ -161,6 +167,14 @@ private:
 	float enemyRadius;
 	float ObjectRadius;
 	float enemyRotation1[100] = {};
+	//===========Pause===============
+	double pause_bounce_time = 0.0;
+	int pauseSelect = 1;
+	void RenderPause();
+	//==========Gameover===============
+	void RenderGameover();
+	double gameover_bounce_time = 0.0;
+	int gameoverSelect = 1;
 
 	Vector3 dirVec;
 	Vector3 enemyPos[100] = {};

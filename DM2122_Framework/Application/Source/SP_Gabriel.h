@@ -45,6 +45,7 @@ public:
 		GEO_UFO,
 		GEO_UFO_TEST,
 		GEO_UFO_ON_SCREEN,
+		GEO_CROSSHAIR,	// Sphere
 
 		GEO_PROJECTILE,
 		GEO_LOAD1,

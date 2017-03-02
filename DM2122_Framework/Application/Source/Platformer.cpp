@@ -175,6 +175,15 @@ void Platformer::Init()
 	meshList[PAUSE3_SCREEN] = MeshBuilder::GenerateQuad("pauseQuit", Color(1, 1, 1), 1, 1);
 	meshList[PAUSE3_SCREEN]->textureID = LoadTGA("Image//pauseQuit.tga");
 
+	meshList[GAME_OVER] = MeshBuilder::GenerateQuad("gameover", Color(1, 1, 1), 1, 1);
+	meshList[GAME_OVER]->textureID = LoadTGA("Image//GameOver.tga");
+
+	meshList[GAME_OVER2] = MeshBuilder::GenerateQuad("gameover1", Color(1, 1, 1), 1, 1);
+	meshList[GAME_OVER2]->textureID = LoadTGA("Image//GameOver2.tga");
+
+	meshList[GAME_OVER3] = MeshBuilder::GenerateQuad("gameover2", Color(1, 1, 1), 1, 1);
+	meshList[GAME_OVER3]->textureID = LoadTGA("Image//GameOver3.tga");
+
 	setPlatforms();
 
 	Mtx44 projection;
@@ -270,6 +279,26 @@ void Platformer::Update(double dt)
 		}
 		break;
 	case GAMEOVER:
+		if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > gameover_bounce_time)) // Down
+		{
+			if (gameoverSelect == 1)
+			{
+				gameoverSelect++;
+			}
+			gameover_bounce_time = elapsed_time + 0.2;
+		}
+		if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > gameover_bounce_time)) // Up
+		{
+			if (gameoverSelect == 2)
+			{
+				gameoverSelect--;
+			}
+			gameover_bounce_time = elapsed_time + 0.2;
+		}
+		if (gameoverSelect == 1 && (Application::IsKeyPressed(VK_RETURN)))
+			changeScene = 2;
+		else if (gameoverSelect == 2 && (Application::IsKeyPressed(VK_RETURN)))
+			changeScene = 1;
 		break;
 	case GAME_END:
 		break;
@@ -348,6 +377,9 @@ void Platformer::Render()
 		
 		if (game_state == PAUSE)
 			RenderPause();
+
+		if (game_state == GAMEOVER)
+			RenderGameover();
 	}
 	
 }
@@ -829,14 +861,38 @@ void Platformer::RenderPause()
 {
 	if (pauseSelect == 0)
 	{
-		RenderMeshOnScreen(meshList[PAUSE_SCREEN], 40, 20, 80, 80);
+		RenderMeshOnScreen(meshList[PAUSE_SCREEN], 40, 22, 80, 80);
 	}
 	if (pauseSelect == 1)
 	{
-		RenderMeshOnScreen(meshList[PAUSE2_SCREEN], 40, 20, 80, 80);
+		RenderMeshOnScreen(meshList[PAUSE2_SCREEN], 40, 22, 80, 80);
 	}		
 	if (pauseSelect == 2)
 	{
-		RenderMeshOnScreen(meshList[PAUSE3_SCREEN], 40, 20, 80, 80);
+		RenderMeshOnScreen(meshList[PAUSE3_SCREEN], 40, 22, 80, 80);
+	}
+}
+
+void Platformer::RenderGameover()
+{
+	if (gameoverSelect == 0)
+	{
+		RenderMeshOnScreen(meshList[GAME_OVER], 40, 22, 80, 80);
+	}
+	if (gameoverSelect == 1)
+	{
+		RenderMeshOnScreen(meshList[GAME_OVER2], 40, 22, 80, 80);
+	}
+	if (gameoverSelect == 2)
+	{
+		RenderMeshOnScreen(meshList[GAME_OVER3], 40, 22, 80, 80);
+	}
+}
+
+void Platformer::RenderAbilitySelect()
+{
+	if (abilitySelect == 0)
+	{
+
 	}
 }

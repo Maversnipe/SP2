@@ -225,6 +225,24 @@ void Shooting::Init()
 	meshList[GEO_LOAD4] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD4]->textureID = LoadTGA("Image//loading4.tga");
 
+	meshList[PAUSE_SCREEN] = MeshBuilder::GenerateQuad("pause", Color(1, 1, 1), 1, 1);
+	meshList[PAUSE_SCREEN]->textureID = LoadTGA("Image//pause.tga");
+
+	meshList[PAUSE2_SCREEN] = MeshBuilder::GenerateQuad("pauseResume", Color(1, 1, 1), 1, 1);
+	meshList[PAUSE2_SCREEN]->textureID = LoadTGA("Image//pauseResume.tga");
+
+	meshList[PAUSE3_SCREEN] = MeshBuilder::GenerateQuad("pauseQuit", Color(1, 1, 1), 1, 1);
+	meshList[PAUSE3_SCREEN]->textureID = LoadTGA("Image//pauseQuit.tga");
+
+	meshList[GAME_OVER] = MeshBuilder::GenerateQuad("gameover", Color(1, 1, 1), 1, 1);
+	meshList[GAME_OVER]->textureID = LoadTGA("Image//GameOver.tga");
+
+	meshList[GAME_OVER2] = MeshBuilder::GenerateQuad("gameover1", Color(1, 1, 1), 1, 1);
+	meshList[GAME_OVER2]->textureID = LoadTGA("Image//GameOver2.tga");
+
+	meshList[GAME_OVER3] = MeshBuilder::GenerateQuad("gameover2", Color(1, 1, 1), 1, 1);
+	meshList[GAME_OVER3]->textureID = LoadTGA("Image//GameOver3.tga");
+
 	//================
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 2000.0f);
@@ -663,11 +681,11 @@ void Shooting::UpdateSelect(double dt)
 }
 void Shooting::Update(double dt)
 {
-	if (game_state != GAME_SELECT)
+	if (game_state != GAME_SELECT && game_state != GAME_PAUSE && game_state != GAMEOVER)
 	{
 		Camera.Update(dt, &horizontalRotation, &verticalRotation);
-		elapsed_time += dt;
 	}
+	elapsed_time += dt;
 //===============For loading screen===============
 	if (playLoading)
 	{
@@ -675,9 +693,6 @@ void Shooting::Update(double dt)
 		if (load_time >= 5)
 			playLoading = false;
 	}
-
-	if (Application::IsKeyPressed(VK_BACK))
-		changeScene = 1;
 //===Pausing game to show tutorial option at the start====
 	/*if (tutorialEnd || tutorialStart) 
 		Camera.Update(dt, &horizontalRotation, &verticalRotation);
@@ -712,84 +727,123 @@ void Shooting::Update(double dt)
 	case TUTORIAL:
 		ShowCursor(false);
 		UpdateTutorial(dt);
+		UpdateBullet(dt);
+		UpdateTreasure(dt);
+		//=========================CHANGING LIGHT=======================
+		if (pickUpGun)
+		{
+			disappearTable = true;
+			Camera.switchTreasure = true;
+			light[0].power = 4;
+			light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
+			light[0].position.Set(Camera.target.x, Camera.target.y, Camera.target.z);
+		}
+		//============UPDATING AABB FROM TABLE TO TREASURE===============
+		if (!Camera.switchTreasure)
+			Camera.object.Set(0, 0, 0);
+		else
+			Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
+		//==============================================================
+		stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 		break;
+
 	case GAME_START:
 		ShowCursor(false);
 		UpdateGame(dt);
+		if (Application::IsKeyPressed(VK_BACK))
+			game_state = GAME_PAUSE;
+		UpdateBullet(dt);
+		UpdateTreasure(dt);
+		if (health == 0)
+			game_state = GAMEOVER;
+		//=========================CHANGING LIGHT=======================
+		if (pickUpGun)
+		{
+			disappearTable = true;
+			Camera.switchTreasure = true;
+			light[0].power = 4;
+			light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
+			light[0].position.Set(Camera.target.x, Camera.target.y, Camera.target.z);
+		}
+		//============UPDATING AABB FROM TABLE TO TREASURE===============
+		if (!Camera.switchTreasure)
+			Camera.object.Set(0, 0, 0);
+		else
+			Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
+		//==============================================================
+		stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 		break;
+
 	case GAME_SELECT:
 		UpdateSelect(dt);
+		UpdateBullet(dt);
+		UpdateTreasure(dt);
+		//=========================CHANGING LIGHT=======================
+		if (pickUpGun)
+		{
+			disappearTable = true;
+			Camera.switchTreasure = true;
+			light[0].power = 4;
+			light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
+			light[0].position.Set(Camera.target.x, Camera.target.y, Camera.target.z);
+		}
+		//============UPDATING AABB FROM TABLE TO TREASURE===============
+		if (!Camera.switchTreasure)
+			Camera.object.Set(0, 0, 0);
+		else
+			Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
+		//==============================================================
+		stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
+		break;
+
+	case GAME_PAUSE:
+		if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > pause_bounce_time)) // Down
+		{
+			if (pauseSelect == 1)
+			{
+				pauseSelect++;
+			}
+			pause_bounce_time = elapsed_time + 0.2;
+		}
+		if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > pause_bounce_time)) // Up
+		{
+			if (pauseSelect == 2)
+			{
+				pauseSelect--;
+			}
+			pause_bounce_time = elapsed_time + 0.2;
+		}
+		if (pauseSelect == 1 && (Application::IsKeyPressed(VK_RETURN)))
+			game_state = GAME_START;
+		else if (pauseSelect == 2 && (Application::IsKeyPressed(VK_RETURN)))
+		{
+			changeScene = 1;
+		}
+		break;
+
+	case GAMEOVER:
+		if ((Application::IsKeyPressed(VK_DOWN)) && (elapsed_time > gameover_bounce_time)) // Down
+		{
+			if (gameoverSelect == 1)
+			{
+				gameoverSelect++;
+			}
+			gameover_bounce_time = elapsed_time + 0.2;
+		}
+		if ((Application::IsKeyPressed(VK_UP)) && (elapsed_time > gameover_bounce_time)) // Up
+		{
+			if (gameoverSelect == 2)
+			{
+				gameoverSelect--;
+			}
+			gameover_bounce_time = elapsed_time + 0.2;
+		}
+		if (gameoverSelect == 1 && (Application::IsKeyPressed(VK_RETURN)))
+			changeScene = 2;
+		else if (gameoverSelect == 2 && (Application::IsKeyPressed(VK_RETURN)))
+			changeScene = 1;
 		break;
 	}
-
-	UpdateBullet(dt);
-	UpdateTreasure(dt);
-//=========================CHANGING LIGHT=======================
-	if (pickUpGun)
-	{
-		disappearTable = true;
-		Camera.switchTreasure = true;
-		light[0].power = 4;
-		light[0].spotDirection.Set(-Camera.view.x, -Camera.view.y, -Camera.view.z);
-		light[0].position.Set(Camera.target.x, Camera.target.y, Camera.target.z);
-	}
-//============UPDATING AABB FROM TABLE TO TREASURE===============
-	if (!Camera.switchTreasure)
-		Camera.object.Set(0, 0, 0);
-	else
-		Camera.object.Set(ObjectPos[0].x, 0, ObjectPos[0].z);
-//==============================================================
-
-	fps = 1.0f / dt;
-	framesPerSec = "FPS: " + std::to_string(fps);
-
-	x = Camera.position.x;
-	y = Camera.position.y;
-	z = Camera.position.z;
-	X = "X: " + std::to_string(x);
-	Y = "Y: " + std::to_string(y);
-	Z = "Z: " + std::to_string(z);
-
-	float LSPEED = 10.f;
-	if (Application::IsKeyPressed('I'))
-		light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))
-		light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))
-		light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))
-		light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))
-		light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))
-		light[0].position.y += (float)(LSPEED * dt);
-
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	else if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	if (Application::IsKeyPressed('5'))
-	{
-		light[0].type = Light::LIGHT_POINT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('6'))
-	{
-		light[0].type = Light::LIGHT_DIRECTIONAL;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('7'))
-	{
-		light[0].type = Light::LIGHT_SPOT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-
-	stamp = Mtx44(0.15 * Camera.right.x, 0.15 * Camera.right.y, 0.15 * Camera.right.z, 0, 0.15 * Camera.up.x, 0.15 * Camera.up.y, 0.15 * Camera.up.z, 0, -0.15 * Camera.view.x, -0.15 * Camera.view.y, -0.15 * Camera.view.z, 0, Camera.position.x + Camera.view.x + Camera.right.x / 5, Camera.position.y + Camera.view.y + Camera.right.y / 5 - 0.1, Camera.position.z + Camera.view.z + Camera.right.z / 5, 1);
 }
 
 void Shooting::Render()
@@ -1051,7 +1105,12 @@ void Shooting::Render()
 			else if (!display4 && openTreasure)
 				RenderTextOnScreen(meshList[GEO_TEXT], FileReading::getInstance()->getWords(3), Color(0, 1, 1), 2, 6, 27);
 		}
-		//================================================================================u
+		//================================================================================
+
+		if (game_state == GAME_PAUSE)
+			RenderPause();
+		if (game_state == GAMEOVER)
+			RenderGameover();
 
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
@@ -1278,4 +1337,36 @@ void Shooting::Exit()
 	glDeleteBuffers(NUM_GEOMETRY, &m_vertexBuffer[0]);
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void Shooting::RenderPause()
+{
+	if (pauseSelect == 0)
+	{
+		RenderMeshOnScreen(meshList[PAUSE_SCREEN], 40, 22, 80, 80);
+	}
+	if (pauseSelect == 1)
+	{
+		RenderMeshOnScreen(meshList[PAUSE2_SCREEN], 40, 22, 80, 80);
+	}
+	if (pauseSelect == 2)
+	{
+		RenderMeshOnScreen(meshList[PAUSE3_SCREEN], 40, 22, 80, 80);
+	}
+}
+
+void Shooting::RenderGameover()
+{
+	if (gameoverSelect == 0)
+	{
+		RenderMeshOnScreen(meshList[GAME_OVER], 40, 22, 80, 80);
+	}
+	if (gameoverSelect == 1)
+	{
+		RenderMeshOnScreen(meshList[GAME_OVER2], 40, 22, 80, 80);
+	}
+	if (gameoverSelect == 2)
+	{
+		RenderMeshOnScreen(meshList[GAME_OVER3], 40, 22, 80, 80);
+	}
 }

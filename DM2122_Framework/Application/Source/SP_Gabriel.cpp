@@ -128,7 +128,7 @@ void SP_Gabriel::Init()
 		projStartZ[n] = 0;
 	}
 
-	totalDistOfBulletAndObject = 0.5 + 0.15;
+	totalDistOfBulletAndObject = 1;//0.5 + 0.15;
 
 
 	light[0].type = Light::LIGHT_SPOT;
@@ -196,6 +196,9 @@ void SP_Gabriel::Init()
 	meshList[GEO_UFO_ON_SCREEN]->textureID = LoadTGA("Image//UFO_test.tga");
 
 	meshList[GEO_PROJECTILE] = MeshBuilder::GenerateSphere("projectile", Color(1, 0, 0), 10, 10, 1);
+	
+	meshList[GEO_CROSSHAIR] = MeshBuilder::GenerateQuad("crosshair", Color(1, 1, 1), 1, 1);
+	meshList[GEO_CROSSHAIR]->textureID = LoadTGA("Image//crosshair_2.tga");
 
 	meshList[GEO_LOAD1] = MeshBuilder::GenerateQuad("load", Color(1, 1, 1), 1, 1);
 	meshList[GEO_LOAD1]->textureID = LoadTGA("Image//loading1.tga");
@@ -310,27 +313,17 @@ void SP_Gabriel::Update(double dt)
 			randomDirectionX[count] = rand() % 10 - 5;
 			randomDirectionZ[count] = rand() % 10 - 5;
 
-			if (randomDirectionX[count] == 0 || randomDirectionX[count] == prevValX)	// creates new random number to creation direction for X but checks if its 0 or same as the prev.
+			if ( (randomDirectionX[count] == 0 && randomDirectionZ[count] == 0 ) || randomDirectionX[count] == prevValX )	// creates new random number to creation direction for X but checks if its 0 or same as the prev.
 			{
-				std::cout << count << "\nX PREV Before (if) : " << prevValX << std::endl;
-				std::cout << "X DIR  (if) : " << randomDirectionX[count] << std::endl;
 				randomDirectionX[count] = rand() % 10 - 5;
-				std::cout << "X After should be different (if) : " << randomDirectionX[count] << std::endl;
 			}
-			if (randomDirectionZ[count] == 0)
-			{
-				randomDirectionZ[count] = rand() % 10 - 5;
-			}
+			//if (randomDirectionZ[count] == 0)
+			//{
+			//	randomDirectionZ[count] = rand() % 10 - 5;
+			//}
 
-			prevValX = randomDirectionX[count];
+			prevValX = randomDirectionX[count];		// sets current value of X to prevX so UFOs wont travel in the same exact path incase rand() isn't 100% random
 
-			//std::cout << "\nX (Update) : " << randomDirectionX[count] << std::endl;
-			//std::cout << "Z (Update) : " << randomDirectionZ[count] << std::endl;
-			//std::cout << count << "X Curr (Update) : " << enemyUFOdirectionX[count] << std::endl;
-			//std::cout << count << "Z Curr (Update) : " << enemyUFOdirectionZ[count] << std::endl;
-
-			//isEnemyAlive[count] = true;
-			//isPlayerAlive = true;	// for testing (remove later)
 			break;
 		}
 		if (!isPlayerAlive)
@@ -341,20 +334,18 @@ void SP_Gabriel::Update(double dt)
 				enemyUFOdirectionX[counter_] = 100;
 				enemyUFOdirectionZ[counter_] = 100;
 			}
-			break;
+			changeScene = 1;
 		}
 	}
 
-	//if ()		// if all is killed set maxSpawn +
-
-	/*
 	
-	if(UFO is killed)
-	{
-		maxSpawn+= maxSpawn/2;
-	}
+	// to increase max spawn		// use new array[] and delete array[]
+	//if(UFO is killed)
+	//{
+	//	maxSpawn+= maxSpawn/2;
+	//}
 
-	*/
+	
 
 	if (Application::IsKeyPressed(MK_LBUTTON))
 	{
@@ -379,7 +370,6 @@ void SP_Gabriel::Update(double dt)
 			projStartX[bulletCount] = camera3.position.x;
 			projStartZ[bulletCount] = camera3.position.z;
 
-			//std::cout << "bool : " << isShooting[bulletCount] << " ; bulletCount : " << bulletCount << "\n";
 			bulletCD = 0;
 		}
 	}
@@ -389,25 +379,6 @@ void SP_Gabriel::Update(double dt)
 		projectileDirectionX[bulletCount] += (float)(10 * -projStartX[bulletCount] / 7 * dt);
 		projectileDirectionZ[bulletCount] += (float)(10 * -projStartZ[bulletCount] / 7 * dt);
 	}
-
-	//if (bulletCount > maxBullets)
-	//{
-	//	bulletCount = 0;
-	//	projStartX[bulletCount] = 0;
-	//	projStartZ[bulletCount] = 0;
-	//	projectileDirectionX[bulletCount] = 0;
-	//	projectileDirectionZ[bulletCount] = 0;
-	//}
-	//if (currentSpawned > maxSpawn)
-	//{
-	//	currentSpawned = 0;
-	//	enemyUFOdirectionX[currentSpawned] = 0;
-	//	enemyUFOdirectionZ[currentSpawned] = 0;
-	//}
-	
-	//std::cout << projectileDirectionX[bulletCount] << "\n";
-
-	// just use old coordds for ufo and bullets
 
 	for (int i = 0; i <= currentSpawned; ++i)
 	{
@@ -423,40 +394,29 @@ void SP_Gabriel::Update(double dt)
 				
 			if (squareRoot < totalDistOfBulletAndObject)
 			{
-				//isEnemyAlive[i] = false;
+				// reset pos of ufo here
+				//isEnemyAlive[i] = false;	// despawns enemy if hit
 
 				enemyUFOdirectionX[i] = 0;
 				enemyUFOdirectionZ[i] = 0;
+				randomDirectionX[i] = 0;
+				randomDirectionZ[i] = 0;
+				randomDirectionX[i] = rand() % 10 - 5;
+				randomDirectionZ[i] = rand() % 10 - 5;
 
+
+				// reset pos of bullets
+				isShooting[j-1] = false;
 				isShooting[j] = false;
 				
 				projectileDirectionX[j] = 0;
 				projectileDirectionZ[j] = 0;
-
-				// reset pos of ufo here
 					
-				//std::cout << isEnemyAlive[i] << "\n";
 			}
 		}
 	}
 
-	std::cout << bulletCount << "\n";
 
-	//for (int count = 0; count < maxSpawn; count++)
-	//{
-
-	//}
-
-	// find this later
-	//if (projectileDirectionX + bulletRadius[1] + enemyRadius[1] < bulletRadius[1] + enemyRadius[1])
-	//{
-
-	//}
-
-	//if (distanceOfBulletAndObject[1] >= bulletRadius[1] + enemyRadius[1])
-	//{
-	//	isEnemyAlive[1] = true;		// or do nothing	(just do for d[rB + rO] < rB_COORD + rO_COORD)
-	//}
 
 	if (Application::IsKeyPressed('G'))
 	{
@@ -467,49 +427,8 @@ void SP_Gabriel::Update(double dt)
 		renderRef = false;
 	}
 
-
-	if (Application::IsKeyPressed('I'))
-		light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))
-		light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))
-		light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))
-		light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))
-		light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))
-		light[0].position.y += (float)(LSPEED * dt);
-
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	else if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	if (Application::IsKeyPressed('5'))
-	{
-		light[0].type = Light::LIGHT_POINT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('6'))
-	{
-		light[0].type = Light::LIGHT_DIRECTIONAL;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('7'))
-	{
-		light[0].type = Light::LIGHT_SPOT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-
 	camera3.Update(dt * 3);
 
-	//std::cout << "cam pos X : " << camera3.position.x << "\n";
-	//std::cout << "cam pos Z : " << camera3.position.z << "\n";
 }
 
 void SP_Gabriel::Render()
@@ -607,8 +526,14 @@ void SP_Gabriel::Render()
 			}
 		}
 
-		RenderMeshOnScreen(meshList[GEO_UFO_ON_SCREEN], 40.5, 15, 25, 25);
-		RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 0), 3, 0.5, 0.5);
+		//modelStack.PushMatrix();
+		//modelStack.Scale(0.3, 0.3, 0.3);
+		//RenderMesh(meshList[GEO_CROSSHAIR], false);
+		//modelStack.PopMatrix();
+
+		RenderMeshOnScreen(meshList[GEO_UFO_ON_SCREEN], 40.5, 10, 35, 35);
+		RenderMeshOnScreen(meshList[GEO_CROSSHAIR], 40, 30, 1, 1);
+		//RenderTextOnScreen(meshList[GEO_TEXT], framesPerSec, Color(0, 1, 0), 3, 0.5, 0.5);
 	}
 	
 }

@@ -106,6 +106,15 @@ void SceneManager::Update(float dt)
 			delete maps[currSceneID];
 			currSceneID = nextSceneID;
 		}
+		else if (maps[currSceneID]->changeScene == 2)
+		{
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			SetNextScene("Shooting");
+			AddScene(new Shooting(), "Shooting");
+			currSceneID = nextSceneID;
+			maps[currSceneID]->Init();
+		}
 	}
 	else if (currSceneID == "Platformer")
 	{ // Platformer Game Scene
@@ -117,6 +126,15 @@ void SceneManager::Update(float dt)
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
 			currSceneID = nextSceneID;
+		}
+		else if (maps[currSceneID]->changeScene == 2)
+		{
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			SetNextScene("Platformer");
+			AddScene(new Platformer(), "Platformer");
+			currSceneID = nextSceneID;
+			maps[currSceneID]->Init();
 		}
 	}
 	else if (currSceneID == "Driving")
@@ -130,6 +148,15 @@ void SceneManager::Update(float dt)
 			delete maps[currSceneID];
 			currSceneID = nextSceneID;
 		}
+		else if (maps[currSceneID]->changeScene == 2)
+		{
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			SetNextScene("Driving");
+			AddScene(new Driving(), "Driving");
+			currSceneID = nextSceneID;
+			maps[currSceneID]->Init();
+		}
 	}
 	else if (currSceneID == "Gabriel")
 	{ // Shooting Game Scene
@@ -141,6 +168,15 @@ void SceneManager::Update(float dt)
 			maps[currSceneID]->Exit();
 			delete maps[currSceneID];
 			currSceneID = nextSceneID;
+		}
+		else if (maps[currSceneID]->changeScene == 2)
+		{
+			maps[currSceneID]->Exit();
+			delete maps[currSceneID];
+			SetNextScene("Gabriel");
+			AddScene(new SP_Gabriel(), "Gabriel");
+			currSceneID = nextSceneID;
+			maps[currSceneID]->Init();
 		}
 	}
 
