@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 3/3/2017 7:45:03 AM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
@@ -22,7 +23,110 @@
      1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(808): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>d:\git_root\sp2\dm2122_framework\application\source\platformer.cpp(816): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>Done Building Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)) -- FAILED.
+=======
+﻿Build started 3/3/2017 7:32:07 AM.
+     1>Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\include /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\Common\Source /IC:\Users\Jean\Documents\SP2\DM2122_Framework\\irrKlang\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\SceneManager.cpp Source\Shooting.cpp Source\ShootingCamera.cpp Source\StudioProject.cpp
+         StudioProject.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\studioproject.cpp(385): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+         ShootingCamera.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(154): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(223): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(292): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(361): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(424): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(425): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(434): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(435): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(436): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shootingcamera.cpp(438): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Generating Code...
+         Compiling...
+         Shooting.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(169): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(192): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(293): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(307): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(323): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(339): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(355): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(407): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(423): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(427): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(443): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(449): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(453): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(492): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(522): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(539): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(571): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(585): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(624): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(679): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(693): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(697): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(721): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(752): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(779): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(801): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(928): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(998): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(1000): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(1161): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(1169): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(1262): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.cpp(1263): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         SceneManager.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(169): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(192): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformercamera.h(64): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\driving.h(155): warning C4351: new behavior: elements of array 'Driving::enemyRotation' will be default initialized
+         Application.cpp
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\sptest.h(121): warning C4351: new behavior: elements of array 'SPTest::enemyRotation1' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\sptest.h(122): warning C4351: new behavior: elements of array 'SPTest::enemyRotation2' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(169): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\shooting.h(192): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\platformercamera.h(64): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\driving.h(155): warning C4351: new behavior: elements of array 'Driving::enemyRotation' will be default initialized
+     1>c:\users\jean\documents\sp2\dm2122_framework\application\source\application.cpp(121): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Generating Code...
+       Link:
+         D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\glew\lib /LIBPATH:"C:\Users\Jean\Documents\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug /LIBPATH:C:\Users\Jean\Documents\SP2\DM2122_Framework\\irrKlang\lib glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib irrKlang.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.lib" /MACHINE:X86 Debug\Application.res
+         Debug\Application.obj
+         Debug\Camera.obj
+         Debug\Camera2.obj
+         Debug\Camera3.obj
+         Debug\Camera4.obj
+         Debug\CameraAzimuth.obj
+         Debug\Driving.obj
+         Debug\FileReading.obj
+         Debug\Platformer.obj
+         Debug\LoadOBJ.obj
+         Debug\LoadTGA.obj
+         Debug\main.obj
+         Debug\MainMenu.obj
+         Debug\Mesh.obj
+         Debug\MeshBuilder.obj
+         Debug\Money.obj
+         Debug\PlatformerCamera.obj
+         Debug\SceneManager.obj
+         Debug\shader.obj
+         Debug\Shooting.obj
+         Debug\ShootingCamera.obj
+         Debug\SP_Gabriel.obj
+         Debug\StudioProject.obj
+         Debug\Utiity.obj
+         Application.vcxproj -> C:\Users\Jean\Documents\SP2\DM2122_Framework\Debug\Application.exe
+     1>Done Building Project "C:\Users\Jean\Documents\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
+>>>>>>> f8acd559bc548256f2eb029cc0a5e6551add1318
 
 Build FAILED.
 
+<<<<<<< HEAD
 Time Elapsed 00:00:00.80
+=======
+Time Elapsed 00:00:03.84
+>>>>>>> f8acd559bc548256f2eb029cc0a5e6551add1318

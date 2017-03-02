@@ -489,7 +489,7 @@ void StudioProject::Update(double dt)
 	if (camera3.playCarousell)
 	{
 		//Moving in a circle
-		theta = increment; //Increment is like the position of slice in a drawn circle. Each slice has 1 degree
+		theta = (float)increment; //Increment is like the position of slice in a drawn circle. Each slice has 1 degree
 		camera3.position.z = 10 * cos(Math::DegreeToRadian(theta)) + 200;
 		camera3.position.x = 10 * sin(Math::DegreeToRadian(theta)) + (-5);
 		camera3.position.y = 5;
@@ -774,7 +774,7 @@ void StudioProject::RenderSkybox()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -24.945 * 20, 0);
+	modelStack.Translate(0, (float)-24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
@@ -782,7 +782,7 @@ void StudioProject::RenderSkybox()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 24.945 * 20, 0);
+	modelStack.Translate(0, (float)24.945 * 20, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
@@ -875,8 +875,8 @@ void StudioProject::RenderMeshOnScreen(Mesh* mesh, int x, int y, int
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
-	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Translate((float)x, (float)y, 0);
+	modelStack.Scale((float)sizex, (float)sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();

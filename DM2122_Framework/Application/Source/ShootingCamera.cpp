@@ -64,8 +64,8 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 
 	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
 
-	rotateHori = (mid_x - xpos) * dt * CamSpeed;
-	rotateVert = (mid_y - ypos) * dt * CamSpeed;
+	rotateHori = (float)((mid_x - xpos) * dt * CamSpeed);
+	rotateVert = (float)((mid_y - ypos) * dt * CamSpeed);
 
 	// control vertical limit
 	verticalAngle += dt *rotateVert;
@@ -151,7 +151,7 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//========Enemy collisions =========
 		if (enemyPos.size() != 0)
 		{
-			for (int i = 0; i < enemyPos.size(); i++)
+			for (int i = 0; i < (enemyPos.size()); i++)
 			{
 				collideEnemy = false;
 				if (collideEnemies(newPos, enemyPos[i]))
