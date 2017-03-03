@@ -72,17 +72,17 @@ void CameraAzimuth::Update(double dt)
 
 	if (Application::IsKeyPressed('A'))
 	{
-		float yaw = -40.0f * dt;
+		float yaw = -40.0f * (float)dt;
 		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0, 1, 0);
+		rotation.SetToRotation((float)yaw, 0, 1.f, 0);
 		position = rotation * position;
 		up = rotation * up;
 	}
 	if (Application::IsKeyPressed('D'))
 	{
-		float yaw = 40.0f * dt;
+		float yaw = 40.0f * (float)dt;
 		Mtx44 rotation;
-		rotation.SetToRotation(yaw, 0, 1, 0);
+		rotation.SetToRotation((float)yaw, 0, 1.f, 0);
 		position = rotation * position;
 		up = rotation * up;
 	}
@@ -102,12 +102,4 @@ void CameraAzimuth::Update(double dt)
 	//	position = rotation * position;
 	//	up = right.Cross(view);
 	//}
-	if (Application::IsKeyPressed('N'))
-	{
-		position += 40.0f * view * dt;
-	}
-	if (Application::IsKeyPressed('M'))
-	{
-		position -= 40.0f * view * dt;
-	}
 }

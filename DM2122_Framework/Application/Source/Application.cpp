@@ -13,7 +13,6 @@
 
 #include "SceneManager.h"
 #include "StudioProject.h"
-#include "SPTest.h"
 #include "MainMenu.h"
 #include "Shooting.h"
 #include "Platformer.h"

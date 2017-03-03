@@ -223,10 +223,6 @@ void SP_Gabriel::Update(double dt)
 			playLoading = false;
 	}
 
-	fps = 1.0f / dt;
-	framesPerSec = "FPS: " + std::to_string(fps);
-	float LSPEED = 10.f;
-
 	spawnCounter++;
 	bulletCD++;
 
@@ -249,13 +245,13 @@ void SP_Gabriel::Update(double dt)
 				randomDirectionX[count] = 0;
 				randomDirectionZ[count] = 0;
 
-				randomDirectionX[count] = rand() % 10 - 5;
-				randomDirectionZ[count] = rand() % 10 - 5;
+				randomDirectionX[count] = (float)(rand() % 10 - 5);
+				randomDirectionZ[count] = (float)(rand() % 10 - 5);
 
 				if (randomDirectionX[count] == 0 && randomDirectionZ[count] == 0)
 				{
-					randomDirectionX[count] = rand() % 10 - 5;
-					randomDirectionZ[count] = rand() % 10 - 5;
+					randomDirectionX[count] = (float)(rand() % 10 - 5);
+					randomDirectionZ[count] = (float)(rand() % 10 - 5);
 				}
 
 				forCount++;
@@ -296,12 +292,12 @@ void SP_Gabriel::Update(double dt)
 			randomDirectionX[count] = 0;	// derender object to despawn then set pos to 0 of current, do array to store more values for more ships
 			randomDirectionZ[count] = 0;
 
-			randomDirectionX[count] = rand() % 10 - 5;
-			randomDirectionZ[count] = rand() % 10 - 5;
+			randomDirectionX[count] = (float)(rand() % 10 - 5);
+			randomDirectionZ[count] = (float)(rand() % 10 - 5);
 
 			if ( (randomDirectionX[count] == 0 && randomDirectionZ[count] == 0 ) || randomDirectionX[count] == prevValX )	// creates new random number to creation direction for X but checks if its 0 or same as the prev.
 			{
-				randomDirectionX[count] = rand() % 10 - 5;
+				randomDirectionX[count] = (float)(rand() % 10 - 5);
 			}
 			//if (randomDirectionZ[count] == 0)
 			//{
@@ -387,8 +383,8 @@ void SP_Gabriel::Update(double dt)
 				enemyUFOdirectionZ[i] = 0;
 				randomDirectionX[i] = 0;
 				randomDirectionZ[i] = 0;
-				randomDirectionX[i] = rand() % 10 - 5;
-				randomDirectionZ[i] = rand() % 10 - 5;
+				randomDirectionX[i] = (float)(rand() % 10 - 5);
+				randomDirectionZ[i] = (float)(rand() % 10 - 5);
 
 
 				// reset pos of bullets
@@ -494,7 +490,7 @@ void SP_Gabriel::Render()
 			{
 				modelStack.PushMatrix();
 				modelStack.Translate(projStartX[count] + projectileDirectionX[count], 0, projStartZ[count] + projectileDirectionZ[count]);
-				modelStack.Scale(0.3, 0.3, 0.3);
+				modelStack.Scale(0.3f, 0.3f, 0.3f);
 				RenderMesh(meshList[GEO_PROJECTILE], false);
 				modelStack.PopMatrix();
 				
@@ -525,7 +521,7 @@ void SP_Gabriel::RenderMeshOnScreen(Mesh* mesh, float x, float y, int sizex, int
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
 	modelStack.Translate(x, y, 0);
-	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Scale((float)sizex, (float)sizey, 1);
 	RenderMesh(mesh, true); //UI should not have light
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
@@ -544,7 +540,7 @@ void SP_Gabriel::Exit()
 void SP_Gabriel::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 20, 0, 0);
+	modelStack.Translate((float)(24.95 * 20), 0, 0);
 	modelStack.Rotate(0, 0, 1, 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
@@ -552,14 +548,14 @@ void SP_Gabriel::RenderSkybox()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 20, 0, 0);
+	modelStack.Translate((float)(-24.95 * 20), 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BACK], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -24.95 * 20);
+	modelStack.Translate(0, 0, (float)(-24.95 * 20));
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
@@ -567,14 +563,14 @@ void SP_Gabriel::RenderSkybox()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 24.95 * 20);
+	modelStack.Translate(0, 0, (float)(24.95 * 20));
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_RIGHT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -24.945 * 20, 0);
+	modelStack.Translate(0, (float)(-24.945 * 20), 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Rotate(-90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);
@@ -582,7 +578,7 @@ void SP_Gabriel::RenderSkybox()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 24.945 * 20, 0);
+	modelStack.Translate(0, (float)(24.945 * 20), 0);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(1000, 1000, 1000);

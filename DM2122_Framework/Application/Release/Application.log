@@ -1,249 +1,106 @@
-﻿Build started 3/3/2017 7:45:33 AM.
+﻿Build started 3/3/2017 8:43:52 AM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Camera.cpp Source\Camera2.cpp Source\Camera3.cpp Source\Camera4.cpp Source\CameraAzimuth.cpp Source\Driving.cpp Source\FileReading.cpp Source\Platformer.cpp Source\main.cpp Source\MainMenu.cpp Source\MeshBuilder.cpp Source\PlatformerCamera.cpp Source\SceneManager.cpp Source\Shooting.cpp Source\ShootingCamera.cpp Source\SP_Gabriel.cpp Source\StudioProject.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ID:\GIT_ROOT\SP2\DM2122_Framework\\irrKlang\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Camera.cpp Source\Camera3.cpp Source\Camera4.cpp Source\CameraAzimuth.cpp Source\Driving.cpp Source\FileReading.cpp Source\Platformer.cpp Source\LoadOBJ.cpp Source\LoadTGA.cpp Source\main.cpp Source\MainMenu.cpp Source\Mesh.cpp Source\MeshBuilder.cpp Source\Money.cpp Source\PlatformerCamera.cpp Source\SceneManager.cpp Source\shader.cpp Source\Shooting.cpp Source\ShootingCamera.cpp Source\SP_Gabriel.cpp Source\StudioProject.cpp Source\Utiity.cpp
          Application.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\SPTest.h(121): warning C4351: new behavior: elements of array 'SPTest::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\SPTest.h(122): warning C4351: new behavior: elements of array 'SPTest::enemyRotation2' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\Shooting.h(169): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\Shooting.h(192): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\PlatformerCamera.h(64): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\Driving.h(155): warning C4351: new behavior: elements of array 'Driving::enemyRotation' will be default initialized
-     1>Source\Application.cpp(121): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
          Camera.cpp
-         Camera2.cpp
-     1>Source\Camera2.cpp(71): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera2.cpp(75): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera2.cpp(79): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera2.cpp(83): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera2.cpp(89): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera2.cpp(93): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
          Camera3.cpp
-     1>Source\Camera3.cpp(73): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(74): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(77): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(158): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(179): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(180): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(184): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(185): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(190): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(191): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(192): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(193): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(199): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(220): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(221): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(225): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(226): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(231): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(232): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(233): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(234): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(240): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(261): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(262): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(266): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(267): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(272): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(273): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(274): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(275): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(281): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(302): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(303): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(307): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(308): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(313): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(314): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(315): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera3.cpp(316): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
          Camera4.cpp
-     1>Source\Camera4.cpp(96): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\Camera4.cpp(98): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(111): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(114): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(136): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\Camera4.cpp(138): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(151): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(154): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(169): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>Source\Camera4.cpp(174): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\Camera4.cpp(176): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(189): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(192): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(206): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\Camera4.cpp(208): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(221): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(224): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(245): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\Camera4.cpp(247): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(260): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(263): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(276): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\Camera4.cpp(278): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(291): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Camera4.cpp(294): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
          CameraAzimuth.cpp
-     1>Source\CameraAzimuth.cpp(75): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>Source\CameraAzimuth.cpp(83): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>Source\CameraAzimuth.cpp(107): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\CameraAzimuth.cpp(111): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
          Driving.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\Driving.h(155): warning C4351: new behavior: elements of array 'Driving::enemyRotation' will be default initialized
-     1>Source\Driving.cpp(23): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>Source\Driving.cpp(278): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(280): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(295): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(299): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(304): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(337): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(343): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(347): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(370): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>Source\Driving.cpp(454): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Driving.cpp(804): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Driving.cpp(898): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Driving.cpp(899): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
          FileReading.cpp
          Platformer.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\PlatformerCamera.h(64): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>Source\Platformer.cpp(374): error C2065: 'k' : undeclared identifier
-     1>Source\Platformer.cpp(374): error C2143: syntax error : missing ';' before 'if'
-     1>Source\Platformer.cpp(389): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Platformer.cpp(396): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Platformer.cpp(403): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Platformer.cpp(410): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Platformer.cpp(416): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Platformer.cpp(424): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Platformer.cpp(609): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>Source\Platformer.cpp(728): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Platformer.cpp(756): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Platformer.cpp(774): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Platformer.cpp(781): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Platformer.cpp(790): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Platformer.cpp(799): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Platformer.cpp(808): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Platformer.cpp(816): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         LoadOBJ.cpp
+         LoadTGA.cpp
          main.cpp
          MainMenu.cpp
      1>C:\Program Files (x86)\Windows Kits\8.1\Include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : macro redefinition
                  D:\GIT_ROOT\SP2\DM2122_Framework\glfw\include\GLFW/glfw3.h(92) : see previous definition of 'APIENTRY'
-     1>Source\MainMenu.cpp(11): fatal error C1083: Cannot open include file: 'IK\irrKlang.h': No such file or directory
+     1>Source\MainMenu.cpp(258): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\MainMenu.cpp(259): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\MainMenu.cpp(508): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\MainMenu.cpp(516): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\MainMenu.cpp(609): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\MainMenu.cpp(610): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Mesh.cpp
          MeshBuilder.cpp
-     1>Source\MeshBuilder.cpp(210): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\MeshBuilder.cpp(258): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\MeshBuilder.cpp(263): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\MeshBuilder.cpp(311): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\MeshBuilder.cpp(316): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\MeshBuilder.cpp(353): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\MeshBuilder.cpp(408): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\MeshBuilder.cpp(423): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\MeshBuilder.cpp(437): warning C4018: '<' : signed/unsigned mismatch
+         Money.cpp
          PlatformerCamera.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\PlatformerCamera.h(64): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>Source\PlatformerCamera.cpp(52): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\PlatformerCamera.cpp(53): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\PlatformerCamera.cpp(135): warning C4305: '=' : truncation from 'double' to 'float'
-     1>Source\PlatformerCamera.cpp(137): warning C4305: '=' : truncation from 'double' to 'float'
-     1>Source\PlatformerCamera.cpp(524): warning C4305: '=' : truncation from 'double' to 'float'
-     1>Source\PlatformerCamera.cpp(533): warning C4305: '=' : truncation from 'double' to 'float'
-     1>Source\PlatformerCamera.cpp(552): warning C4305: '=' : truncation from 'double' to 'float'
-     1>Source\PlatformerCamera.cpp(567): warning C4305: '=' : truncation from 'double' to 'float'
          SceneManager.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\Shooting.h(169): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\Shooting.h(192): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\PlatformerCamera.h(64): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>d:\git_root\sp2\dm2122_framework\application\source\Driving.h(155): warning C4351: new behavior: elements of array 'Driving::enemyRotation' will be default initialized
+         shader.cpp
          Shooting.cpp
-     1>d:\git_root\sp2\dm2122_framework\application\source\Shooting.h(169): warning C4351: new behavior: elements of array 'Shooting::enemyRotation1' will be default initialized
-     1>d:\git_root\sp2\dm2122_framework\application\source\Shooting.h(192): warning C4351: new behavior: elements of array 'Shooting::moveLaser' will be default initialized
-     1>Source\Shooting.cpp(14): fatal error C1083: Cannot open include file: 'IK\irrKlang.h': No such file or directory
+     1>Source\Shooting.cpp(293): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(307): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(323): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(339): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(355): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(407): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(423): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(427): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(443): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(449): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(453): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(492): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\Shooting.cpp(522): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(539): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\Shooting.cpp(571): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(585): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(624): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Source\Shooting.cpp(679): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Source\Shooting.cpp(693): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(721): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Source\Shooting.cpp(752): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(779): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(801): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(928): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(998): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(1000): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(1157): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(1165): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(1258): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Shooting.cpp(1259): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
          ShootingCamera.cpp
-     1>Source\ShootingCamera.cpp(67): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(68): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(71): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(72): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(149): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(154): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\ShootingCamera.cpp(178): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(179): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(183): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(184): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(195): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(196): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(200): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(201): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(205): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(206): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(207): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(208): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(218): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(223): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\ShootingCamera.cpp(247): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(248): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(252): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(253): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(264): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(265): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(269): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(270): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(274): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(275): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(276): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(277): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(287): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(292): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\ShootingCamera.cpp(316): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(317): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(321): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(322): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(333): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(334): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(338): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(339): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(343): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(344): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(345): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(346): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(356): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(361): warning C4018: '<' : signed/unsigned mismatch
-     1>Source\ShootingCamera.cpp(385): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(386): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(390): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(391): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(402): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(403): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(407): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(408): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(412): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(413): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(414): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(415): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(468): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(469): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(470): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(471): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\ShootingCamera.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\ShootingCamera.cpp(434): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\ShootingCamera.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\ShootingCamera.cpp(438): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Compiling...
          SP_Gabriel.cpp
-     1>Source\SP_Gabriel.cpp(221): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(226): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(253): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(255): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(260): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(262): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(306): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(307): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(311): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(397): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(398): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(504): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SP_Gabriel.cpp(535): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\SP_Gabriel.cpp(584): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SP_Gabriel.cpp(592): warning C4305: 'argument' : truncation from 'double' to 'float'
          StudioProject.cpp
-     1>Source\StudioProject.cpp(10): fatal error C1083: Cannot open include file: 'IK\irrKlang.h': No such file or directory
-     1>Done Building Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)) -- FAILED.
+     1>Source\StudioProject.cpp(385): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+         Utiity.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\Application.res" Application.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GIT_ROOT\SP2\DM2122_Framework\Release\Application.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\glew\lib /LIBPATH:"D:\GIT_ROOT\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\Release /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\irrKlang\lib glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib irrKlang.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GIT_ROOT\SP2\DM2122_Framework\Release\Application.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GIT_ROOT\SP2\DM2122_Framework\Release\Application.lib" /MACHINE:X86 /SAFESEH Release\Application.res
+         Release\Application.obj
+         Release\Camera.obj
+         Release\Camera3.obj
+         Release\Camera4.obj
+         Release\CameraAzimuth.obj
+         Release\Driving.obj
+         Release\FileReading.obj
+         Release\Platformer.obj
+         Release\LoadOBJ.obj
+         Release\LoadTGA.obj
+         Release\main.obj
+         Release\MainMenu.obj
+         Release\Mesh.obj
+         Release\MeshBuilder.obj
+         Release\Money.obj
+         Release\PlatformerCamera.obj
+         Release\SceneManager.obj
+         Release\shader.obj
+         Release\Shooting.obj
+         Release\ShootingCamera.obj
+         Release\SP_Gabriel.obj
+         Release\StudioProject.obj
+         Release\Utiity.obj
+         Generating code
+         Finished generating code
+         Application.vcxproj -> D:\GIT_ROOT\SP2\DM2122_Framework\Release\Application.exe
+     1>Done Building Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:11.69
+Time Elapsed 00:00:16.50

@@ -3,7 +3,6 @@
 
 #include "Scene.h"
 #include "Mtx44.h"
-#include "Camera2.h"
 #include "Camera3.h"
 #include "CameraAzimuth.h"
 #include "Mesh.h"
@@ -146,7 +145,7 @@ private:
 	float fps = 0.0;
 	std::string framesPerSec = "";
 	//Loading screen
-	float load_time = 0;
+	double load_time = 0;
 	bool playLoading = true;
 
 };

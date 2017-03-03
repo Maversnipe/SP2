@@ -369,7 +369,7 @@ void Platformer::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], treasureCollected, Color(1, 0, 0), 3, 0.5, 19.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 1.5, 2.5);
 		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 1.5, 1.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 1.5, 0.5);k
+		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 1.5, 0.5);
 		
 		if (game_state == PAUSE)
 			RenderPause();
@@ -386,45 +386,45 @@ void Platformer::Render()
 void Platformer::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 21, 0, 0);
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Scale(1050, 1050, 1050);
+	modelStack.Translate(-24.95f * 21.f, 0, 0);
+	modelStack.Rotate(-90.f, 0, 1.f, 0);
+	modelStack.Scale(1050.f, 1050.f, 1050.f);
 	RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 21, 0, 0);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(1050, 1050, 1050);
+	modelStack.Translate(24.95f * 21.f, 0, 0);
+	modelStack.Rotate(90.f, 0, 1.f, 0);
+	modelStack.Scale(1050.f, 1050.f, 1050.f);
 	RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -24.95 * 21);
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Scale(1050, 1050, 1050);
+	modelStack.Translate(0, 0, -24.95f * 21.f);
+	modelStack.Rotate(180.f, 0, 1.f, 0);
+	modelStack.Scale(1050.f, 1050.f, 1050.f);
 	RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 24.95 * 21);
-	modelStack.Scale(1050, 1050, 1050);
+	modelStack.Translate(0, 0, 24.95f * 21.f);
+	modelStack.Scale(1050.f, 1050.f, 1050.f);
 	RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -24.945 * 21, 0);
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(1050, 1050, 1050);
+	modelStack.Translate(0, -24.945f * 21.f, 0);
+	modelStack.Rotate(-90.f, 0, 1.f, 0);
+	modelStack.Rotate(90.f, 1.f, 0, 0);
+	modelStack.Scale(1050.f, 1050.f, 1050.f);
 	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 24.945 * 21, 0);
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(1050, 1050, 1050);
+	modelStack.Translate(0, 24.945f * 21.f, 0);
+	modelStack.Rotate(-90.f, 0, 1.f, 0);
+	modelStack.Rotate(-90.f, 1.f, 0, 0);
+	modelStack.Scale(1050.f, 1050.f, 1050.f);
 	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
 }
@@ -606,7 +606,7 @@ void Platformer::setPlatforms()
 		}
 	}	
 
-	srand(time(NULL));
+	srand((int)time(NULL));
 	for (int startPoint = 0; startPoint < 4; startPoint++)
 		mapData[4][mapHeight][startPoint] = 7;
 	Platforms first;
@@ -717,7 +717,7 @@ void Platformer::setPlatforms()
 						{
 							PlatformerTreasure setTreasure;
 							setTreasure.pickedUp = false;
-							setTreasure.pos.Set(((((float)(mapPos - 4) + 2.5f) * 10) - 500), (float)(mapHeight * 5 + 5), (float)(mapZpos * 50 - 125));
+							setTreasure.pos.Set(((((float)((float)mapPos - 4.f) + 2.5f) * 10.f) - 500.f), (float)((float)mapHeight * 5.f + 5.f), (float)(mapZpos * 50.f - 125.f));
 							setTreasure.treasureAABB.SaveCoord(Vector3(setTreasure.pos.x - 2.5f, setTreasure.pos.y - 2.5f, setTreasure.pos.z - 2.5f),
 								Vector3(setTreasure.pos.x + 2.5f, setTreasure.pos.y + 2.5f, setTreasure.pos.z + 2.5f));
 							treasure.push_back(setTreasure);
@@ -725,9 +725,9 @@ void Platformer::setPlatforms()
 							placeTreasure = false;
 						}
 					}
-					platformCreated.pos.Set(((((float)mapPos - 4) + 2.5f) * 10) - 500, mapHeight * 5, mapZpos * 50 - 125);
-					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 12.5f, platformCreated.pos.y - 2.5f, platformCreated.pos.z - 20),
-						Vector3(platformCreated.pos.x + 12.5f, platformCreated.pos.y + 2.5f, platformCreated.pos.z + 20));
+					platformCreated.pos.Set(((((float)mapPos - 4.f) + 2.5f) * 10.f) - 500.f, (float)mapHeight * 5.f, (float)mapZpos * 50.f - 125.f);
+					platformCreated.platformAABB.SaveCoord(Vector3(platformCreated.pos.x - 12.5f, platformCreated.pos.y - 2.5f, platformCreated.pos.z - 20.f),
+						Vector3(platformCreated.pos.x + 12.5f, platformCreated.pos.y + 2.5f, platformCreated.pos.z + 20.f));
 					platformID[4].push_back(platformCreated);
 					break;
 				}
@@ -753,7 +753,7 @@ void Platformer::setPlatforms()
 	}
 	Platforms last;
 	last.type = 4;
-	last.pos.Set(480, mapHeight * 5, 0);
+	last.pos.Set(480.f, (float)mapHeight * 5.f, 0);
 	last.platformAABB.SaveCoord(Vector3(last.pos.x - 10, (float)last.pos.y - 2.5f, last.pos.z - 10),
 		Vector3(last.pos.x + 10, (float)last.pos.y + 2.5f, last.pos.z + 10));
 	platformID[5].push_back(last);
@@ -771,50 +771,50 @@ void Platformer::RenderPlatforms()
 				{
 				case 1:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 0.5f) * 10) - 500, height * 5, width * 50 - 125);
-					modelStack.Scale(10, 5, 10);
+					modelStack.Translate(((((float)length) + 0.5f) * 10.f) - 500.f, (float)height * 5.f, (float)width * 50.f - 125.f);
+					modelStack.Scale(10.f, 5.f, 10.f);
 					RenderMesh(meshList[ONE_BLOCK], false);
 					modelStack.PopMatrix();
 					break;
 				case 2:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 1) * 10) - 500, height * 5, width * 50 - 125);
-					modelStack.Rotate(90, 0, 1, 0);
-					modelStack.Scale(10, 5, 5);
+					modelStack.Translate(((((float)length) + 1.f) * 10.f) - 500.f, (float)height * 5.f, (float)width * 50.f - 125.f);
+					modelStack.Rotate(90.f, 0, 1.f, 0);
+					modelStack.Scale(10.f, 5.f, 5.f);
 					RenderMesh(meshList[TWO_BLOCK], false);
 					modelStack.PopMatrix();
 					length += 1;
 					break;
 				case 3:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 1.5f) * 10) - 500, height * 5, width * 50 - 125);
-					modelStack.Rotate(90, 0, 1, 0);
-					modelStack.Scale(10, 5, 5);
+					modelStack.Translate(((((float)length) + 1.5f) * 10.f) - 500.f, (float)height * 5.f, (float)width * 50.f - 125.f);
+					modelStack.Rotate(90.f, 0, 1.f, 0);
+					modelStack.Scale(10.f, 5.f, 5.f);
 					RenderMesh(meshList[THREE_BLOCK], false);
 					modelStack.PopMatrix();
 					length += 2;
 					break;
 				case 4:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, width * 50 - 125);
-					modelStack.Rotate(90, 0, 1, 0);
-					modelStack.Scale(10, 5, 5);
+					modelStack.Translate(((((float)length) + 2.f) * 10.f) - 500.f, (float)height * 5.f, (float)width * 50.f - 125.f);
+					modelStack.Rotate(90.f, 0, 1.f, 0);
+					modelStack.Scale(10.f, 5.f, 5.f);
 					RenderMesh(meshList[FOUR_BLOCK], false);
 					modelStack.PopMatrix();
 					length += 3;
 					break;
 				case 5:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 2.5f) * 10) - 500, height * 5, width * 50 - 125);
-					modelStack.Scale(5, 5, 10);
+					modelStack.Translate(((((float)length) + 2.5f) * 10.f) - 500, (float)height * 5.f, (float)width * 50.f - 125.f);
+					modelStack.Scale(5.f, 5.f, 10.f);
 					RenderMesh(meshList[FIVE_BLOCK], false);
 					modelStack.PopMatrix();
 					length += 4;
 					break;
 				case 7:
 					modelStack.PushMatrix();
-					modelStack.Translate(((((float)length) + 2) * 10) - 500, height * 5, 0);
-					modelStack.Scale(5, 5, 5);
+					modelStack.Translate(((((float)length) + 2.f) * 10.f) - 500.f, (float)height * 5.f, 0);
+					modelStack.Scale(5.f, 5.f, 5.f);
 					RenderMesh(meshList[START_END], false);
 					modelStack.PopMatrix();
 					length += 3;
@@ -829,8 +829,8 @@ void Platformer::RenderPlatforms()
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate((*treasureNum).pos.x, (*treasureNum).pos.y, (*treasureNum).pos.z);
-			modelStack.Rotate((float)treasureRotate, 0, 1, 0);
-			modelStack.Scale(5, 5, 5);
+			modelStack.Rotate((float)treasureRotate, 0, 1.f, 0);
+			modelStack.Scale(5.f, 5.f, 5.f);
 			RenderMesh(meshList[TREASURE], false);
 			modelStack.PopMatrix();
 		}		

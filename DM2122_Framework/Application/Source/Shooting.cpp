@@ -1117,10 +1117,6 @@ void Shooting::Render()
 		if (game_state == GAMEOVER)
 			RenderGameover();
 
-		RenderTextOnScreen(meshList[GEO_TEXT], X, Color(0, 1, 1), 3, 0.5, 2.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], Y, Color(0, 1, 1), 3, 0.5, 1.5);
-		RenderTextOnScreen(meshList[GEO_TEXT], Z, Color(0, 1, 1), 3, 0.5, 0.5);
-
 		RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 3, 13.5, 10);
 	}
 }

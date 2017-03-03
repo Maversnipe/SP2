@@ -93,9 +93,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				CAR_SPEED = 50.0f;
 			}
 			view.y = 0;
-			for (int i = 0; i < ObjPos.size(); i++)
+			for (int i = 0; i < (int)ObjPos.size(); i++)
 			{
-				if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+				if (((position + (view*(float)dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 				{
 					collision = false;
 				}
@@ -108,10 +108,10 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 			}
 			if (collision == false)
 			{
-				Vector3 newPos = position + (view * dt * CAR_SPEED);
+				Vector3 newPos = position + (view * (float)dt * CAR_SPEED);
 				if (boundsCheck(newPos) == 3)
 				{
-					position = position + (view*dt * CAR_SPEED);
+					position = position + (view*(float)dt * CAR_SPEED);
 					target = position + view;
 				}
 				else
@@ -133,9 +133,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				CAR_SPEED = -30.0f;
 			}
 			view.y = 0;
-			for (int i = 0; i < ObjPos.size(); i++)
+			for (int i = 0; i < (int)ObjPos.size(); i++)
 			{
-				if (((position+(view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+				if (((position + (view*(float)dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 				{
 					collision = false;
 				}
@@ -148,10 +148,10 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 			}
 			if (collision == false)
 			{
-				Vector3 newPos = position + (view * dt * CAR_SPEED);
+				Vector3 newPos = position + (view * (float)dt * CAR_SPEED);
 				if (boundsCheck(newPos) == 3)
 				{
-					position = position + (view*dt * CAR_SPEED);
+					position = position + (view*(float)dt * CAR_SPEED);
 					target = position + view;
 				}
 				else
@@ -166,14 +166,14 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 		{
 			if (CAR_SPEED > -1 && CAR_SPEED < 1 && CAR_SPEED != 0)
 			{
-				CAR_SPEED -= 0.01;
+				CAR_SPEED -= 0.01f;
 			}
 			else if (CAR_SPEED > 0)
 			{
 				CAR_SPEED -= 1.0f;
-				for (int i = 0; i < ObjPos.size(); i++)
+				for (int i = 0; i < (int)ObjPos.size(); i++)
 				{
-					if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+					if (((position + (view*(float)dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}
@@ -186,10 +186,10 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				}
 				if (collision == false)
 				{
-					Vector3 newPos = position + (view * dt * CAR_SPEED);
+					Vector3 newPos = position + (view * (float)dt * CAR_SPEED);
 					if (boundsCheck(newPos) == 3)
 					{
-						position = position + (view*dt * CAR_SPEED);
+						position = position + (view*(float)dt * CAR_SPEED);
 						target = position + view;
 					}
 					else
@@ -203,9 +203,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 			else if (CAR_SPEED < 0)
 			{
 				CAR_SPEED += 1.0;
-				for (int i = 0; i < ObjPos.size(); i++)
+				for (int i = 0; i < (int)ObjPos.size(); i++)
 				{
-					if (((position - (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+					if (((position - (view*(float)dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}
@@ -218,10 +218,10 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				}
 				if (collision == false)
 				{
-					Vector3 newPos = position + (view * dt * CAR_SPEED);
+					Vector3 newPos = position + (view * (float)dt * CAR_SPEED);
 					if (boundsCheck(newPos) == 3)
 					{
-						position = position + (view*dt * CAR_SPEED);
+						position = position + (view*(float)dt * CAR_SPEED);
 						target = position + view;
 					}
 					else
@@ -242,9 +242,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 			else if (CAR_SPEED > 0)
 			{
 				CAR_SPEED -= 0.2f;
-				for (int i = 0; i < ObjPos.size(); i++)
+				for (int i = 0; i < (int)ObjPos.size(); i++)
 				{
-					if (((position + (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+					if (((position + (view*(float)dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}
@@ -257,10 +257,10 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				}
 				if (collision == false)
 				{
-					Vector3 newPos = position + (view * dt * CAR_SPEED);
+					Vector3 newPos = position + (view * (float)dt * CAR_SPEED);
 					if (boundsCheck(newPos) == 3)
 					{
-						position = position + (view*dt * CAR_SPEED);
+						position = position + (view*(float)dt * CAR_SPEED);
 						target = position + view;
 					}
 					else
@@ -273,9 +273,9 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 			else if (CAR_SPEED < 0)
 			{
 				CAR_SPEED += 0.2f;
-				for (int i = 0; i < ObjPos.size(); i++)
+				for (int i = 0; i < (int)ObjPos.size(); i++)
 				{
-					if (((position - (view*dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
+					if (((position - (view*(float)dt * CAR_SPEED)) - ObjPos[i]).Length()>1.5)
 					{
 						collision = false;
 					}
@@ -288,10 +288,10 @@ void Camera4::Update(double dt, float* rotate,int& fuel)
 				}
 				if (collision == false)
 				{
-					Vector3 newPos = position + (view * dt * CAR_SPEED);
+					Vector3 newPos = position + (view * (float)dt * CAR_SPEED);
 					if (boundsCheck(newPos) == 3)
 					{
-						position = position + (view*dt * CAR_SPEED);
+						position = position + (view*(float)dt * CAR_SPEED);
 						target = position + view;
 					}
 					else

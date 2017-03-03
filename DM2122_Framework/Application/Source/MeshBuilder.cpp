@@ -207,7 +207,7 @@ Mesh* MeshBuilder::GenerateCircle(const std::string &meshName, Color color, unsi
 	
 	float anglePerSlice = 360.f / numSlices;
 
-	for (int slice = 0; slice < numSlices + 1; slice++)
+	for (unsigned int slice = 0; slice < numSlices + 1; slice++)
 	{
 		float theta = slice * anglePerSlice;
 		v.pos.Set(radius * cos(Math::DegreeToRadian(theta)), 0, radius * sin(Math::DegreeToRadian(theta)));
@@ -221,7 +221,7 @@ Mesh* MeshBuilder::GenerateCircle(const std::string &meshName, Color color, unsi
 		vertex_buffer_data.push_back(v);
 	}
 
-	for (unsigned i = 0; i < 2 * (numSlices + 1); i++)
+	for (unsigned int i = 0; i < 2 * (numSlices + 1); i++)
 		index_buffer_data.push_back(i);
 
 	Mesh *mesh = new Mesh(meshName);
@@ -255,12 +255,12 @@ Mesh* MeshBuilder::GenerateRing(const std::string &meshName, Color color, unsign
 	for (unsigned slice = 0; slice < numSlices + 1; ++slice)
 	{
 		float theta = slice * anglePerSlice;
-		v.pos.Set(outerRadius * cos(Math::DegreeToRadian(theta)), -height * 0.5, outerRadius * sin(Math::DegreeToRadian(theta)));
+		v.pos.Set(outerRadius * cos(Math::DegreeToRadian(theta)), -height * (float)0.5, outerRadius * sin(Math::DegreeToRadian(theta)));
 		v.color = color;
 		v.normal.Set(0, 1, 0);
 		vertex_buffer_data.push_back(v);
 
-		v.pos.Set(innerRadius * cos(Math::DegreeToRadian(theta)), -height * 0.5, innerRadius * sin(Math::DegreeToRadian(theta)));
+		v.pos.Set(innerRadius * cos(Math::DegreeToRadian(theta)), -height * (float)0.5, innerRadius * sin(Math::DegreeToRadian(theta)));
 		v.color = color;
 		v.normal.Set(0, 1, 0);
 		vertex_buffer_data.push_back(v);
@@ -308,12 +308,12 @@ Mesh* MeshBuilder::GenerateRing(const std::string &meshName, Color color, unsign
 	for (unsigned slice = 0; slice < numSlices + 1; ++slice)
 	{
 		float theta = slice * anglePerSlice;
-		v.pos.Set(outerRadius * cos(Math::DegreeToRadian(theta)), height * 0.5, outerRadius * sin(Math::DegreeToRadian(theta)));
+		v.pos.Set(outerRadius * cos(Math::DegreeToRadian(theta)), height * (float)0.5, outerRadius * sin(Math::DegreeToRadian(theta)));
 		v.color = color;
 		v.normal.Set(0, 1, 0);
 		vertex_buffer_data.push_back(v);
 
-		v.pos.Set(innerRadius * cos(Math::DegreeToRadian(theta)), height * 0.5, innerRadius * sin(Math::DegreeToRadian(theta)));
+		v.pos.Set(innerRadius * cos(Math::DegreeToRadian(theta)), height * (float)0.5, innerRadius * sin(Math::DegreeToRadian(theta)));
 		v.color = color;
 		v.normal.Set(0, 1, 0);
 		vertex_buffer_data.push_back(v);
@@ -350,7 +350,7 @@ Mesh* MeshBuilder::GenerateSphere(const std::string &meshName, Color color, unsi
 	float anglePerSlice = 360.f / numSlices;
 	float anglePerStack = 180.f / numStacks;
 
-	for (signed stack = 0; stack < numStacks + 1; stack++)
+	for (unsigned int stack = 0; stack < numStacks + 1; stack++)
 	{
 		float phi = -90.f + stack * anglePerStack;
 		for (unsigned slice = 0; slice < numSlices + 1; slice++)
@@ -405,7 +405,7 @@ Mesh* MeshBuilder::GenerateHemisphere(const std::string &meshName, Color color, 
 	float anglePerSlice = 360.f / numSlices;
 	float anglePerStack = 180.f / numStacks;
 
-	for (signed stack = 0; stack < numStacks + 1; stack++)
+	for (unsigned stack = 0; stack < numStacks + 1; stack++)
 	{
 		float phi = 0 + stack * anglePerStack;
 		for (unsigned slice = 0; slice < numSlices + 1; slice++)
@@ -420,7 +420,7 @@ Mesh* MeshBuilder::GenerateHemisphere(const std::string &meshName, Color color, 
 		}
 	}
 
-	for (int slice = 0; slice < numSlices + 1; slice++)
+	for (unsigned int slice = 0; slice < numSlices + 1; slice++)
 	{
 		float theta = slice * anglePerSlice;
 		v.pos.Set(radius * cos(Math::DegreeToRadian(theta)), 0, radius * sin(Math::DegreeToRadian(theta)));
@@ -434,7 +434,7 @@ Mesh* MeshBuilder::GenerateHemisphere(const std::string &meshName, Color color, 
 		vertex_buffer_data.push_back(v);
 	}
 
-	for (signed stack = 0; stack < numStacks + 1; stack++)
+	for (unsigned stack = 0; stack < numStacks + 1; stack++)
 	{
 		for (unsigned slice = 0; slice < numSlices + 1; slice++)
 		{

@@ -70,11 +70,11 @@ void Camera3::Update(double dt)
 
 	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
 
-	rotateHori = (mid_x - xpos) * dt * CamSpeed;
-	rotateVert = (mid_y - ypos) * dt * CamSpeed;
+	rotateHori = (float)((mid_x - xpos) * dt * CamSpeed);
+	rotateVert = (float)((mid_y - ypos) * dt * CamSpeed);
 
 	// control vertical limit
-	verticalAngle += dt *rotateVert;
+	verticalAngle += (float)(dt *rotateVert);
 	if (verticalAngle > 1)
 	{
 		verticalAngle = 1;
@@ -155,7 +155,7 @@ void Camera3::Update(double dt)
 	{
 		if (Application::IsKeyPressed('A'))
 		{
-			newPos = position - (right * velocity);
+			newPos = position - (right * (float)velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			buildingNum = 5;
 			for (int i = 0; i < 5; i++)
@@ -176,27 +176,27 @@ void Camera3::Update(double dt)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{
-					position.x = position.x - (right.x * velocity);
-					target.x = position.x + (view.x * velocity);
+					position.x = position.x - (float)(right.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
 				}
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 				{
-					position.z = position.z - (right.z * velocity);
-					target.z = position.z + (view.z * velocity);
+					position.z = position.z - (float)(right.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
 				}
 			}
 			else
 			{
-				position.x = position.x - (right.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z - (right.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				position.x = position.x - (float)(right.x * velocity);
+				target.x = position.x + (float)(view.x * velocity);
+				position.z = position.z - (float)(right.z * velocity);
+				target.z = position.z + (float)(view.z * velocity);
 			}
 		}
 
 		if (Application::IsKeyPressed('D'))
 		{
-			newPos = position + (right * velocity);
+			newPos = position + (right * (float)velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			buildingNum = 5;
 			for (int i = 0; i < 5; i++)
@@ -217,27 +217,27 @@ void Camera3::Update(double dt)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{
-					position.x = position.x + (right.x * velocity);
-					target.x = position.x + (view.x * velocity);
+					position.x = position.x + (float)(right.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
 				}
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 				{
-					position.z = position.z + (right.z * velocity);
-					target.z = position.z + (view.z * velocity);
+					position.z = position.z + (float)(right.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
 				}
 			}
 			else
 			{
-				position.x = position.x + (right.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z + (right.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				position.x = position.x + (float)(right.x * velocity);
+				target.x = position.x + (float)(view.x * velocity);
+				position.z = position.z + (float)(right.z * velocity);
+				target.z = position.z + (float)(view.z * velocity);
 			}
 		}
 
 		if (Application::IsKeyPressed('W'))
 		{
-			newPos = position + (view * velocity);
+			newPos = position + (view * (float)velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			buildingNum = 5;
 			for (int i = 0; i < 5; i++)
@@ -258,27 +258,27 @@ void Camera3::Update(double dt)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{
-					position.x = position.x + (view.x * velocity);
-					target.x = position.x + (view.x * velocity);
+					position.x = position.x + (float)(view.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
 				}
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 				{
-					position.z = position.z + (view.z * velocity);
-					target.z = position.z + (view.z * velocity);
+					position.z = position.z + (float)(view.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
 				}
 			}
 			else
 			{
-				position.x = position.x + (view.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z + (view.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				position.x = position.x + (float)(view.x * velocity);
+				target.x = position.x + (float)(view.x * velocity);
+				position.z = position.z + (float)(view.z * velocity);
+				target.z = position.z + (float)(view.z * velocity);
 			}
 		}
 
 		if (Application::IsKeyPressed('S'))
 		{
-			newPos = position - (view * velocity);
+			newPos = position - (view * (float)velocity);
 			charAABB.SaveCoord(Vector3(newPos.x - 2, newPos.y - 2, newPos.z - 2), Vector3(newPos.x + 2, newPos.y + 2, newPos.z + 2));
 			buildingNum = 5;
 			for (int i = 0; i < 5; i++)
@@ -299,21 +299,21 @@ void Camera3::Update(double dt)
 			{
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 1)
 				{
-					position.x = position.x - (view.x * velocity);
-					target.x = position.x + (view.x * velocity);
+					position.x = position.x - (float)(view.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
 				}
 				if (slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2 && slideAABBbuilding(charAABB, buildingAABB[buildingNum]) == 2)
 				{
-					position.z = position.z - (view.z * velocity);
-					target.z = position.z + (view.z * velocity);
+					position.z = position.z - (float)(view.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
 				}
 			}
 			else
 			{
-				position.x = position.x - (view.x * velocity);
-				target.x = position.x + (view.x * velocity);
-				position.z = position.z - (view.z * velocity);
-				target.z = position.z + (view.z * velocity);
+				position.x = position.x - (float)(view.x * velocity);
+				target.x = position.x + (float)(view.x * velocity);
+				position.z = position.z - (float)(view.z * velocity);
+				target.z = position.z + (float)(view.z * velocity);
 			}
 		}
 	}

@@ -166,7 +166,7 @@ private:
 	float enemySpeed;
 	float enemyRadius;
 	float ObjectRadius;
-	float enemyRotation1[100] = {};
+	float enemyRotation1[100];
 	//===========Pause===============
 	double pause_bounce_time = 0.0;
 	int pauseSelect = 1;
@@ -189,7 +189,7 @@ private:
 	Bullet bullet[5];
 	Bullet original[5];
 	int bulletCount = 0;
-	bool moveLaser[5] = {};
+	bool moveLaser[5];
 	bool reload = false;
 	float elapsed_time = 0.f;
 	float bounce_time = 0.f;
@@ -225,18 +225,11 @@ private:
 	//===============================
 	float RandomNumber(float min, float max);
 	//========Loading screen=========
-	float load_time = 0;
+	double load_time = 0;
 	bool playLoading = true;
 	//========================
 	bool dead = false;
 	int money = 0;
-
-	float x = 0.0;
-	float y = 0.0;
-	float z = 0.0;
-	std::string X = "";
-	std::string Y = "";
-	std::string Z = "";
 
 	double xpos, ypos;
 	int width, height;

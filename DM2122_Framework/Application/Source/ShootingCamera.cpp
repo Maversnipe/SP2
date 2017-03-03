@@ -151,7 +151,7 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//========Enemy collisions =========
 		if (enemyPos.size() != 0)
 		{
-			for (int i = 0; i < (enemyPos.size()); i++)
+			for (int i = 0; i < (int)(enemyPos.size()); i++)
 			{
 				collideEnemy = false;
 				if (collideEnemies(newPos, enemyPos[i]))
@@ -220,7 +220,7 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//========Enemy collisions =========
 		if (enemyPos.size() != 0)
 		{
-			for (int i = 0; i < enemyPos.size(); i++)
+			for (int i = 0; i < (int)(enemyPos.size()); i++)
 			{
 				collideEnemy = false;
 				if (collideEnemies(newPos, enemyPos[i]))
@@ -289,7 +289,7 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//========Enemy collisions =========
 		if (enemyPos.size() != 0)
 		{
-			for (int i = 0; i < enemyPos.size(); i++)
+			for (int i = 0; i < (int)(enemyPos.size()); i++)
 			{
 				collideEnemy = false;
 				if (collideEnemies(newPos, enemyPos[i]))
@@ -358,7 +358,7 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		//========Enemy collisions =========
 		if (enemyPos.size() != 0)
 		{
-			for (int i = 0; i < enemyPos.size(); i++)
+			for (int i = 0; i < (int)(enemyPos.size()); i++)
 			{
 				collideEnemy = false;
 				if (collideEnemies(newPos, enemyPos[i]))
@@ -421,8 +421,8 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 		}
 	}
 
-	camPitch.SetToRotation(rotateVert, right.x, right.y, right.z);
-	camYaw.SetToRotation(rotateHori, 0, 1, 0);
+	camPitch.SetToRotation((float)rotateVert, right.x, right.y, right.z);
+	camYaw.SetToRotation((float)rotateHori, 0, 1, 0);
 	rotation = camPitch * camYaw;
 	view = (rotation * view).Normalized();
 	target = (position + view);
@@ -430,12 +430,12 @@ void ShootingCamera::Update(double dt, float* horizontal, float* vertical)
 	right = camPitch * right;
 
 
-	verticalAngle = Math::RadianToDegree(verticalAngle);
-	horizontalAngle = Math::RadianToDegree(horizontalAngle);
-	*vertical = verticalAngle;
-	*horizontal = horizontalAngle;
-	verticalAngle = Math::DegreeToRadian(verticalAngle);
-	horizontalAngle = Math::DegreeToRadian(horizontalAngle);
+	verticalAngle = (double)Math::RadianToDegree((double)verticalAngle);
+	horizontalAngle = (double)Math::RadianToDegree((double)horizontalAngle);
+	*vertical = (float)verticalAngle;
+	*horizontal = (float)horizontalAngle;
+	verticalAngle = (double)Math::DegreeToRadian(verticalAngle);
+	horizontalAngle = (double)Math::DegreeToRadian(horizontalAngle);
 }
 
 int ShootingCamera::slideAABBobject(AABB charAABB, AABB buildingAABB)

@@ -49,8 +49,8 @@ void PlatformerCamera::Update(double dt, std::vector<Platforms> platformID[], st
 
 	glfwSetCursorPos(Application::m_window, mid_x, mid_y);
 
-	rotateHori = (mid_x - xpos) * dt * CamSpeed;
-	rotateVert = (mid_y - ypos) * dt * CamSpeed;
+	rotateHori = (float)((mid_x - xpos) * dt * CamSpeed);
+	rotateVert = (float)((mid_y - ypos) * dt * CamSpeed);
 
 	// control vertical limit
 	verticalAngle += (float)(dt * rotateVert);
@@ -132,9 +132,9 @@ void PlatformerCamera::charMovement(double dt, std::vector<Platforms> platformID
 	Vector3 newPos;
 
 	if (superSpeedAbility)
-		fixedVelocity = 2.1;
+		fixedVelocity = 2.1f;
 	else
-		fixedVelocity = 0.7;
+		fixedVelocity = 0.7f;
 
 	if (Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
 	{ // If character is moving
@@ -519,18 +519,18 @@ void PlatformerCamera::jumping(double dt)
 	{
 		jump = true;
 		playerOriginalHeight = position.y;
-		fallingVelocity = -30;
+		fallingVelocity = -30.f;
 		onGround = false;
-		gravity = 29.4;
+		gravity = 29.4f;
 	}
 	else if (Application::IsKeyPressed(VK_SPACE) && doubleJumpAbility && !doubleJump && !jump && !onGround && landed)
 	{
 		landed = false;
 		jump = true;
 		playerOriginalHeight = position.y;
-		fallingVelocity = -30;
+		fallingVelocity = -30.f;
 		doubleJump = true;
-		gravity = 29.4;
+		gravity = 29.4f;
 	}
 
 	if ((jump) && (fallingVelocity < 0))
@@ -549,7 +549,7 @@ void PlatformerCamera::jumping(double dt)
 				jump = false;
 				doubleJump = false;
 				fallingVelocity = 0;
-				gravity = 29.4;
+				gravity = 29.4f;
 			}
 		}
 		else
@@ -564,7 +564,7 @@ void PlatformerCamera::jumping(double dt)
 		doubleJump = false;
 		jump = false;
 		fallingVelocity = 0;
-		gravity = 29.4;
+		gravity = 29.4f;
 	}
 }
 

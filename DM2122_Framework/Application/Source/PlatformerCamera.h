@@ -61,7 +61,7 @@ public:
 			bool jump = false;
 			float playerOriginalHeight = 0.0;
 			bool onGround = true;
-			float gravity = 19.6;
+			float gravity = 19.6f;
 			float fallingVelocity = 0;
 			bool doubleJump = false; // This to see if player is doing double jump
 			bool landed = true;

@@ -152,7 +152,7 @@ private:
 	float enemySpeed;
 	float enemyRadius;
 	float ObjectRadius;
-	float enemyRotation[100] = {};
+	float enemyRotation[100];
 	double xpos, ypos;
 	int width, height;
 	int pause_state = 0;

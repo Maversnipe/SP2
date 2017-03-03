@@ -12,7 +12,7 @@ public:
 
 	void AddScene(Scene*, std::string);
 	void SetNextScene(std::string);
-	void Update(float);
+	void Update(double);
 
 	int menuSelect = 0;
 

@@ -20,7 +20,7 @@ Driving::Driving()
 	healthPack = 10;
 	fuelPack = 10;
 	car.health = 100;
-	car.fuel = 10000.0f;
+	car.fuel = 10000;
 	rock = 5;
 	game_state = GAME_START;
 }
@@ -152,9 +152,6 @@ void Driving::Init()
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1, 1);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//blood-valley_up.tga");
 
-	meshList[GEO_BB8] = MeshBuilder::GenerateQuad("reference", Color(1, 1, 1), 1, 1);
-	meshList[GEO_BB8]->textureID = LoadTGA("Image//BB8.tga");
-
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_CUBE1] = MeshBuilder::GenerateCube("cube", Color(1, 0, 0), 1, 1, 1);
 	meshList[GEO_CUBE2] = MeshBuilder::GenerateCube("cube", Color(0, 0, 0), 1, 1, 1);
@@ -275,9 +272,9 @@ void Driving::gameUpdate(double dt)
 						enemyRotation[counter] = Math::RadianToDegree(atan2(dirVec.x, dirVec.z));
 						if (counter != counter2)
 						{
-							if (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - enemyPos[counter2]).Length()>enemyRadius
+							if (((enemyPos[counter] + (dirVec*(float)dt * enemySpeed)) - enemyPos[counter2]).Length()>enemyRadius
 								&& ((enemyPos[counter]) - enemyPos[counter2]).Length()>enemyRadius
-								&& (((enemyPos[counter] + (dirVec*dt * enemySpeed)) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius)
+								&& (((enemyPos[counter] + (dirVec*(float)dt * enemySpeed)) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius)
 								&& (((enemyPos[counter]) - ObjectPos[counter3]).Length() > ObjectRadius + enemyRadius))
 							{
 								test = 1;
@@ -292,16 +289,16 @@ void Driving::gameUpdate(double dt)
 										{
 											if (rand() % 2< 1)
 											{
-												enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+												enemyPos[counter].x -= (float)(dirVec.x * (float)dt * enemySpeed);
 											}
 											else
 											{
-												enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
+												enemyPos[counter].z -= (float)(dirVec.z *(float)dt * enemySpeed);
 											}
 										}
 									}
 								}
-								if ((((enemyPos[counter]) + (dirVec*dt * enemySpeed) - ObjectPos[counter3]).Length() <= ObjectRadius + enemyRadius))
+								if ((((enemyPos[counter]) + (dirVec*(float)dt * enemySpeed) - ObjectPos[counter3]).Length() <= ObjectRadius + enemyRadius))
 								{
 									float z = dirVec.z;
 									float x = dirVec.x;
@@ -334,17 +331,17 @@ void Driving::gameUpdate(double dt)
 				}
 				if (test == 1)
 				{
-					enemyPos[counter] += dirVec * dt*enemySpeed;
+					enemyPos[counter] += dirVec * (float)dt*enemySpeed;
 				}
 				else
 				{
 					if (test2 == 1)
 					{
-						enemyPos[counter].z -= dirVec.z * dt * enemySpeed;
+						enemyPos[counter].z -= (float)(dirVec.z * (float)dt * enemySpeed);
 					}
 					else if (test2 == 2)
 					{
-						enemyPos[counter].x -= dirVec.x * dt * enemySpeed;
+						enemyPos[counter].x -= (float)(dirVec.x * (float)dt * enemySpeed);
 					}
 					else
 					{
@@ -367,7 +364,7 @@ void Driving::gameUpdate(double dt)
 		{
 			if (scaleExplosion[counter] < 2)
 			{
-				scaleExplosion[counter] += 0.1;
+				scaleExplosion[counter] += 0.1f;
 				ExplosionRadius[counter] = scaleExplosion[counter];
 				if ((carVec - ExplosionPos[counter]).Length() <= 2 + ExplosionRadius[counter])
 				{
@@ -451,46 +448,6 @@ void Driving::gameUpdate(double dt)
 		}
 	}
 	//====================================
-	fps = 1.0f / dt;
-	framesPerSec = "FPS: " + std::to_string(fps);
-	float LSPEED = 10.f;
-	if (Application::IsKeyPressed('I'))
-		light[0].position.z -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('K'))
-		light[0].position.z += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('J'))
-		light[0].position.x -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('L'))
-		light[0].position.x += (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('O'))
-		light[0].position.y -= (float)(LSPEED * dt);
-	if (Application::IsKeyPressed('P'))
-		light[0].position.y += (float)(LSPEED * dt);
-
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	else if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	else if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	if (Application::IsKeyPressed('5'))
-	{
-		light[0].type = Light::LIGHT_POINT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('6'))
-	{
-		light[0].type = Light::LIGHT_DIRECTIONAL;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
-	else if (Application::IsKeyPressed('7'))
-	{
-		light[0].type = Light::LIGHT_SPOT;
-		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
-	}
 	if (car.health > 0)
 	{
 		Camera4.Update(dt, &rotateAngle, car.fuel);
@@ -767,43 +724,43 @@ void Driving::Render()
 void Driving::RenderSkybox()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(-24.95 * 10, 0, 0);
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Scale(500, 500, 500);
+	modelStack.Translate(-24.95f * 10.f, 0, 0);
+	modelStack.Rotate(-90.f, 0, 1.f, 0);
+	modelStack.Scale(500.f, 500.f, 500.f);
 	RenderMesh(meshList[GEO_FRONT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(24.95 * 10, 0, 0);
+	modelStack.Translate(24.95f * 10.f, 0, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(500, 500, 500);
 	RenderMesh(meshList[GEO_BACK], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -24.95 * 10);
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Scale(500, 500, 500);
+	modelStack.Translate(0, 0, -24.95f * 10.f);
+	modelStack.Rotate(180.f, 0, 1.f, 0);
+	modelStack.Scale(500.f, 500.f, 500.f);
 	RenderMesh(meshList[GEO_LEFT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 24.95 * 10);
-	modelStack.Scale(500, 500, 500);
+	modelStack.Translate(0, 0, 24.95f * 10.f);
+	modelStack.Scale(500.f, 500.f, 500.f);
 	RenderMesh(meshList[GEO_RIGHT], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, -1, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(500, 500, 500);
+	modelStack.Translate(0, -1.f, 0);
+	modelStack.Rotate(-90.f, 1.f, 0, 0);
+	modelStack.Scale(500.f, 500.f, 500.f);
 	RenderMesh(meshList[GEO_BOTTOM], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 24.945 * 10, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Scale(500, 500, 500);
+	modelStack.Translate(0, 24.945f * 10.f, 0);
+	modelStack.Rotate(-90.f, 1.f, 0, 0);
+	modelStack.Scale(500.f, 500.f, 500.f);
 	RenderMesh(meshList[GEO_TOP], true);
 	modelStack.PopMatrix();
 
@@ -895,8 +852,8 @@ void Driving::RenderMeshOnScreen(Mesh* mesh, int x, int y, int
 	viewStack.LoadIdentity(); //No need camera for ortho mode
 	modelStack.PushMatrix();
 	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
-	modelStack.Scale(sizex, sizey, 1);
+	modelStack.Translate((float)x, (float)y, 0);
+	modelStack.Scale((float)sizex, (float)sizey, 1);
 	RenderMesh(mesh, false); //UI should not have light
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();

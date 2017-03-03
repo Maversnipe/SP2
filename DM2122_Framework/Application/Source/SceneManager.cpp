@@ -42,7 +42,7 @@ void SceneManager::SetNextScene(std::string sceneID)
 	nextSceneID = sceneID;
 }
 
-void SceneManager::Update(float dt)
+void SceneManager::Update(double dt)
 {
 	if (currSceneID == "Menu")
 	{ // Main Menu Scene
