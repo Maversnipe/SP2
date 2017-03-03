@@ -405,6 +405,8 @@ void StudioProject::Update(double dt)
 			Money::getInstance()->deductMoney(5);
 			changeScene = 3;
 		}
+		else 
+			Money::getInstance()->notEnoughMoney = true;
 	}
 
 	if ((camera3.position.x - 2 > building[2].x - 10) && (camera3.position.x + 2 < building[2].x + 15)
@@ -416,6 +418,8 @@ void StudioProject::Update(double dt)
 			Money::getInstance()->deductMoney(5);
 			changeScene = 4;
 		}
+		else
+			Money::getInstance()->notEnoughMoney = true;
 	}
 	if ((camera3.position.x - 2 > building[4].x - 10) && (camera3.position.x + 2 < building[4].x + 15)
 		&& (camera3.position.z - 2 > building[4].z + 25) && (camera3.position.z + 2 < building[4].z + 35)
@@ -426,6 +430,8 @@ void StudioProject::Update(double dt)
 			Money::getInstance()->deductMoney(5);
 			changeScene = 5;
 		}
+		else
+			Money::getInstance()->notEnoughMoney = true;
 	}
 	if (Application::IsKeyPressed('E'))
 	{ // So that it does not sense that user pressed E when entering mini-games
@@ -646,7 +652,6 @@ void StudioProject::Render()
 		RenderMeshOnScreen(meshList[GEO_LOAD1], 40, 20, 80, 80);//No transform needed
 	else
 	{
-		RenderMesh(meshList[GEO_AXES], false);
 
 		RenderSkybox();
 
