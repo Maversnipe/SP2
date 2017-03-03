@@ -663,7 +663,6 @@ void Shooting::UpdateSelect(double dt)
 	glfwGetWindowSize(Application::m_window, &width, &height);
 	glfwGetCursorPos(Application::m_window, &xpos, &ypos);
 	ShowCursor(true);
-	cout << xpos << "           " << ypos << endl;
 	if ((Application::IsKeyPressed(MK_LBUTTON))&& (xpos >  135.0f * (width / 800.0f) && xpos < (215.0f * (width / 800.0f)) && ypos > 420.0f * (height / 600.0f) && ypos <  440.0f * (height / 600.0f)))
 	{
 		tutorialStart = true;

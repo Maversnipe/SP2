@@ -43,7 +43,7 @@ public:
 	AABB charAABB;
 	AABB buildingAABB[5];
 	GLFWwindow* m_window;
-
+	int boundsCheck(Vector3 newPos);
 
 private:
 	Vector3 view;

@@ -1,33 +1,11 @@
-﻿Build started 3/3/2017 8:43:52 AM.
+﻿Build started 3/3/2017 8:56:09 AM.
      1>Project "D:\GIT_ROOT\SP2\DM2122_Framework\Application\Application.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ID:\GIT_ROOT\SP2\DM2122_Framework\\irrKlang\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Camera.cpp Source\Camera3.cpp Source\Camera4.cpp Source\CameraAzimuth.cpp Source\Driving.cpp Source\FileReading.cpp Source\Platformer.cpp Source\LoadOBJ.cpp Source\LoadTGA.cpp Source\main.cpp Source\MainMenu.cpp Source\Mesh.cpp Source\MeshBuilder.cpp Source\Money.cpp Source\PlatformerCamera.cpp Source\SceneManager.cpp Source\shader.cpp Source\Shooting.cpp Source\ShootingCamera.cpp Source\SP_Gabriel.cpp Source\StudioProject.cpp Source\Utiity.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GIT_ROOT\SP2\DM2122_Framework\\glew\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\glfw\include /ID:\GIT_ROOT\SP2\DM2122_Framework\\Common\Source /ID:\GIT_ROOT\SP2\DM2122_Framework\\irrKlang\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\Camera3.cpp Source\SP_Gabriel.cpp Source\SceneManager.cpp Source\Shooting.cpp Source\StudioProject.cpp
          Application.cpp
-         Camera.cpp
          Camera3.cpp
-         Camera4.cpp
-         CameraAzimuth.cpp
-         Driving.cpp
-         FileReading.cpp
-         Platformer.cpp
-         LoadOBJ.cpp
-         LoadTGA.cpp
-         main.cpp
-         MainMenu.cpp
-     1>C:\Program Files (x86)\Windows Kits\8.1\Include\shared\minwindef.h(130): warning C4005: 'APIENTRY' : macro redefinition
-                 D:\GIT_ROOT\SP2\DM2122_Framework\glfw\include\GLFW/glfw3.h(92) : see previous definition of 'APIENTRY'
-     1>Source\MainMenu.cpp(258): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\MainMenu.cpp(259): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\MainMenu.cpp(508): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\MainMenu.cpp(516): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\MainMenu.cpp(609): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\MainMenu.cpp(610): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Mesh.cpp
-         MeshBuilder.cpp
-         Money.cpp
-         PlatformerCamera.cpp
+         SP_Gabriel.cpp
          SceneManager.cpp
-         shader.cpp
          Shooting.cpp
      1>Source\Shooting.cpp(293): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>Source\Shooting.cpp(307): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
@@ -46,31 +24,21 @@
      1>Source\Shooting.cpp(571): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>Source\Shooting.cpp(585): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
      1>Source\Shooting.cpp(624): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>Source\Shooting.cpp(679): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>Source\Shooting.cpp(693): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Shooting.cpp(721): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>Source\Shooting.cpp(752): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Shooting.cpp(779): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Shooting.cpp(801): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\Shooting.cpp(928): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Shooting.cpp(998): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Shooting.cpp(1000): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Shooting.cpp(1157): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\Shooting.cpp(1165): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(678): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Source\Shooting.cpp(692): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(720): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Source\Shooting.cpp(751): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(778): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(800): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Shooting.cpp(927): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(997): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(999): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(1156): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(1164): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\Shooting.cpp(1257): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>Source\Shooting.cpp(1258): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>Source\Shooting.cpp(1259): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         ShootingCamera.cpp
-     1>Source\ShootingCamera.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(434): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(437): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\ShootingCamera.cpp(438): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         Compiling...
-         SP_Gabriel.cpp
          StudioProject.cpp
      1>Source\StudioProject.cpp(385): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-         Utiity.cpp
-       ResourceCompile:
-         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\Application.res" Application.rc 
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GIT_ROOT\SP2\DM2122_Framework\Release\Application.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\glew\lib /LIBPATH:"D:\GIT_ROOT\SP2\DM2122_Framework\\glfw\lib-msvc120" /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\Release /LIBPATH:D:\GIT_ROOT\SP2\DM2122_Framework\\irrKlang\lib glew32.lib glfw3.lib opengl32.lib winmm.lib Common.lib irrKlang.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GIT_ROOT\SP2\DM2122_Framework\Release\Application.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GIT_ROOT\SP2\DM2122_Framework\Release\Application.lib" /MACHINE:X86 /SAFESEH Release\Application.res
          Release\Application.obj
@@ -103,4 +71,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:16.50
+Time Elapsed 00:00:14.75

@@ -187,10 +187,26 @@ void Camera3::Update(double dt)
 			}
 			else
 			{
-				position.x = position.x - (float)(right.x * velocity);
-				target.x = position.x + (float)(view.x * velocity);
-				position.z = position.z - (float)(right.z * velocity);
-				target.z = position.z + (float)(view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x - (float)(right.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+					position.z = position.z - (float)(right.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+					position.x = position.x - (float)(right.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+					position.z = position.z - (float)(right.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
+				
 			}
 		}
 
@@ -228,10 +244,27 @@ void Camera3::Update(double dt)
 			}
 			else
 			{
-				position.x = position.x + (float)(right.x * velocity);
-				target.x = position.x + (float)(view.x * velocity);
-				position.z = position.z + (float)(right.z * velocity);
-				target.z = position.z + (float)(view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x + (float)(right.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+
+					position.z = position.z + (float)(right.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+					position.x = position.x + (float)(right.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+					position.z = position.z + (float)(right.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
+				
 			}
 		}
 
@@ -269,10 +302,27 @@ void Camera3::Update(double dt)
 			}
 			else
 			{
-				position.x = position.x + (float)(view.x * velocity);
-				target.x = position.x + (float)(view.x * velocity);
-				position.z = position.z + (float)(view.z * velocity);
-				target.z = position.z + (float)(view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x + (float)(view.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+
+					position.z = position.z + (float)(view.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+
+					position.x = position.x + (float)(view.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+					position.z = position.z + (float)(view.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
 			}
 		}
 
@@ -310,10 +360,27 @@ void Camera3::Update(double dt)
 			}
 			else
 			{
-				position.x = position.x - (float)(view.x * velocity);
-				target.x = position.x + (float)(view.x * velocity);
-				position.z = position.z - (float)(view.z * velocity);
-				target.z = position.z + (float)(view.z * velocity);
+				if (boundsCheck(newPos) == 1)
+				{
+					position.x = position.x - (float)(view.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+				}
+				else if (boundsCheck(newPos) == 2)
+				{
+
+					position.z = position.z - (float)(view.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 3)
+				{
+
+					position.x = position.x - (float)(view.x * velocity);
+					target.x = position.x + (float)(view.x * velocity);
+					position.z = position.z - (float)(view.z * velocity);
+					target.z = position.z + (float)(view.z * velocity);
+				}
+				else if (boundsCheck(newPos) == 0)
+					position = position;
 			}
 		}
 	}
@@ -361,4 +428,22 @@ bool Camera3::collideAABBbuilding(AABB charAABB, AABB buildingAABB)
 {
 	return((charAABB.max.x > buildingAABB.min.x) && (charAABB.max.z > buildingAABB.min.z)
 		&& (charAABB.min.x < buildingAABB.max.x) && (charAABB.min.z < buildingAABB.max.z));
+}
+
+int Camera3::boundsCheck(Vector3 newPos)
+{
+	if ((newPos.x <= 480) && (newPos.x >= -480) && ((newPos.z > 480) || newPos.z < -480))
+	{
+		return 1;
+	}
+	else if ((newPos.z <= 480) && (newPos.z >= -480) && ((newPos.x > 480) || newPos.x < -480))
+	{
+		return 2;
+	}
+	else if ((newPos.x <= 480) && (newPos.x >= -480) && (newPos.z <= 480) && (newPos.z >= -480))
+	{
+		return 3;
+	}
+	else
+		return 0;
 }
